@@ -28,6 +28,7 @@ export interface CalendarEvent {
 
     attendees: User[];
     isAllDay?: boolean;
+    status?: 'active' | 'cancelled';
 }
 
 export interface CalendarState {

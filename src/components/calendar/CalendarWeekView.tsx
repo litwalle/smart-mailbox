@@ -6,19 +6,23 @@ import { mockEvents } from "@/data/calendar-mock"
 import { CalendarEvent } from "@/types/calendar"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/Button"
+import { CalendarEventCard } from "./CalendarEventCard"
+import { CurrentTimeIndicator } from "./CurrentTimeIndicator"
 
 // Constants
-const START_HOUR = 8; // 8 AM
-const END_HOUR = 18;  // 6 PM
+const START_HOUR = 0; // 00:00
+const END_HOUR = 24;  // 24:00
 const HOUR_HEIGHT = 80; // Increased from 64px to 80px for better spaciousness
-const TOTAL_HEIGHT = (END_HOUR - START_HOUR + 1) * HOUR_HEIGHT;
+const TOTAL_HEIGHT = (END_HOUR - START_HOUR) * HOUR_HEIGHT;
 
 export function CalendarWeekView() {
-    const { selectEvent, selectedEventId } = useMailStore()
+    const { selectEvent, selectedEventId, selectEmail, activeModule } = useMailStore()
     const [viewMode, setViewMode] = React.useState<'week' | 'day'>('week');
 
     // Fixed date for prototype visual: August 5, 2024 (Monday)
     const baseDate = new Date('2024-08-05T00:00:00');
+    // Mock current time: Monday 11:00 AM
+    const currentTime = new Date('2024-08-05T11:00:00');
 
     // Calculate days to display based on View Mode
     const daysToDisplay = React.useMemo(() => {
@@ -37,6 +41,15 @@ export function CalendarWeekView() {
     const handleEventClick = (e: React.MouseEvent, eventId: string) => {
         e.stopPropagation();
         selectEvent(eventId);
+
+        // Find the event to check for sourceEmailId
+        const event = mockEvents.find(ev => ev.id === eventId);
+        if (event && event.sourceEmailId) {
+            selectEmail(event.sourceEmailId);
+        } else {
+            // If no email linked, ensure we clear any selected email so detail view shows empty or event detail (future)
+            selectEmail(null);
+        }
     };
 
     return (
@@ -120,9 +133,9 @@ export function CalendarWeekView() {
             <div className="flex-1 overflow-y-auto overflow-x-hidden relative scrollbar-thin">
                 <div className={cn("flex", viewMode === 'week' ? "min-w-[800px]" : "w-full")}>
                     {/* Time Axis */}
-                    <div className="w-16 flex-shrink-0 bg-white border-r border-slate-100 z-10 sticky left-0">
+                    <div className="w-16 flex-shrink-0 bg-white border-r border-slate-100 z-40 sticky left-0">
                         {/* Header Spacer */}
-                        <div className="h-12 border-b border-slate-100 bg-white sticky top-0 z-20">
+                        <div className="h-12 border-b border-slate-100 bg-white sticky top-0 z-50">
                             <div className="text-[10px] font-bold text-slate-400 p-2 text-right pt-3">GMT+8</div>
                         </div>
 
@@ -135,6 +148,15 @@ export function CalendarWeekView() {
                                     </span>
                                 </div>
                             ))}
+
+                            {/* Current Time Capsule in Time Axis */}
+                            <CurrentTimeIndicator
+                                currentTime={currentTime}
+                                startHour={START_HOUR}
+                                endHour={END_HOUR}
+                                hourHeight={HOUR_HEIGHT}
+                                variant="capsule"
+                            />
                         </div>
                     </div>
 
@@ -146,10 +168,11 @@ export function CalendarWeekView() {
                         {/* Day Columns */}
                         {daysToDisplay.map(day => {
                             const isToday = isSameDay(day, baseDate); // Mock "today" as Monday Aug 5
+
                             return (
                                 <div key={day.toString()} className="min-w-[100px]">
                                     {/* Header */}
-                                    <div className="h-12 border-b border-slate-100 bg-white sticky top-0 z-10 flex flex-col items-center justify-center py-1">
+                                    <div className="h-12 border-b border-slate-100 bg-white sticky top-0 z-40 flex flex-col items-center justify-center py-1">
                                         <span className={cn(
                                             "text-[10px] font-bold uppercase tracking-wider mb-0.5",
                                             isToday ? "text-blue-600" : "text-slate-400"
@@ -165,25 +188,39 @@ export function CalendarWeekView() {
                                     </div>
 
                                     {/* Day Column Body */}
-                                    {/* Added group relative for resizing/hover effects if needed */}
                                     <div className="relative border-b border-slate-100" style={{ height: TOTAL_HEIGHT }}>
                                         {/* Time Slot Guides */}
                                         {timeSlots.map(hour => (
                                             <div key={hour} className="border-t border-slate-50 w-full absolute" style={{ top: (hour - START_HOUR) * HOUR_HEIGHT }}></div>
                                         ))}
 
-                                        {/* Red Line for Current Time (Mock at Aug 5, 11:00 AM) */}
-                                        {isSameDay(day, baseDate) && (
-                                            <div className="absolute w-full border-t border-red-500 z-[50] flex items-center pointer-events-none" style={{ top: (11 - START_HOUR) * HOUR_HEIGHT }}>
-                                                <div className="h-2 w-2 rounded-full bg-red-500 -ml-1 absolute left-0 shadow-sm"></div>
-                                                <div className="w-full border-t border-red-500 opacity-50"></div>
-                                            </div>
+                                        {/* Current Time Line in Day Grid */}
+                                        {isToday && (
+                                            <CurrentTimeIndicator
+                                                currentTime={currentTime}
+                                                startHour={START_HOUR}
+                                                endHour={END_HOUR}
+                                                hourHeight={HOUR_HEIGHT}
+                                                variant="line"
+                                            />
                                         )}
 
                                         {/* Events with Overlap Handling */}
                                         {(() => {
-                                            // 1. Filter events for this day
-                                            const dayEvents = mockEvents.filter(ev => isSameDay(parseISO(ev.start), day));
+                                            // 1. Filter events for this day AND by Type
+                                            const { calendarFilters } = useMailStore.getState();
+                                            const dayEvents = mockEvents.filter(ev => {
+                                                if (!isSameDay(parseISO(ev.start), day)) return false;
+
+                                                // Apply Type Filters
+                                                if (ev.type === 'meeting' && !calendarFilters.meetings) return false;
+                                                if (ev.type === 'task' && !calendarFilters.tasks) return false;
+                                                if (ev.type === 'reminder' && !calendarFilters.reminders) return false;
+                                                // 'others' usually maps to events without specific types or custom ones
+                                                if (!['meeting', 'task', 'reminder'].includes(ev.type) && !calendarFilters.others) return false;
+
+                                                return true;
+                                            });
 
                                             // 2. Sort by start time, then duration
                                             dayEvents.sort((a, b) => {
@@ -244,7 +281,6 @@ export function CalendarWeekView() {
                                                     }
 
                                                     // Temporary store col index
-                                                    // We calculate final width/left after knowing total cols
                                                     eventStyles.set(ev.id, { left: placedCol.toString(), width: '' });
                                                 }
 
@@ -282,76 +318,30 @@ export function CalendarWeekView() {
                                                 const topPx = (topMinutes / 60) * HOUR_HEIGHT;
                                                 const heightPx = (durationM / 60) * HOUR_HEIGHT;
 
-                                                // Layout Logic: duration < 45min -> horizontal
-                                                const isShort = durationM < 45;
-
                                                 const isSelected = ev.id === selectedEventId;
 
-                                                // Default (Meeting)
-                                                let containerClass = "bg-blue-50 border-blue-100 text-blue-700 hover:bg-blue-100";
-                                                let accentColor = "bg-blue-500";
+                                                // Calculate isPast (if event end time is before current time)
+                                                // Used for fading out past events
+                                                const isPast = end.getTime() < currentTime.getTime();
 
-                                                // Task - Green (Emerald)
-                                                if (ev.type === 'task') {
-                                                    containerClass = "bg-emerald-50 border-emerald-100 text-emerald-700 hover:bg-emerald-100";
-                                                    accentColor = "bg-emerald-500";
-                                                }
-                                                // Reminder/Other
-                                                else if (ev.type === 'reminder') {
-                                                    containerClass = "bg-purple-50 border-purple-100 text-purple-700 hover:bg-purple-100";
-                                                    accentColor = "bg-purple-500";
-                                                }
-
-                                                // Selected State
-                                                if (isSelected) {
-                                                    containerClass = "bg-blue-600 border-blue-600 text-white shadow-md z-20";
-                                                    accentColor = "bg-white/30"; // Subtle accent on solid bg
-
-                                                    if (ev.type === 'task') {
-                                                        containerClass = "bg-emerald-600 border-emerald-600 text-white shadow-md z-20";
-                                                    } else if (ev.type === 'reminder') {
-                                                        containerClass = "bg-purple-600 border-purple-600 text-white shadow-md z-20";
-                                                    }
-                                                }
-
-                                                // Custom style from layout algo
+                                                // Extract layout style
                                                 const layoutStyle = ev.style || { left: '0%', width: '100%' };
 
                                                 return (
-                                                    <div
+                                                    <CalendarEventCard
                                                         key={ev.id}
-                                                        onClick={(e) => handleEventClick(e, ev.id)}
-                                                        className={cn(
-                                                            "absolute rounded border border-l-0 pr-1 cursor-pointer overflow-hidden transition-colors flex z-10",
-                                                            isShort ? "flex-row items-center" : "flex-col justify-start py-1",
-                                                            containerClass
-                                                        )}
+                                                        event={ev}
+                                                        onClick={handleEventClick}
+                                                        isSelected={isSelected}
+                                                        isPast={isPast}
                                                         style={{
                                                             top: topPx,
-                                                            height: Math.max(heightPx, 32), // Min height 32px to fit text
+                                                            height: heightPx,
                                                             left: layoutStyle.left,
-                                                            width: layoutStyle.width,
+                                                            width: layoutStyle.width
                                                         }}
-                                                    >
-                                                        {/* Left Accent Border - Thinner (3px) */}
-                                                        <div className={cn("absolute left-0 top-0 bottom-0 w-[3px]", accentColor)}></div>
-
-                                                        <div className={cn("pl-2.5 flex min-w-0", isShort ? "items-baseline gap-2" : "flex-col mb-0.5")}>
-                                                            <span className={cn("truncate leading-tight font-bold text-[12px]")}>{ev.title}</span>
-                                                            {isShort && (
-                                                                <span className={cn("truncate text-[10px] opacity-80 leading-none")}>
-                                                                    {format(start, 'HH:mm')}
-                                                                </span>
-                                                            )}
-                                                        </div>
-
-                                                        {!isShort && (
-                                                            <div className={cn("pl-2.5 font-normal text-[10px] opacity-80 leading-tight")}>
-                                                                {format(start, 'HH:mm')} - {format(end, 'HH:mm')}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                )
+                                                    />
+                                                );
                                             });
                                         })()}
                                     </div>

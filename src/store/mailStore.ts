@@ -37,11 +37,18 @@ interface MailStore {
 
     // Calendar State
     selectedEventId: string | null;
+    calendarFilters: {
+        meetings: boolean;
+        tasks: boolean;
+        reminders: boolean;
+        others: boolean;
+    };
 
     // Actions
     selectFolder: (id: string) => void;
     selectEmail: (id: string | null) => void;
     selectEvent: (id: string | null) => void;
+    setCalendarFilter: (type: keyof MailStore['calendarFilters'], value: boolean) => void;
     setSearchQuery: (query: string) => void;
     setFilterType: (type: 'all' | 'unread' | 'flagged') => void;
     toggleCompose: (isOpen?: boolean) => void;
@@ -121,7 +128,16 @@ export const useMailStore = create<MailStore>((set, get) => {
 
         // Calendar State
         selectedEventId: null,
+        calendarFilters: {
+            meetings: true,
+            tasks: true,
+            reminders: true,
+            others: true
+        },
         selectEvent: (id) => set({ selectedEventId: id, activeModule: 'calendar' }),
+        setCalendarFilter: (type, value) => set((state) => ({
+            calendarFilters: { ...state.calendarFilters, [type]: value }
+        })),
 
         setSearchQuery: (query) => set({ searchQuery: query }),
         setFilterType: (type) => set({ filterType: type }),

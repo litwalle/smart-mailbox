@@ -516,6 +516,350 @@ const alexEmails: Email[] = [
         aiSummary: "Automated Q4 System Audit Logs. Contains 50+ event entries.",
         translatedSummary: "Q4 自动化系统审计日志。包含 50+ 条事件记录。"
     },
+    // Calendar-sourced emails (linked from calendar events)
+    {
+        id: "e-cal-1",
+        from: { id: "u2", name: "Sarah Jenkins", email: "sarah@company.com", avatar: "https://i.pravatar.cc/150?u=sarah" },
+        to: [alexUser],
+        subject: "周一会议议程 - Q3 战略同步会议",
+        preview: "大家好，这是周一会议的议程，请提前查阅...",
+        content: `
+            <div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;">
+                <p>各位好，</p>
+                <p>这是明天 <strong>Q3 战略同步会议</strong> 的议程：</p>
+                <ol>
+                    <li>Q2 回顾与总结 (15分钟)</li>
+                    <li>Q3 预算削减讨论 (30分钟)</li>
+                    <li>市场路线图更新 (30分钟)</li>
+                    <li>下一步行动项 (15分钟)</li>
+                </ol>
+                <p>请提前准备好各自负责模块的汇报材料。</p>
+                <p>祝好，<br/>Sarah</p>
+            </div>
+        `,
+        translatedSubject: "周一会议议程 - Q3 战略同步会议",
+        translatedContent: `
+            <div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;">
+                <p>各位好，</p>
+                <p>这是明天 <strong>Q3 战略同步会议</strong> 的议程：</p>
+                <ol>
+                    <li>Q2 回顾与总结 (15分钟)</li>
+                    <li>Q3 预算削减讨论 (30分钟)</li>
+                    <li>市场路线图更新 (30分钟)</li>
+                    <li>下一步行动项 (15分钟)</li>
+                </ol>
+                <p>请提前准备好各自负责模块的汇报材料。</p>
+                <p>祝好，<br/>Sarah</p>
+            </div>
+        `,
+        hasAttachments: true,
+        isRead: true,
+        isStarred: false,
+        sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // Yesterday
+        folderId: "inbox",
+        labels: ["Meeting"],
+        priority: "high",
+        aiSummary: "明天 Q3 战略同步会议的议程。主要讨论 Q3 预算削减和市场路线图。",
+        translatedSummary: "明天 Q3 战略同步会议的议程。",
+        meetingRequest: {
+            id: 'mr-q3-sync',
+            title: 'Q3 战略同步会议',
+            start: new Date('2024-08-05T10:00:00').toISOString(),
+            end: new Date('2024-08-05T11:30:00').toISOString(),
+            timeZone: 'Asia/Shanghai',
+            location: '战略会议室 A',
+            attendees: [
+                { name: 'Alex Executive', email: 'alex@company.com', status: 'accepted' },
+                { name: 'Sarah Jenkins', email: 'sarah@company.com', role: 'organizer', status: 'accepted' },
+                { name: 'Mike Chen', email: 'mike@company.com', status: 'accepted' }
+            ],
+            joinUrl: 'https://zoom.us/j/123456789',
+            description: '<p>Q3 战略同步会议。讨论预算和路线图。</p>'
+        }
+    },
+    // Calendar-sourced meeting emails (linked from calendar events)
+    {
+        id: "e-cal-zhouhui",
+        from: { id: "calendar", name: "Calendar", email: "calendar@company.com" },
+        to: [alexUser],
+        subject: "周会邀请",
+        preview: "每周一 9:00-9:30 的周会提醒",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>周会邀请</p><p>时间：每周一 9:00-9:30</p><p>地点：线上 - Zoom</p><p>参会人：Mike Chen</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(), folderId: "inbox", labels: ["Meeting"], priority: "medium",
+        aiSummary: "每周例会。", meetingRequest: { id: 'mr-zhouhui', title: '周会', start: new Date('2024-08-05T09:00:00').toISOString(), end: new Date('2024-08-05T09:30:00').toISOString(), timeZone: 'Asia/Shanghai', location: '线上 - Zoom', joinUrl: 'https://zoom.us/j/123456789', attendees: [{ name: 'Mike Chen', email: 'mike@company.com', status: 'accepted' }] }
+    },
+    {
+        id: "e-cal-standup",
+        from: { id: "calendar", name: "Calendar", email: "calendar@company.com" },
+        to: [alexUser],
+        subject: "每日站会",
+        preview: "每日站会 9:30-9:45",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>每日站会</p><p>时间：9:30-9:45</p><p>地点：开放办公区</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), folderId: "inbox", labels: ["Meeting"], priority: "low",
+        aiSummary: "每日站会。", meetingRequest: { id: 'mr-standup', title: '每日站会', start: new Date('2024-08-05T09:30:00').toISOString(), end: new Date('2024-08-05T09:45:00').toISOString(), timeZone: 'Asia/Shanghai', location: '开放办公区', joinUrl: 'https://zoom.us/j/123456789', attendees: [] }
+    },
+    {
+        id: "e-cal-lunch",
+        from: { id: "calendar", name: "Calendar", email: "calendar@company.com" },
+        to: [alexUser],
+        subject: "午餐",
+        preview: "午餐时间 12:30-13:30",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>午餐</p><p>时间：12:30-13:30</p><p>地点：Salad Bar</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), folderId: "inbox", labels: ["Personal"], priority: "low",
+        aiSummary: "午餐时间。", meetingRequest: { id: 'mr-lunch', title: '午餐', start: new Date('2024-08-05T12:30:00').toISOString(), end: new Date('2024-08-05T13:30:00').toISOString(), timeZone: 'Asia/Shanghai', location: 'Salad Bar', joinUrl: 'https://zoom.us/j/123456789', attendees: [] }
+    },
+    {
+        id: "e-cal-product-review",
+        from: { id: "u4", name: "Jessica Wu", email: "jessica@company.com", avatar: "https://i.pravatar.cc/150?u=jessica" },
+        to: [alexUser],
+        subject: "产品需求评审会议邀请",
+        preview: "请参加今天下午的产品需求评审会议",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>产品需求评审</h3><p>时间：13:30-15:00</p><p>地点：会议室 C</p><p>议程：</p><ol><li>新功能需求讨论</li><li>优先级排序</li><li>资源评估</li></ol></div>`,
+        isRead: false, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(), folderId: "inbox", labels: ["Meeting", "Product"], priority: "high",
+        aiSummary: "产品需求评审会议。", meetingRequest: { id: 'mr-product', title: '产品需求评审', start: new Date('2024-08-05T13:30:00').toISOString(), end: new Date('2024-08-05T15:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '会议室 C', joinUrl: 'https://zoom.us/j/123456789', attendees: [{ name: 'Jessica Wu', email: 'jessica@company.com', status: 'accepted' }] }
+    },
+    {
+        id: "e-cal-tech-discuss",
+        from: { id: "u3", name: "Mike Chen", email: "mike@company.com", avatar: "https://i.pravatar.cc/150?u=mike" },
+        to: [alexUser],
+        subject: "技术方案讨论",
+        preview: "关于新架构的技术方案讨论",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>技术方案讨论</h3><p>时间：15:00-16:00</p><p>地点：在线</p><p>讨论内容：新系统架构设计方案</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 10).toISOString(), folderId: "inbox", labels: ["Meeting", "Tech"], priority: "medium",
+        aiSummary: "技术方案讨论。", meetingRequest: { id: 'mr-tech', title: '技术方案讨论', start: new Date('2024-08-05T15:00:00').toISOString(), end: new Date('2024-08-05T16:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '在线', joinUrl: 'https://zoom.us/j/123456789', attendees: [{ name: 'Mike Chen', email: 'mike@company.com', status: 'accepted' }] }
+    },
+    {
+        id: "e-cal-hr-interview",
+        from: { id: "hr", name: "HR Department", email: "hr@company.com" },
+        to: [alexUser],
+        subject: "候选人面试安排",
+        preview: "今天上午的候选人面试安排",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>HR 面试</h3><p>时间：8:30-9:00</p><p>地点：电话会议</p><p>候选人：张三</p><p>岗位：前端工程师</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(), folderId: "inbox", labels: ["Meeting", "HR"], priority: "medium",
+        aiSummary: "候选人面试安排。", meetingRequest: { id: 'mr-hr', title: 'HR 面试', start: new Date('2024-08-05T08:30:00').toISOString(), end: new Date('2024-08-05T09:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '电话会议', joinUrl: 'https://zoom.us/j/123456789', attendees: [] }
+    },
+    {
+        id: "e-cal-past-review",
+        from: { id: "calendar", name: "Calendar", email: "calendar@company.com" },
+        to: [alexUser],
+        subject: "上周回顾会议纪要",
+        preview: "上周回顾会议的纪要和录像链接",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>上周回顾</h3><p>会议已结束，以下是纪要：</p><ul><li>完成了 Sprint 目标</li><li>下周计划已确定</li></ul><p>录像链接：[点击观看]</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(), folderId: "archive", labels: ["Meeting"], priority: "low",
+        aiSummary: "上周回顾会议纪要。", meetingRequest: { id: 'mr-past', title: '上周回顾', start: new Date('2024-08-05T08:00:00').toISOString(), end: new Date('2024-08-05T09:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '会议室', joinUrl: 'https://zoom.us/j/123456789', attendees: [] }
+    },
+    {
+        id: "e-cal-acme",
+        from: { id: "u6", name: "Acme Client", email: "client@acme.com" },
+        to: [alexUser],
+        subject: "Re: 合同审查会议",
+        preview: "我们对第 3 条款有些疑问，明天会议讨论。",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>Hi Alex,</p><p>我们对第 3 条款有些疑问，特别是关于付款周期和知识产权条款部分。明天会议我们详细讨论。</p><p>Best,<br/>Client Lead</p></div>`,
+        isRead: true, isStarred: true, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 36).toISOString(), folderId: "inbox", labels: ["Meeting", "Client"], priority: "high",
+        aiSummary: "客户对条款 3 有异议，需要准备解释。", meetingRequest: { id: 'mr-acme', title: '客户会议 - Acme Corp', start: new Date('2024-08-06T14:00:00').toISOString(), end: new Date('2024-08-06T15:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '会议室 C', joinUrl: 'https://zoom.us/j/123456789', attendees: [{ name: 'Client Lead', email: 'client@acme.com', status: 'accepted' }] }
+    },
+    {
+        id: "e-cal-cancelled",
+        from: { id: "calendar", name: "Calendar", email: "calendar@company.com" },
+        to: [alexUser],
+        subject: "[已取消] 头脑风暴会议",
+        preview: "此会议已取消",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p style="color: #ef4444; font-weight: bold;">此会议已取消</p><p>原定时间：周二 10:00-11:00</p><p>取消原因：组织者有紧急事务</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), folderId: "inbox", labels: ["Meeting", "Cancelled"], priority: "low",
+        aiSummary: "会议已取消。", meetingRequest: { id: 'mr-cancelled', title: '头脑风暴', start: new Date('2024-08-06T10:00:00').toISOString(), end: new Date('2024-08-06T11:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '会议室 A', joinUrl: 'https://zoom.us/j/123456789', attendees: [] }
+    },
+    {
+        id: "e-cal-design-sync",
+        from: { id: "design", name: "Design Team", email: "design@company.com" },
+        to: [alexUser],
+        subject: "设计同步会议",
+        preview: "周三的设计同步会议邀请",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>设计同步</h3><p>时间：11:00-12:00</p><p>地点：会议室 B</p><p>议程：设计稿评审与反馈</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(), folderId: "inbox", labels: ["Meeting", "Design"], priority: "medium",
+        aiSummary: "设计同步会议。", meetingRequest: { id: 'mr-design', title: '设计同步', start: new Date('2024-08-07T11:00:00').toISOString(), end: new Date('2024-08-07T12:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '会议室 B', joinUrl: 'https://zoom.us/j/123456789', attendees: [] }
+    },
+    {
+        id: "e-cal-team-lunch",
+        from: { id: "calendar", name: "Calendar", email: "calendar@company.com" },
+        to: [alexUser],
+        subject: "团队午餐",
+        preview: "周三团队午餐安排",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>团队午餐</h3><p>时间：12:00-13:00</p><p>地点：员工餐厅</p><p>欢迎全员参加！</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(), folderId: "inbox", labels: ["Personal"], priority: "low",
+        aiSummary: "团队午餐。", meetingRequest: { id: 'mr-team-lunch', title: '团队午餐', start: new Date('2024-08-07T12:00:00').toISOString(), end: new Date('2024-08-07T13:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '员工餐厅', joinUrl: 'https://zoom.us/j/123456789', attendees: [] }
+    },
+    {
+        id: "e-cal-product-thu",
+        from: { id: "u2", name: "Sarah Jenkins", email: "sarah@company.com", avatar: "https://i.pravatar.cc/150?u=sarah" },
+        to: [alexUser],
+        subject: "产品评审会议",
+        preview: "周四产品评审会议邀请",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>产品评审</h3><p>时间：10:00-11:30</p><p>地点：主会议室</p><p>评审重点：新的移动端交互流程</p><p>参会人：Sarah Jenkins, Jessica Wu</p></div>`,
+        isRead: false, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(), folderId: "inbox", labels: ["Meeting", "Product"], priority: "high",
+        aiSummary: "产品评审会议。", meetingRequest: { id: 'mr-product-thu', title: '产品评审', start: new Date('2024-08-08T10:00:00').toISOString(), end: new Date('2024-08-08T11:30:00').toISOString(), timeZone: 'Asia/Shanghai', location: '主会议室', joinUrl: 'https://zoom.us/j/123456789', attendees: [{ name: 'Sarah Jenkins', email: 'sarah@company.com', status: 'accepted' }, { name: 'Jessica Wu', email: 'jessica@company.com', status: 'accepted' }] }
+    },
+    {
+        id: "e-cal-1on1",
+        from: { id: "u2", name: "Sarah Jenkins", email: "sarah@company.com", avatar: "https://i.pravatar.cc/150?u=sarah" },
+        to: [alexUser],
+        subject: "1:1 经理沟通",
+        preview: "周五的 1:1 沟通安排",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>1:1 经理沟通</h3><p>时间：10:00-10:30</p><p>地点：经理办公室</p><p>议题：项目进展、个人发展计划</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 96).toISOString(), folderId: "inbox", labels: ["Meeting", "1on1"], priority: "medium",
+        aiSummary: "1:1 经理沟通。", meetingRequest: { id: 'mr-1on1', title: '1:1 经理沟通', start: new Date('2024-08-09T10:00:00').toISOString(), end: new Date('2024-08-09T10:30:00').toISOString(), timeZone: 'Asia/Shanghai', location: '经理办公室', joinUrl: 'https://zoom.us/j/123456789', attendees: [{ name: 'Sarah Jenkins', email: 'sarah@company.com', status: 'accepted' }] }
+    },
+    {
+        id: "e-cal-happy-hour",
+        from: { id: "u3", name: "Mike Chen", email: "mike@company.com", avatar: "https://i.pravatar.cc/150?u=mike" },
+        to: [alexUser],
+        subject: "周五欢乐时光 🎉",
+        preview: "庆祝项目里程碑达成！",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>🎉 周五欢乐时光</h3><p>时间：17:30-19:00</p><p>地点：附近的酒吧</p><p>庆祝项目里程碑达成！大家辛苦了！</p></div>`,
+        isRead: true, isStarred: true, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 120).toISOString(), folderId: "inbox", labels: ["Personal", "Fun"], priority: "low",
+        aiSummary: "周五欢乐时光庆祝项目达成。", meetingRequest: { id: 'mr-happy-hour', title: '周五欢乐时光', start: new Date('2024-08-09T17:30:00').toISOString(), end: new Date('2024-08-09T19:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '附近的酒吧', joinUrl: 'https://zoom.us/j/123456789', attendees: [{ name: 'Mike Chen', email: 'mike@company.com', status: 'accepted' }] }
+    },
+    // Task-sourced emails (linked from calendar task events)
+    {
+        id: "e-task-demo",
+        from: { id: "u6", name: "Acme Client", email: "client@acme.com" },
+        to: [alexUser],
+        subject: "请准备客户演示材料",
+        preview: "请在周一中午前准备好演示 PPT",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>Hi Alex,</p><p>请在周一中午前准备好给 Acme 客户的演示 PPT，包括以下内容：</p><ul><li>产品概述</li><li>技术架构</li><li>实施计划</li></ul><p>Thanks!</p></div>`,
+        isRead: false, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), folderId: "inbox", labels: ["Task", "Client"], priority: "high",
+        aiSummary: "准备 Acme 客户演示材料。", aiTodos: [{ id: "t-demo", content: "准备客户演示 PPT", isCompleted: false, sourceEmailId: "e-task-demo", priority: "high", deadline: "Today 12:00" }]
+    },
+    {
+        id: "e-task-expense",
+        from: { id: "finance", name: "Finance Dept", email: "finance@company.com" },
+        to: [alexUser],
+        subject: "请审批报销单 #2024-0805",
+        preview: "您有一笔待审批的报销申请",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>您好，</p><p>您有一笔来自 Mike Chen 的报销申请等待审批：</p><ul><li>金额：¥1,500</li><li>类型：差旅费用</li><li>日期：2024年8月</li></ul><p>请在今天下午 4:30 前完成审批。</p></div>`,
+        isRead: false, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString(), folderId: "inbox", labels: ["Task", "Approval"], priority: "medium",
+        aiSummary: "审批 Mike 的差旅报销单。", aiTodos: [{ id: "t-expense", content: "审批报销单 #2024-0805", isCompleted: false, sourceEmailId: "e-task-expense", priority: "medium", deadline: "Today 16:30" }]
+    },
+    {
+        id: "e-task-report",
+        from: { id: "research", name: "Research Team", email: "research@company.com" },
+        to: [alexUser],
+        subject: "行业分析报告已发布",
+        preview: "2024 Q3 行业分析报告已发布，请查阅",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>Hi Alex,</p><p>2024 Q3 行业分析报告已发布，主要内容包括：</p><ul><li>市场趋势分析</li><li>竞争对手动态</li><li>技术发展预测</li></ul><p>请抽时间阅读并在周三前提供反馈。</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(), folderId: "inbox", labels: ["Task", "Report"], priority: "medium",
+        aiSummary: "阅读 Q3 行业分析报告。", aiTodos: [{ id: "t-report", content: "阅读行业报告", isCompleted: false, sourceEmailId: "e-task-report", priority: "medium", deadline: "Wednesday" }]
+    },
+    {
+        id: "e-task-codereview",
+        from: { id: "u3", name: "Mike Chen", email: "mike@company.com", avatar: "https://i.pravatar.cc/150?u=mike" },
+        to: [alexUser],
+        subject: "请 Review PR #456: 新用户模块",
+        preview: "请帮忙 review 新用户模块的 PR",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>Hi Alex,</p><p>我刚提交了 PR #456，实现了新用户模块的主要功能：</p><ul><li>用户注册流程</li><li>邮箱验证</li><li>密码重置</li></ul><p>请帮忙 review，有任何问题随时沟通！</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(), folderId: "inbox", labels: ["Task", "Code"], priority: "medium",
+        aiSummary: "Review PR #456 新用户模块。", aiTodos: [{ id: "t-codereview", content: "代码审查 PR #456", isCompleted: false, sourceEmailId: "e-task-codereview", priority: "medium", deadline: "Today 18:30" }]
+    },
+    {
+        id: "e-task-desk",
+        from: { id: "admin", name: "Office Admin", email: "admin@company.com" },
+        to: [alexUser],
+        subject: "工位清理提醒",
+        preview: "请在周一上午整理您的工位",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>各位同事好，</p><p>行政部将于本周进行办公区域消毒，请大家在周一上午 8:15 前完成工位整理：</p><ul><li>清理桌面物品</li><li>收纳文件资料</li><li>清空垃圾桶</li></ul><p>感谢配合！</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(), folderId: "inbox", labels: ["Task", "Admin"], priority: "low",
+        aiSummary: "工位清理提醒。", aiTodos: [{ id: "t-desk", content: "整理工位", isCompleted: false, sourceEmailId: "e-task-desk", priority: "low", deadline: "Today 08:15" }]
+    },
+    {
+        id: "e-task-deepwork",
+        from: { id: "calendar", name: "Calendar", email: "calendar@company.com" },
+        to: [alexUser],
+        subject: "深度工作时间块",
+        preview: "您已预留 Q3 规划文档编写时间",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>深度工作时间块</p><p>时间：周二 9:00-11:30</p><p>任务：专注于 Q3 规划文档的编写</p><p>提示：请勿打扰模式已开启</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString(), folderId: "inbox", labels: ["Task", "Focus"], priority: "high",
+        aiSummary: "深度工作：Q3 规划文档编写。", aiTodos: [{ id: "t-deepwork", content: "编写 Q3 规划文档", isCompleted: false, sourceEmailId: "e-task-deepwork", priority: "high", deadline: "Tuesday 11:30" }]
+    },
+    {
+        id: "e-task-designreview",
+        from: { id: "design", name: "Design Team", email: "design@company.com" },
+        to: [alexUser],
+        subject: "请审查设计稿 V2",
+        preview: "新版设计稿已更新，请审查并反馈",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>Hi Alex,</p><p>V2 版设计稿已更新到 Figma，请审查以下页面：</p><ul><li>首页改版</li><li>用户中心</li><li>设置页面</li></ul><p>请在周三下午 5 点前完成审查。</p></div>`,
+        isRead: false, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), folderId: "inbox", labels: ["Task", "Design"], priority: "medium",
+        aiSummary: "审查 V2 版设计稿。", aiTodos: [{ id: "t-designreview", content: "审查设计稿 V2", isCompleted: false, sourceEmailId: "e-task-designreview", priority: "medium", deadline: "Wednesday 17:00" }]
+    },
+    {
+        id: "e-task-jira",
+        from: { id: "jira", name: "JIRA System", email: "jira@company.com" },
+        to: [alexUser],
+        subject: "[PROJ-3421] 缺陷已分配给您",
+        preview: "登录页面样式问题需要修复",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>JIRA 缺陷通知</p><p><b>PROJ-3421: 登录页面样式问题</b></p><p>优先级：高</p><p>描述：登录页面在移动端显示异常，按钮位置偏移</p><p>截止日期：周三 15:30</p><p><a href="https://jira.company.com/browse/PROJ-3421">点击查看详情</a></p></div>`,
+        isRead: false, isStarred: true, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(), folderId: "inbox", labels: ["Task", "Bug"], priority: "high",
+        aiSummary: "修复 JIRA #3421 登录页面样式问题。", aiTodos: [{ id: "t-jira", content: "修复 PROJ-3421", isCompleted: false, sourceEmailId: "e-task-jira", priority: "high", deadline: "Wednesday 15:30" }]
+    },
+    {
+        id: "e-task-feesubmit",
+        from: { id: "finance", name: "Finance Dept", email: "finance@company.com" },
+        to: [alexUser],
+        subject: "月度费用报告提交提醒",
+        preview: "请在周四下午 4 点前提交费用报告",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>各位同事好，</p><p>月度费用报告提交截止日期为本周四下午 4 点，请确保：</p><ul><li>所有发票已上传</li><li>费用分类正确</li><li>审批人已确认</li></ul><p>逾期提交将延迟报销。</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), folderId: "inbox", labels: ["Task", "Finance"], priority: "medium",
+        aiSummary: "提交月度费用报告。", aiTodos: [{ id: "t-feesubmit", content: "提交费用报告", isCompleted: false, sourceEmailId: "e-task-feesubmit", priority: "medium", deadline: "Thursday 16:00" }]
+    },
+    {
+        id: "e-task-weeklyreport",
+        from: { id: "u2", name: "Sarah Jenkins", email: "sarah@company.com", avatar: "https://i.pravatar.cc/150?u=sarah" },
+        to: [alexUser],
+        subject: "周报提交提醒",
+        preview: "请在周五下午 5 点前提交本周工作周报",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>Hi Alex,</p><p>请在周五下午 5 点前提交本周工作周报，包括：</p><ul><li>本周完成事项</li><li>遇到的问题</li><li>下周计划</li></ul><p>Thanks!</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4).toISOString(), folderId: "inbox", labels: ["Task", "Report"], priority: "medium",
+        aiSummary: "撰写并提交周报。", aiTodos: [{ id: "t-weeklyreport", content: "撰写周报", isCompleted: false, sourceEmailId: "e-task-weeklyreport", priority: "medium", deadline: "Friday 17:00" }]
+    },
+    // --- New Calendar Linked Emails (Coverage Completion) ---
+    {
+        id: "e-cal-design-review",
+        from: { id: "design", name: "Design Team", email: "design@company.com" },
+        to: [alexUser],
+        subject: "设计稿 V3 评审会议",
+        preview: "V3 版本设计稿评审邀请",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><h3>设计稿 V3 评审</h3><p>时间：周三 16:00-17:00</p><p>地点：会议室 B</p><p>主要评审内容：</p><ul><li>登录页新样式</li><li>仪表盘交互优化</li></ul></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), folderId: "inbox", labels: ["Meeting", "Design"], priority: "medium",
+        aiSummary: "设计稿 V3 评审。", meetingRequest: { id: 'mr-design-v3', title: '审查设计稿', start: new Date('2024-08-07T16:00:00').toISOString(), end: new Date('2024-08-07T17:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '会议室 B', joinUrl: 'https://zoom.us/j/123456789', attendees: [] }
+    },
+    {
+        id: "e-task-clean-desk",
+        from: { id: "admin", name: "Admin", email: "admin@company.com" },
+        to: [alexUser],
+        subject: "全员大扫除提醒",
+        preview: "请在周一前清理个人工位",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>各位同事，</p><p>本周末将进行办公室消杀，请务必在周一前整理好个人工位，收好贵重物品。</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(), folderId: "inbox", labels: ["Task", "Admin"], priority: "low",
+        aiSummary: "清理个人工位。", aiTodos: [{ id: "t-clean", content: "整理工位", isCompleted: false, sourceEmailId: "e-task-clean-desk", priority: "low", deadline: "Monday 08:30" }]
+    },
+    {
+        id: "e-task-deep-focus",
+        from: { id: "calendar", name: "System", email: "system@company.com" },
+        to: [alexUser],
+        subject: "深度工作时段预留",
+        preview: "已为您预留周二上午的深度工作时间",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>深度工作模式已启用。</p><p>目标：完成 Q3 规划文档。</p><p>建议关闭即时通讯软件提醒。</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(), folderId: "inbox", labels: ["Task", "Focus"], priority: "high",
+        aiSummary: "深度工作时段。", aiTodos: [{ id: "t-deep", content: "深度工作", isCompleted: false, sourceEmailId: "e-task-deep-focus", priority: "high", deadline: "Tuesday 11:30" }]
+    },
+    {
+        id: "e-cal-gym",
+        from: { id: "gym", name: "Gym Partner", email: "partner@gym.com" },
+        to: [alexUser],
+        subject: "健身提醒：腿部训练",
+        preview: "今晚 18:00 健身房见",
+        content: `<div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;"><p>别忘了今晚的腿部训练！</p><p>时间：18:00</p><p>计划：深蹲、硬拉、腿举。</p><p>No pain, no gain!</p></div>`,
+        isRead: true, isStarred: false, sentAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(), folderId: "inbox", labels: ["Reminder", "Personal"], priority: "low",
+        aiSummary: "健身提醒。", meetingRequest: { id: 'mr-gym', title: '健身', start: new Date('2024-08-08T18:00:00').toISOString(), end: new Date('2024-08-08T19:00:00').toISOString(), timeZone: 'Asia/Shanghai', location: '公司健身房', joinUrl: undefined, attendees: [] }
+    },
     // Generate filler emails
     ...Array.from({ length: 20 }).map((_, i) => ({
         id: `gen-${i}`,

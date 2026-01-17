@@ -12,6 +12,18 @@ const getTime = (dayOffset: number, hour: number, minute: number) => {
 };
 
 export const mockEvents: CalendarEvent[] = [
+    // --- Cancelled Event Demo (Tuesday Morning) ---
+    {
+        id: "ev-cancelled-demo",
+        title: "头脑风暴会议",
+        type: "meeting",
+        start: getTime(1, 10, 0), // Tue 10:00 AM
+        end: getTime(1, 11, 0), // Tue 11:00 AM
+        location: "会议室 A",
+        attendees: [mockUser],
+        status: "cancelled",
+        sourceEmailId: "e-cal-cancelled"
+    },
     // --- Monday (Aug 5) ---
     {
         id: "ev-1",
@@ -64,7 +76,8 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(0, 9, 30), // Mon 9:30 AM
         location: "线上 - Zoom",
         attendees: [mockUser, { ...mockUser, id: "u3", name: "Mike Chen", avatar: "https://i.pravatar.cc/150?u=mike" }],
-        isAllDay: false
+        isAllDay: false,
+        sourceEmailId: "e-cal-zhouhui"
     },
     {
         id: "ev-mon-3",
@@ -74,6 +87,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(0, 9, 45), // Mon 9:45 AM
         location: "开放办公区",
         attendees: [mockUser],
+        sourceEmailId: "e-cal-standup"
     },
     {
         id: "ev-mon-4",
@@ -83,6 +97,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(0, 12, 30), // Mon 12:30 PM
         description: "Review slides for Acme Corp.",
         attendees: [mockUser],
+        sourceEmailId: "e-task-demo"
     },
     {
         id: "ev-mon-5",
@@ -92,6 +107,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(0, 13, 30), // Mon 1:30 PM
         location: "Salad Bar",
         attendees: [mockUser],
+        sourceEmailId: "e-cal-lunch"
     },
     {
         id: "ev-mon-6",
@@ -101,6 +117,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(0, 15, 0), // Mon 3:00 PM
         location: "会议室 C",
         attendees: [mockUser, { ...mockUser, id: "u4", name: "Jessica Wu" }],
+        sourceEmailId: "e-cal-product-review"
     },
     {
         id: "ev-mon-7",
@@ -110,6 +127,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(0, 16, 0), // Mon 4:00 PM
         location: "在线",
         attendees: [mockUser, { ...mockUser, id: "u3", name: "Mike Chen" }],
+        sourceEmailId: "e-cal-tech-discuss"
     },
     {
         id: "ev-mon-8",
@@ -118,6 +136,7 @@ export const mockEvents: CalendarEvent[] = [
         start: getTime(0, 16, 0), // Mon 4:00 PM
         end: getTime(0, 16, 30), // Mon 4:30 PM
         attendees: [mockUser],
+        sourceEmailId: "e-task-expense"
     },
     {
         id: "ev-mon-9",
@@ -126,6 +145,7 @@ export const mockEvents: CalendarEvent[] = [
         start: getTime(0, 16, 30), // Mon 4:30 PM
         end: getTime(0, 17, 30), // Mon 5:30 PM
         attendees: [mockUser],
+        sourceEmailId: "e-task-report"
     },
     {
         id: "ev-mon-10",
@@ -134,6 +154,7 @@ export const mockEvents: CalendarEvent[] = [
         start: getTime(0, 17, 30), // Mon 5:30 PM
         end: getTime(0, 18, 30), // Mon 6:30 PM
         attendees: [mockUser],
+        sourceEmailId: "e-task-codereview"
     },
     {
         id: "ev-mon-11",
@@ -143,6 +164,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(0, 9, 0), // Mon 9:00 AM
         location: "电话会议",
         attendees: [mockUser],
+        sourceEmailId: "e-cal-hr-interview"
     },
     {
         id: "ev-mon-12",
@@ -151,6 +173,7 @@ export const mockEvents: CalendarEvent[] = [
         start: getTime(0, 8, 0), // Mon 8:00 AM
         end: getTime(0, 8, 15),
         attendees: [mockUser],
+        sourceEmailId: "e-task-clean-desk"
     },
 
     // --- Tuesday (Aug 6) ---
@@ -199,6 +222,7 @@ export const mockEvents: CalendarEvent[] = [
         location: "个人工位",
         description: "专注于 Q3 规划文档的编写，请勿打扰。",
         attendees: [mockUser],
+        sourceEmailId: "e-task-deep-focus"
     },
 
     // --- Wednesday (Aug 7) ---
@@ -210,6 +234,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(2, 12, 0), // Wed 12:00 PM
         location: "会议室 B",
         attendees: [mockUser],
+        sourceEmailId: "e-cal-design-sync"
     },
     {
         id: "ev-4",
@@ -219,6 +244,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(2, 13, 0), // Wed 1:00 PM
         location: "员工餐厅",
         attendees: [mockUser],
+        sourceEmailId: "e-cal-team-lunch"
     },
     {
         id: "ev-wed-3",
@@ -227,6 +253,7 @@ export const mockEvents: CalendarEvent[] = [
         start: getTime(2, 16, 0), // Wed 4:00 PM
         end: getTime(2, 17, 0), // Wed 5:00 PM
         attendees: [mockUser],
+        sourceEmailId: "e-task-designreview"
     },
 
     // --- Thursday (Aug 8) ---
@@ -254,7 +281,8 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(3, 16, 0), // Thu 4:00 PM - Giving it duration
         description: "财务团队提交月度费用的截止日期。",
         attendees: [mockUser],
-        isAllDay: false
+        isAllDay: false,
+        sourceEmailId: "e-task-feesubmit"
     },
     {
         id: "ev-thu-3",
@@ -263,7 +291,8 @@ export const mockEvents: CalendarEvent[] = [
         start: getTime(3, 18, 0), // Thu 6:00 PM
         end: getTime(3, 19, 0), // Thu 7:00 PM
         attendees: [mockUser],
-        description: "腿部训练日"
+        description: "腿部训练日",
+        sourceEmailId: "e-cal-gym"
     },
 
     // --- Friday (Aug 9) ---
@@ -275,6 +304,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(4, 10, 30), // Fri 10:30 AM
         location: "经理办公室",
         attendees: [mockUser, { ...mockUser, id: "u2", name: "Sarah Jenkins", avatar: "https://i.pravatar.cc/150?u=sarah" }],
+        sourceEmailId: "e-cal-1on1"
     },
     {
         id: "ev-fri-2",
@@ -283,6 +313,7 @@ export const mockEvents: CalendarEvent[] = [
         start: getTime(4, 16, 0), // Fri 4:00 PM
         end: getTime(4, 17, 0), // Fri 5:00 PM
         attendees: [mockUser],
+        sourceEmailId: "e-task-weeklyreport"
     },
     {
         id: "ev-fri-3",
@@ -292,6 +323,7 @@ export const mockEvents: CalendarEvent[] = [
         end: getTime(4, 19, 0), // Fri 7:00 PM
         location: "附近的酒吧",
         attendees: [mockUser, { ...mockUser, id: "u3", name: "Mike Chen", avatar: "https://i.pravatar.cc/150?u=mike" }],
-        description: "庆祝项目里程碑达成！"
+        description: "庆祝项目里程碑达成！",
+        sourceEmailId: "e-cal-happy-hour"
     }
 ];

@@ -12,15 +12,16 @@ interface SidebarCalendarProps {
 }
 
 export function SidebarCalendar({ isCollapsed }: SidebarCalendarProps) {
-    const { currentUser } = useMailStore() // Get current user
+    // Use store to manage filters
+    const { currentUser, calendarFilters, setCalendarFilter } = useMailStore()
 
-    // Mock Calendar Data
-    // Mock Calendar Data
+    // Map local definition to store keys
+    // Keys in store: meetings, tasks, reminders, others
     const calendars = [
-        { id: 'meetings', label: '会议', color: 'bg-blue-500', checked: true },
-        { id: 'tasks', label: '待办', color: 'bg-emerald-500', checked: true },
-        { id: 'reminders', label: '提醒', color: 'bg-purple-500', checked: true },
-        { id: 'others', label: '其他', color: 'bg-slate-400', checked: true },
+        { id: 'meetings', label: '会议', color: 'bg-blue-500', checked: calendarFilters.meetings },
+        { id: 'tasks', label: '待办', color: 'bg-emerald-500', checked: calendarFilters.tasks },
+        { id: 'reminders', label: '提醒', color: 'bg-purple-500', checked: calendarFilters.reminders },
+        { id: 'others', label: '其他', color: 'bg-slate-400', checked: calendarFilters.others },
     ];
 
     // Calendar Grid Generation for August 2024
@@ -41,6 +42,12 @@ export function SidebarCalendar({ isCollapsed }: SidebarCalendarProps) {
         { day: 18, type: 'curr' }, { day: 19, type: 'curr' }, { day: 20, type: 'curr' }, { day: 21, type: 'curr' }, { day: 22, type: 'curr' }, { day: 23, type: 'curr' }, { day: 24, type: 'curr' },
         { day: 25, type: 'curr' }, { day: 26, type: 'curr' }, { day: 27, type: 'curr' }, { day: 28, type: 'curr' }, { day: 29, type: 'curr' }, { day: 30, type: 'curr' }, { day: 31, type: 'curr' },
     ];
+
+    const handleFilterToggle = (id: string, currentChecked: boolean) => {
+        // Map string id to keyof CalendarFilters
+        // Safe to cast if ids match keys basically
+        setCalendarFilter(id as any, !currentChecked);
+    };
 
     return (
         <div className="flex flex-col h-full">
@@ -135,6 +142,7 @@ export function SidebarCalendar({ isCollapsed }: SidebarCalendarProps) {
                                     isCollapsed ? "justify-center" : "gap-2 px-2 py-1.5 hover:bg-slate-100"
                                 )}
                                 title={cal.label}
+                                onClick={() => !isCollapsed && handleFilterToggle(cal.id, cal.checked)}
                             >
                                 {
                                     isCollapsed ? (
