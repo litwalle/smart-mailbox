@@ -184,6 +184,11 @@ const alexEmails: Email[] = [
             deadline: new Date(Date.now() + 1000 * 60 * 60 * 3).toISOString(),
             action: { label: "View Telemetry", url: "#dashboard", type: "primary" }
         }],
+        actionCapsules: [
+            { id: "ac1", label: "查看遥测", type: "primary" },
+            { id: "ac2", label: "回复", type: "secondary" },
+            { id: "ac3", label: "转发", type: "secondary" }
+        ],
         translatedTodos: [{
             id: "t1-trans",
             content: "分析助推器遥测数据",
@@ -216,6 +221,11 @@ const alexEmails: Email[] = [
         priority: "medium",
         aiSummary: "Reminder for Project Alpha Sync meeting.",
         translatedSummary: "Project Alpha 同步会议提醒",
+        actionCapsules: [
+            { id: "ac-meeting-1", label: "加入会议", type: "primary" },
+            { id: "ac-meeting-2", label: "查看日程", type: "secondary" },
+            { id: "ac-meeting-3", label: "发送消息", type: "secondary" }
+        ],
         meetingRequest: {
             id: 'mr-focus-1',
             title: 'Project Alpha Sync',
