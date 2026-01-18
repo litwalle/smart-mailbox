@@ -66,13 +66,13 @@ export function MailDetail() {
                         <div
                             key={cardEmail.id}
                             className={cn(
-                                "absolute w-full h-full bg-white rounded-2xl shadow-xl border border-slate-100 transition-all duration-500 ease-out flex flex-col overflow-hidden fill-mode-backwards",
+                                "absolute w-full h-full bg-background-primary rounded-2xl shadow-floating border border-comp-divider transition-all duration-500 ease-out flex flex-col overflow-hidden fill-mode-backwards",
                                 // Entry Animation: "Cover from top"
                                 "animate-in fade-in slide-in-from-top-10 zoom-in-95",
                                 // Stack Effect
-                                i === 0 && "z-30 transform scale-100 translate-y-0 opacity-100 shadow-2xl",
-                                i === 1 && "z-20 transform scale-[0.96] translate-y-4 opacity-100 shadow-lg", // Visible underneath
-                                i === 2 && "z-10 transform scale-[0.92] translate-y-8 opacity-90 shadow-md",
+                                i === 0 && "z-30 transform scale-100 translate-y-0 opacity-100 shadow-floating",
+                                i === 1 && "z-20 transform scale-[0.96] translate-y-4 opacity-100 shadow-card", // Visible underneath
+                                i === 2 && "z-10 transform scale-[0.92] translate-y-8 opacity-90 shadow-soft",
                                 // Subtle rotation for realism? User didn't strictly ask but mentions "real email screenshot". 
                                 // Clean stack is often preferred. Let's keep it straight but stepped.
                             )}
@@ -83,31 +83,31 @@ export function MailDetail() {
                         >
                             {/* Fake Email Content (Preview) */}
                             {/* Header */}
-                            <div className="px-8 py-6 border-b border-slate-50 flex items-start justify-between bg-white">
+                            <div className="px-8 py-6 border-b border-comp-divider flex items-start justify-between bg-background-primary">
                                 <div className="flex items-center gap-4">
                                     {cardEmail.from.avatar ? (
-                                        <img src={cardEmail.from.avatar} className="w-12 h-12 rounded-full border border-slate-100" />
+                                        <img src={cardEmail.from.avatar} className="w-12 h-12 rounded-full border border-comp-divider" />
                                     ) : (
-                                        <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-lg">
+                                        <div className="w-12 h-12 rounded-full bg-background-secondary flex items-center justify-center text-font-tertiary font-bold text-lg">
                                             {cardEmail.from.name[0]}
                                         </div>
                                     )}
                                     <div>
-                                        <div className="font-bold text-slate-900 text-lg">{cardEmail.from.name}</div>
-                                        <div className="text-sm text-slate-500">{format(new Date(cardEmail.sentAt), "MMM d, h:mm a")}</div>
+                                        <div className="font-bold text-font-primary text-lg">{cardEmail.from.name}</div>
+                                        <div className="text-sm text-font-tertiary">{format(new Date(cardEmail.sentAt), "MMM d, h:mm a")}</div>
                                     </div>
                                 </div>
                             </div>
                             {/* Body Preview */}
-                            <div className="p-8 flex-1 bg-white">
-                                <h1 className="text-2xl font-bold text-slate-900 mb-6 leading-tight line-clamp-2">{cardEmail.subject}</h1>
+                            <div className="p-8 flex-1 bg-background-primary">
+                                <h1 className="text-2xl font-bold text-font-primary mb-6 leading-tight line-clamp-2">{cardEmail.subject}</h1>
                                 <div className="space-y-3">
-                                    <div className="h-4 bg-slate-100 rounded w-full" />
-                                    <div className="h-4 bg-slate-100 rounded w-5/6" />
-                                    <div className="h-4 bg-slate-100 rounded w-full" />
-                                    <div className="h-4 bg-slate-100 rounded w-4/5" />
+                                    <div className="h-4 bg-background-secondary rounded w-full" />
+                                    <div className="h-4 bg-background-secondary rounded w-5/6" />
+                                    <div className="h-4 bg-background-secondary rounded w-full" />
+                                    <div className="h-4 bg-background-secondary rounded w-4/5" />
                                     {/* Small text preview if available */}
-                                    <p className="text-slate-400 mt-4 line-clamp-3 leading-relaxed">
+                                    <p className="text-font-tertiary mt-4 line-clamp-3 leading-relaxed">
                                         {cardEmail.aiSummary || cardEmail.preview}
                                     </p>
                                 </div>
@@ -160,7 +160,7 @@ export function MailDetail() {
     if (!email) return null // Should be handled above
 
     return (
-        <div className="flex flex-col h-full bg-white">
+        <div className="flex flex-col h-full bg-background-primary">
             <MailDetailToolbar
                 email={email}
                 onReply={() => console.log("Reply", email.id)}
@@ -197,10 +197,10 @@ function MailDetailContent({ email }: { email: import("@/types/mail").Email }) {
         <>
             {/* Translation Toolbar - Sticky/Fixed at top of content area */}
             {email.translatedContent && (
-                <div className="px-8 py-2 bg-white border-b border-slate-50 flex items-center justify-between shrink-0 z-20">
+                <div className="px-8 py-2 bg-background-primary border-b border-comp-divider flex items-center justify-between shrink-0 z-20">
                     <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-indigo-500 text-[18px]">translate</span>
-                        <span className="text-sm font-semibold text-slate-700">AI Translation</span>
+                        <span className="material-symbols-outlined text-icon-primary text-[18px]">translate</span>
+                        <span className="text-sm font-semibold text-font-secondary">AI Translation</span>
                     </div>
                     <SegmentedControl
                         value={translationMode}
@@ -240,10 +240,10 @@ function MeetingEmailContent({ email, onToggleStar }: { email: import("@/types/m
         <>
             {/* Translation Toolbar - Same as regular emails */}
             {hasTranslation && (
-                <div className="px-8 py-2 bg-white border-b border-slate-50 flex items-center justify-between shrink-0 z-20">
+                <div className="px-8 py-2 bg-background-primary border-b border-comp-divider flex items-center justify-between shrink-0 z-20">
                     <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-indigo-500 text-[18px]">translate</span>
-                        <span className="text-sm font-semibold text-slate-700">AI Translation</span>
+                        <span className="material-symbols-outlined text-icon-primary text-[18px]">translate</span>
+                        <span className="text-sm font-semibold text-font-secondary">AI Translation</span>
                     </div>
                     <SegmentedControl
                         value={translationMode}

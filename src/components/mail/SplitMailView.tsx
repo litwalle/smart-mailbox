@@ -197,11 +197,11 @@ export function SplitMailView({ email, translationMode }: SplitMailViewProps) {
         } as Email;
 
         return (
-            <div className="flex-1 flex overflow-hidden bg-white border-t border-slate-100 group/split">
+            <div className="flex-1 flex overflow-hidden bg-background-primary border-t border-comp-divider group/split">
                 {/* Left: Original */}
                 <div
                     ref={originalRef}
-                    className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar-hide border-r border-slate-100"
+                    className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar-hide border-r border-comp-divider"
                     onScroll={() => !isDragging.current && syncScroll(originalRef.current, translationRef.current)}
                 >
                     {renderContent(email, 'original')}
@@ -210,21 +210,21 @@ export function SplitMailView({ email, translationMode }: SplitMailViewProps) {
                 {/* Center: Gutter/Scrollbar */}
                 <div
                     ref={trackRef}
-                    className="w-3 bg-slate-50 border-x border-slate-200 py-0.5 relative shrink-0 select-none z-20 flex justify-center"
+                    className="w-3 bg-background-secondary border-x border-comp-divider py-0.5 relative shrink-0 select-none z-20 flex justify-center"
                 >
                     {/* Interactive Draggable Thumb */}
                     {/* Only show if content is scrollable (thumbHeight < trackHeight roughly, or just check ratio) */}
                     <div
                         onMouseDown={handleDragStart}
                         style={{ top: thumbTop, height: thumbHeight }}
-                        className={`w-1.5 bg-slate-300 hover:bg-slate-400 active:bg-slate-500 rounded-full absolute cursor-grab active:cursor-grabbing transition-colors ${thumbHeight >= (trackRef.current?.clientHeight || 9999) ? 'hidden' : ''}`}
+                        className={`w-1.5 bg-background-fourth hover:bg-background-fourth/80 active:bg-background-fourth rounded-full absolute cursor-grab active:cursor-grabbing transition-colors ${thumbHeight >= (trackRef.current?.clientHeight || 9999) ? 'hidden' : ''}`}
                     />
                 </div>
 
                 {/* Right: Translation */}
                 <div
                     ref={translationRef}
-                    className="flex-1 overflow-y-auto overflow-x-hidden bg-slate-50/30 custom-scrollbar-hide"
+                    className="flex-1 overflow-y-auto overflow-x-hidden bg-background-secondary/30 custom-scrollbar-hide"
                     onScroll={() => !isDragging.current && syncScroll(translationRef.current, originalRef.current)}
                 >
                     {renderContent(tEmail, 'translation')}
@@ -245,7 +245,7 @@ export function SplitMailView({ email, translationMode }: SplitMailViewProps) {
 
     // --- SINGLE MODE (Original or Translated) ---
     return (
-        <div className="flex-1 overflow-y-auto bg-white border-t border-slate-100">
+        <div className="flex-1 overflow-y-auto bg-background-primary border-t border-comp-divider">
             {renderContent(translatedEmail, translationMode)}
         </div>
     );

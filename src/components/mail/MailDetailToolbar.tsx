@@ -41,21 +41,21 @@ export function MailDetailToolbar({
                     title="Reply"
                     onClick={onReply}
                 >
-                    <Reply className="w-5 h-5" />
+                    <Reply className="w-5 h-5 stroke-[1.5px]" />
                 </button>
                 <button
                     className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="Reply All"
                     onClick={onReplyAll}
                 >
-                    <ReplyAll className="w-5 h-5" />
+                    <ReplyAll className="w-5 h-5 stroke-[1.5px]" />
                 </button>
                 <button
                     className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="Forward"
                     onClick={onForward}
                 >
-                    <Forward className="w-5 h-5" />
+                    <Forward className="w-5 h-5 stroke-[1.5px]" />
                 </button>
 
                 <div className="w-px h-5 bg-comp-divider mx-2" />
@@ -66,14 +66,14 @@ export function MailDetailToolbar({
                     title={email.isRead ? "Mark as Unread" : "Mark as Read"}
                     onClick={onToggleRead}
                 >
-                    {email.isRead ? <Mail className="w-5 h-5" /> : <MailOpen className="w-5 h-5" />}
+                    {email.isRead ? <Mail className="w-5 h-5 stroke-[1.5px]" /> : <MailOpen className="w-5 h-5 stroke-[1.5px]" />}
                 </button>
                 <button
                     className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="Move to..."
                     onClick={onMove}
                 >
-                    <FolderInput className="w-5 h-5" />
+                    <FolderInput className="w-5 h-5 stroke-[1.5px]" />
                 </button>
 
                 <div className="w-px h-5 bg-comp-divider mx-2" />
@@ -84,14 +84,14 @@ export function MailDetailToolbar({
                     title="Flag"
                     onClick={onFlag}
                 >
-                    <Flag className="w-5 h-5" />
+                    <Flag className="w-5 h-5 stroke-[1.5px]" />
                 </button>
                 <button
                     className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="More options"
                     onClick={onMore}
                 >
-                    <EllipsisVertical className="w-5 h-5" />
+                    <EllipsisVertical className="w-5 h-5 stroke-[1.5px]" />
                 </button>
             </div>
 

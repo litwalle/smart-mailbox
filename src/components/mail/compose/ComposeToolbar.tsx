@@ -12,12 +12,12 @@ export function ComposeToolbar({ onAiMenuClick }: ComposeToolbarProps) {
     const iconSmallClass = "material-symbols-outlined text-[18px]"
 
     // 2. Tighter, Professional Spacing
-    const toolBtnClass = "h-8 w-8 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all flex items-center justify-center active:scale-95"
-    const dropdownBtnClass = "flex items-center gap-1 text-[13px] font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 px-2 h-8 rounded-md transition-all select-none border border-transparent active:scale-95"
-    const dividerClass = "h-4 w-[1px] bg-slate-200 mx-1.5" // Clear separation
+    const toolBtnClass = "h-8 w-8 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-md transition-all flex items-center justify-center active:scale-95"
+    const dropdownBtnClass = "flex items-center gap-1 text-[13px] font-medium text-font-secondary hover:text-font-primary hover:bg-background-secondary px-2 h-8 rounded-md transition-all select-none border border-transparent active:scale-95"
+    const dividerClass = "h-4 w-[1px] bg-comp-divider mx-1.5" // Clear separation
 
     return (
-        <div className="px-5 py-2 border-y border-slate-100 flex items-center bg-white select-none relative z-20 gap-0.5 touch-auto overflow-x-auto scrollbar-none">
+        <div className="px-5 py-2 border-y border-comp-divider flex items-center bg-background-primary select-none relative z-20 gap-0.5 touch-auto overflow-x-auto scrollbar-none">
             {/* History */}
             <div className="flex items-center gap-0.5">
                 <Button variant="ghost" size="icon" className={toolBtnClass} title="Undo">
@@ -92,14 +92,14 @@ export function ComposeToolbar({ onAiMenuClick }: ComposeToolbarProps) {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-all animate-in fade-in zoom-in active:scale-95 ring-1 ring-transparent hover:ring-indigo-100"
+                    className="h-8 w-8 text-brand hover:bg-brand/10 hover:text-brand rounded-lg transition-all animate-in fade-in zoom-in active:scale-95 ring-1 ring-transparent hover:ring-brand/10"
                     title="AI Assistant"
                     onClick={onAiMenuClick}
                 >
                     <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'wght' 300" }}>auto_awesome</span>
                 </Button>
 
-                <div className="h-5 w-[1px] bg-slate-200 mx-1" />
+                <div className="h-5 w-[1px] bg-comp-divider mx-1" />
 
                 <Button variant="ghost" size="icon" className={toolBtnClass}>
                     <span className={iconClass} style={iconStyle}>image</span>
