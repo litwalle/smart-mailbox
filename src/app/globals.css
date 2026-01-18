@@ -86,6 +86,16 @@
     background-color: rgba(100, 116, 139, 0.8);
     /* slate-500 */
   }
+
+  /* Hide scrollbar but keep scrollable */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Base Styles */

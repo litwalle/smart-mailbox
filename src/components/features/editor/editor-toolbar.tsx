@@ -193,7 +193,6 @@ export function EditorToolbar({ className, debugWidth, ...props }: EditorToolbar
                 className
             )}
             style={{
-                minWidth: "1000px",
                 width: debugWidth ? `${debugWidth}px` : "100%",
                 height: "56px",
                 maxWidth: "100%"

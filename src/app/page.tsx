@@ -6,7 +6,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { SidebarCollapsed } from "@/components/layout/SidebarCollapsed";
 import { MailList } from "@/components/mail/MailList";
 import { MailDetail } from "@/components/mail/MailDetail";
-import { ComposeModal } from "@/components/mail/ComposeModal";
+import { ComposeWindow } from "@/components/mail/compose/ComposeWindow";
 import { SettingsView } from "@/components/settings/SettingsView";
 import { useMailStore } from "@/store/mailStore";
 
@@ -33,7 +33,7 @@ export default function Home() {
         list={listContent}
         detail={showDetail ? <MailDetail /> : null}
       />
-      <ComposeModal />
+      <ComposeWindow />
     </>
   );
 }
