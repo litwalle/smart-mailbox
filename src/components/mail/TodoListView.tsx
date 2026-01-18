@@ -97,7 +97,7 @@ export function TodoListView() {
     const totalCount = todoGroups.today.length + todoGroups.tomorrow.length + todoGroups.later.length;
 
     return (
-        <div className="flex flex-col h-full bg-slate-50/50">
+        <div className="flex flex-col h-full bg-background-primary">
             {/* Header Area */}
             <div className="flex flex-col gap-4 p-4 border-b border-border-color bg-white/80 backdrop-blur-sm sticky top-0 z-20 transition-all duration-300 ease-in-out">
                 <div className="flex justify-between items-end">

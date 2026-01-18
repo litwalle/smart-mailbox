@@ -6,7 +6,7 @@ export function SettingsView() {
     const { availableAccounts, currentAccountId, switchAccount } = useMailStore();
 
     return (
-        <div className="flex flex-col h-full bg-slate-50/50">
+        <div className="flex flex-col h-full bg-background-primary">
             <div className="h-16 px-6 border-b border-border-color flex items-center justify-between shrink-0 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
                 <h2 className="text-lg font-bold text-slate-800">设置中心</h2>
             </div>

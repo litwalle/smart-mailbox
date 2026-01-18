@@ -129,7 +129,7 @@ export function ThreeColumnLayout({
                 initial={{ width: 320 }}
                 animate={{ width: isSidebarCollapsed ? 64 : 320 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="flex-shrink-0 border-r border-border-color bg-sidebar-bg relative z-20 flex flex-col h-full"
+                className="flex-shrink-0 border-r border-comp-divider bg-background-secondary relative z-20 flex flex-col h-full"
             >
                 {/* 
                   Simplified Structure:
@@ -146,7 +146,7 @@ export function ThreeColumnLayout({
             <div
                 style={{ width: detail ? listWidth : undefined }}
                 className={cn(
-                    "border-r border-border-color bg-white relative flex flex-col h-full z-10",
+                    "border-r border-comp-divider bg-background-primary relative flex flex-col h-full z-10",
                     detail ? "flex-shrink-0" : "flex-1"
                 )}
             >

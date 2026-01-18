@@ -54,7 +54,7 @@ export function MailDetail() {
             .filter((e): e is import("@/types/mail").Email => !!e)
 
         return (
-            <div className="flex flex-col h-full bg-slate-50/50 relative overflow-hidden items-center justify-center">
+            <div className="flex flex-col h-full bg-background-primary relative overflow-hidden items-center justify-center">
 
                 {/* Stacked Cards Container */}
                 <div className="relative w-full max-w-2xl h-[420px] lg:h-[480px] flex items-center justify-center mb-12 perspective-1000">
