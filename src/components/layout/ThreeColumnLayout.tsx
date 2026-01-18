@@ -70,7 +70,7 @@ export function ThreeColumnLayout({
     useEffect(() => {
         if (selectedFolderId === 'calendar' && detail && containerRef.current) {
             // Calendar Mode with Detail: B=60%, C=40%
-            const sidebarWidth = isSidebarCollapsed ? 64 : 320;
+            const sidebarWidth = isSidebarCollapsed ? 64 : 240;
             const availableWidth = window.innerWidth - sidebarWidth;
             const targetWidth = availableWidth * 0.6;
             setListWidth(targetWidth);
@@ -83,7 +83,7 @@ export function ThreeColumnLayout({
             if (!isResizing || !containerRef.current) return;
 
             // Simple width calculation
-            const sidebarWidth = isSidebarCollapsed ? 64 : 320;
+            const sidebarWidth = isSidebarCollapsed ? 64 : 240;
             let newWidth = e.clientX - sidebarWidth;
 
             // Constraints (User Requested: Min 500, Max 800)
@@ -126,8 +126,8 @@ export function ThreeColumnLayout({
         >
             {/* A栏: Sidebar */}
             <motion.aside
-                initial={{ width: 320 }}
-                animate={{ width: isSidebarCollapsed ? 64 : 320 }}
+                initial={{ width: 240 }}
+                animate={{ width: isSidebarCollapsed ? 64 : 240 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 className="flex-shrink-0 border-r-[0.5px] border-comp-divider bg-background-secondary relative z-20 flex flex-col h-full"
             >
