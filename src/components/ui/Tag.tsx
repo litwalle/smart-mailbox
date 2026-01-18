@@ -10,19 +10,19 @@ interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 export function Tag({ className, variant = "default", children, ...props }: TagProps) {
     const variants: Record<TagVariant, string> = {
-        default: "bg-slate-100 text-slate-600 border-slate-200",
-        important: "bg-amber-50 text-amber-700 border-amber-200", // Yellow/Orange for Important
-        urgent: "bg-red-50 text-red-700 border-red-200",       // Red for Urgent
-        today: "bg-blue-50 text-blue-700 border-blue-200",      // Blue for Today
-        work: "bg-slate-100 text-slate-600 border-slate-200",   // Gray for Work/General
-        outline: "bg-transparent border-slate-200 text-slate-600",
-        solid: "bg-slate-800 text-white border-transparent",
+        default: "bg-background-secondary text-font-secondary border-comp-divider",
+        important: "bg-palette-10/15 text-palette-10 border-palette-10/30", // Orange for Important
+        urgent: "bg-warning/10 text-warning border-warning/30",             // Red for Urgent
+        today: "bg-brand/10 text-brand border-brand/30",                    // Blue for Today
+        work: "bg-background-secondary text-font-secondary border-comp-divider",   // Gray for Work/General
+        outline: "bg-transparent border-comp-divider text-font-secondary",
+        solid: "bg-comp-background-neutral text-font-on-primary border-transparent",
     }
 
     return (
         <span
             className={cn(
-                "inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-medium border leading-tight transition-colors",
+                "inline-flex items-center px-1.5 py-0.5 rounded-sm text-[11px] font-medium border leading-tight transition-colors",
                 variants[variant],
                 className
             )}

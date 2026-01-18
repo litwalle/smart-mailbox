@@ -17,9 +17,9 @@ export interface CapsuleButtonProps extends React.ButtonHTMLAttributes<HTMLButto
 }
 
 const variantStyles = {
-    primary: "bg-slate-900 text-white hover:bg-slate-800 shadow-sm",
-    secondary: "bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100",
-    outline: "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+    primary: "bg-comp-background-neutral text-font-on-primary hover:bg-comp-background-neutral/90 shadow-sm",
+    secondary: "bg-comp-emphasize-tertiary text-brand hover:bg-comp-emphasize-secondary border border-brand/20",
+    outline: "bg-background-primary text-font-secondary border border-comp-divider hover:bg-background-secondary hover:border-comp-divider"
 }
 
 const sizeStyles = {

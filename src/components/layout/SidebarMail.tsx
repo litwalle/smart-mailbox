@@ -24,7 +24,7 @@ export function SidebarMail({ isCollapsed }: SidebarMailProps) {
                 <Button
                     onClick={() => toggleCompose(true)}
                     className={cn(
-                        "transition-all border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-lg shadow-none",
+                        "transition-all border border-comp-divider bg-background-primary hover:bg-background-secondary text-font-primary rounded-lg shadow-none",
                         isCollapsed
                             ? "h-10 w-10 p-0 justify-center"
                             : "w-full justify-center gap-3"
@@ -32,7 +32,7 @@ export function SidebarMail({ isCollapsed }: SidebarMailProps) {
                     size="lg"
                     title="写信"
                 >
-                    <span className={cn("material-symbols-outlined text-blue-600", isCollapsed ? "text-[22px]" : "text-[20px]")}>edit_square</span>
+                    <span className={cn("material-symbols-outlined text-brand", isCollapsed ? "text-[22px]" : "text-[20px]")}>edit_square</span>
                     {!isCollapsed && <span className="font-semibold">写信</span>}
                 </Button>
             </div>
@@ -82,16 +82,16 @@ export function SidebarMail({ isCollapsed }: SidebarMailProps) {
                 <div className="space-y-0.5">
                     {/* Account Header */}
                     {!isCollapsed ? (
-                        <div className="px-3 py-2 flex items-center gap-2 mb-1 mt-4 rounded-lg hover:bg-slate-100 cursor-pointer">
-                            <div className="h-5 w-5 rounded-full bg-slate-200 overflow-hidden shrink-0">
+                        <div className="px-3 py-2 flex items-center gap-2 mb-1 mt-4 rounded-lg hover:bg-background-secondary cursor-pointer">
+                            <div className="h-5 w-5 rounded-full bg-background-tertiary overflow-hidden shrink-0">
                                 <img src={currentUser.avatar} className="object-cover h-full w-full" />
                             </div>
-                            <span className="text-xs font-bold text-slate-700 truncate">{currentUser.email}</span>
-                            <span className="material-symbols-outlined text-[14px] ml-auto text-slate-400">expand_more</span>
+                            <span className="text-xs font-bold text-font-primary truncate">{currentUser.email}</span>
+                            <span className="material-symbols-outlined text-[14px] ml-auto text-icon-tertiary">expand_more</span>
                         </div>
                     ) : (
                         <div className="my-4 flex justify-center">
-                            <div className="h-6 w-6 rounded-full bg-slate-200 overflow-hidden shrink-0 ring-2 ring-white shadow-sm">
+                            <div className="h-6 w-6 rounded-full bg-background-tertiary overflow-hidden shrink-0 ring-2 ring-background-primary shadow-sm">
                                 <img src={currentUser.avatar} className="object-cover h-full w-full" />
                             </div>
                         </div>
@@ -135,7 +135,7 @@ export function SidebarMail({ isCollapsed }: SidebarMailProps) {
 
 function SectionHeader({ label }: { label: string }) {
     return (
-        <div className="px-3 py-1.5 flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-4">
+        <div className="px-3 py-1.5 flex items-center justify-between text-[11px] font-bold text-font-tertiary uppercase tracking-wider mt-4">
             <span>{label}</span>
         </div>
     )
@@ -156,13 +156,13 @@ function NavButton({ folder, isActive, onClick, labelOverride, className, isColl
             onClick={onClick}
             title={labelOverride || folder.name}
             className={cn(
-                "flex items-center transition-colors ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20",
+                "flex items-center transition-colors ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20",
                 isCollapsed
                     ? "w-10 h-10 justify-center rounded-xl mx-auto"
                     : "w-full gap-3 px-3 py-1.5 rounded-md text-sm font-medium",
                 isActive
-                    ? "bg-slate-200/60 text-slate-900 font-semibold"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+                    ? "bg-background-tertiary text-font-primary font-semibold"
+                    : "text-font-secondary hover:bg-background-secondary hover:text-font-primary",
                 className
             )}
         >
@@ -170,15 +170,15 @@ function NavButton({ folder, isActive, onClick, labelOverride, className, isColl
                 <span className={cn(
                     "material-symbols-outlined",
                     isCollapsed ? "text-[22px]" : "text-[18px]",
-                    folder.color && !isActive ? folder.color : "text-slate-500",
-                    isActive ? "text-slate-900 fill-current" : ""
+                    folder.color && !isActive ? folder.color : "text-icon-secondary",
+                    isActive ? "text-font-primary fill-current" : ""
                 )}>
                     {folder.icon}
                 </span>
 
                 {/* Red Dot for Unread in Collapsed Mode */}
                 {isCollapsed && folder.unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-2.5 w-2.5 bg-red-500 border-2 border-white rounded-full"></span>
+                    <span className="absolute -top-1 -right-1 h-2.5 w-2.5 bg-warning border-2 border-background-primary rounded-full"></span>
                 )}
             </div>
 
@@ -188,7 +188,7 @@ function NavButton({ folder, isActive, onClick, labelOverride, className, isColl
                     {folder.unreadCount > 0 && (
                         <span className={cn(
                             "text-xs font-medium px-1.5 rounded-md min-w-[1.2rem] text-center",
-                            isActive ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-600"
+                            isActive ? "bg-comp-background-neutral text-font-on-primary" : "bg-background-secondary text-font-secondary"
                         )}>
                             {folder.unreadCount}
                         </span>

@@ -57,14 +57,14 @@ export function TodoItem({ todo, onToggle, onDismiss, onClick, className, animat
             className={cn(
                 "p-4 border shadow-sm transition-all flex items-center gap-3",
                 todo.isDone
-                    ? "bg-slate-50 border-slate-100"
-                    : "bg-white border-slate-200 hover:border-blue-200",
+                    ? "bg-background-secondary border-comp-divider"
+                    : "bg-background-primary border-comp-divider hover:border-brand/30",
                 onClick && "cursor-pointer",
                 className
             )}
             onClick={onClick}
         >
-            {/* Checkbox - 圆形 + 蓝色 */}
+            {/* Checkbox - 圆形 + 品牌色 */}
             <div
                 onClick={(e) => {
                     e.stopPropagation()
@@ -73,12 +73,12 @@ export function TodoItem({ todo, onToggle, onDismiss, onClick, className, animat
                 className={cn(
                     "h-5 w-5 rounded border cursor-pointer flex items-center justify-center shrink-0 transition-colors",
                     todo.isDone
-                        ? "bg-blue-500 border-blue-500"
-                        : "border-slate-300 hover:border-blue-400"
+                        ? "bg-brand border-brand"
+                        : "border-comp-divider hover:border-brand/50"
                 )}
             >
                 {todo.isDone && (
-                    <span className="material-symbols-outlined text-white text-[14px]">check</span>
+                    <span className="material-symbols-outlined text-font-on-primary text-[14px]">check</span>
                 )}
             </div>
 
@@ -86,15 +86,14 @@ export function TodoItem({ todo, onToggle, onDismiss, onClick, className, animat
             <div className="flex-1 flex flex-col justify-center min-w-0">
                 <span className={cn(
                     "text-sm font-medium transition-colors",
-                    todo.isDone ? "text-slate-400 line-through" : "text-slate-700"
+                    todo.isDone ? "text-font-tertiary line-through" : "text-font-primary"
                 )}>
                     {todo.content}
                 </span>
                 {todo.deadline && !todo.isDone && (
                     <span className={cn(
                         "text-[11px] font-medium mt-0.5",
-                        // 规范：isUrgent 默认为 true (红色)。只有明确设置 false 时才显示灰色。
-                        todo.isUrgent !== false ? "text-red-500" : "text-slate-400"
+                        todo.isUrgent !== false ? "text-warning" : "text-font-tertiary"
                     )}>
                         Deadline: {todo.deadline}
                     </span>

@@ -40,11 +40,11 @@ export function BaseCard({
     return (
         <div
             className={cn(
-                "group relative border rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer flex flex-col",
+                "group relative border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer flex flex-col",
                 isSpecial
-                    ? "bg-white/90 backdrop-blur-md border-white/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
-                    : "bg-white/90 backdrop-blur-md border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]",
-                "hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] hover:-translate-y-[2px] hover:border-blue-100/50",
+                    ? "bg-background-primary/90 backdrop-blur-md border-comp-divider shadow-sm"
+                    : "bg-background-primary/90 backdrop-blur-md border-comp-divider shadow-sm",
+                "hover:shadow-md hover:-translate-y-[2px] hover:border-brand/30",
                 className
             )}
             onClick={onClick}
@@ -64,12 +64,12 @@ export function BaseCard({
                         {/* Title & Subtitle Slot */}
                         <div className="min-w-0 flex flex-col">
                             {title && (
-                                <div className="text-[14px] font-bold text-slate-900 leading-tight">
+                                <div className="text-[14px] font-bold text-font-primary leading-tight">
                                     {title}
                                 </div>
                             )}
                             {subtitle && (
-                                <div className="mt-0.5 text-[13px] text-slate-500 leading-relaxed">
+                                <div className="mt-0.5 text-[13px] text-font-secondary leading-relaxed">
                                     {subtitle}
                                 </div>
                             )}
@@ -79,7 +79,7 @@ export function BaseCard({
                     {/* Right Side: Action | Time */}
                     <div className="flex items-center gap-3 shrink-0 pl-2">
                         {time && (
-                            <div className="text-[12px] text-slate-400 font-medium whitespace-nowrap">
+                            <div className="text-[12px] text-font-tertiary font-medium whitespace-nowrap">
                                 {time}
                             </div>
                         )}
@@ -92,7 +92,7 @@ export function BaseCard({
                                     e.stopPropagation()
                                     onComplete()
                                 }}
-                                className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 transition-colors group/check"
+                                className="w-8 h-8 rounded-full border border-comp-divider flex items-center justify-center text-icon-tertiary hover:bg-confirm/10 hover:text-confirm hover:border-confirm/30 transition-colors group/check"
                             >
                                 <span className="material-symbols-outlined text-[18px]">check</span>
                             </button>

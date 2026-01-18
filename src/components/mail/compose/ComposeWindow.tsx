@@ -143,25 +143,25 @@ export function ComposeWindow() {
 
     // Window Content
     const WindowContent = (
-        <div className="flex flex-col h-full bg-white rounded-xl overflow-hidden">
+        <div className="flex flex-col h-full bg-background-primary rounded-lg overflow-hidden">
             {/* Header / Drag Handle */}
             <div
                 className="shrink-0 cursor-grab active:cursor-grabbing"
                 onMouseDown={handleDragStart}
             >
-                <div className="flex items-center justify-between px-6 py-3 bg-white border-b border-transparent select-none">
+                <div className="flex items-center justify-between px-6 py-3 bg-background-primary border-b border-transparent select-none">
                     <div className="flex items-baseline gap-3">
-                        <h3 className="font-bold text-slate-800 text-[16px]">新建邮件</h3>
-                        <span className="text-xs text-slate-400 font-medium">06:20:32 自动保存</span>
+                        <h3 className="font-bold text-font-primary text-[16px]">新建邮件</h3>
+                        <span className="text-xs text-font-tertiary font-medium">06:20:32 自动保存</span>
                     </div>
                     <div className="flex items-center gap-2" onMouseDown={e => e.stopPropagation()}>
-                        <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:bg-slate-100 hover:text-slate-700 rounded-md" onClick={toggleFullscreen}>
+                        <Button variant="ghost" size="icon" className="h-7 w-7 text-icon-tertiary hover:bg-background-secondary hover:text-icon-primary rounded-md" onClick={toggleFullscreen}>
                             {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:bg-slate-100 hover:text-slate-700 rounded-md" onClick={() => toggleCompose(false)}>
+                        <Button variant="ghost" size="icon" className="h-7 w-7 text-icon-tertiary hover:bg-background-secondary hover:text-icon-primary rounded-md" onClick={() => toggleCompose(false)}>
                             <Minus className="w-4 h-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:bg-red-50 hover:text-red-500 rounded-md" onClick={() => toggleCompose(false)}>
+                        <Button variant="ghost" size="icon" className="h-7 w-7 text-icon-tertiary hover:bg-warning/10 hover:text-warning rounded-md" onClick={() => toggleCompose(false)}>
                             <X className="w-4 h-4" />
                         </Button>
                     </div>
@@ -169,21 +169,21 @@ export function ComposeWindow() {
             </div>
 
             {/* Main Action Bar */}
-            <div className="px-6 py-3 flex items-center gap-3 bg-white shrink-0">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-5 h-9 shadow-sm shadow-blue-200 gap-2 transition-all active:scale-95" onClick={handleSend}>
+            <div className="px-6 py-3 flex items-center gap-3 bg-background-primary shrink-0">
+                <Button className="bg-brand hover:bg-brand/90 text-font-on-primary rounded-lg px-5 h-9 shadow-sm shadow-brand/20 gap-2 transition-all active:scale-95" onClick={handleSend}>
                     <Send className="w-4 h-4 ml-[-2px] rotate-1" />
                     <span className="font-semibold text-[14px]">发送</span>
                 </Button>
 
                 <div className="flex items-center gap-1">
-                    <Button variant="secondary" className="bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg px-3 h-9">
+                    <Button variant="secondary" className="bg-background-secondary hover:bg-background-tertiary text-font-primary rounded-lg px-3 h-9">
                         <Save className="w-4 h-4" />
                     </Button>
-                    <Button variant="secondary" className="bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg px-3 h-9 flex items-center gap-1">
+                    <Button variant="secondary" className="bg-background-secondary hover:bg-background-tertiary text-font-primary rounded-lg px-3 h-9 flex items-center gap-1">
                         <Paperclip className="w-4 h-4" />
                         <span className="text-xs font-medium opacity-60">▼</span>
                     </Button>
-                    <Button variant="secondary" className="bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg px-3 h-9 flex items-center gap-1">
+                    <Button variant="secondary" className="bg-background-secondary hover:bg-background-tertiary text-font-primary rounded-lg px-3 h-9 flex items-center gap-1">
                         <Lock className="w-4 h-4" />
                         <span className="text-xs font-medium opacity-60">▼</span>
                     </Button>
@@ -194,56 +194,56 @@ export function ComposeWindow() {
             <div className="px-6 pb-2 shrink-0">
                 <div className="space-y-1">
                     {/* To */}
-                    <div className="flex items-start py-2 border-b border-slate-100 group transition-colors hover:border-slate-300">
-                        <div className="w-14 shrink-0 pt-1 text-sm text-slate-500">收件人</div>
+                    <div className="flex items-start py-2 border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
+                        <div className="w-14 shrink-0 pt-1 text-sm text-font-secondary">收件人</div>
                         <div className="flex-1 flex flex-col">
                             <input
                                 value={to}
                                 onChange={(e) => setTo(e.target.value)}
-                                className="w-full outline-none text-sm text-slate-800 bg-transparent placeholder:text-slate-300"
+                                className="w-full outline-none text-sm text-font-primary bg-transparent placeholder:text-font-tertiary"
                             />
                         </div>
-                        <div className="shrink-0 flex items-center gap-3 text-[13px] text-slate-400">
-                            {!showCc && <button onClick={() => setShowCc(true)} className="hover:text-blue-600">抄送</button>}
-                            {!showBcc && <button onClick={() => setShowBcc(true)} className="hover:text-blue-600">密送</button>}
+                        <div className="shrink-0 flex items-center gap-3 text-[13px] text-font-tertiary">
+                            {!showCc && <button onClick={() => setShowCc(true)} className="hover:text-brand">抄送</button>}
+                            {!showBcc && <button onClick={() => setShowBcc(true)} className="hover:text-brand">密送</button>}
                         </div>
                     </div>
 
                     {/* Cc */}
                     {showCc && (
-                        <div className="flex items-center py-2 border-b border-slate-100 group transition-colors hover:border-slate-300">
-                            <div className="w-14 shrink-0 text-sm text-slate-500">抄送</div>
+                        <div className="flex items-center py-2 border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
+                            <div className="w-14 shrink-0 text-sm text-font-secondary">抄送</div>
                             <input
                                 value={cc}
                                 onChange={(e) => setCc(e.target.value)}
-                                className="flex-1 outline-none text-sm text-slate-800 bg-transparent"
+                                className="flex-1 outline-none text-sm text-font-primary bg-transparent"
                             />
                         </div>
                     )}
 
                     {/* Bcc */}
                     {showBcc && (
-                        <div className="flex items-center py-2 border-b border-slate-100 group transition-colors hover:border-slate-300">
-                            <div className="w-14 shrink-0 text-sm text-slate-500">密送</div>
+                        <div className="flex items-center py-2 border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
+                            <div className="w-14 shrink-0 text-sm text-font-secondary">密送</div>
                             <input
                                 value={bcc}
                                 onChange={(e) => setBcc(e.target.value)}
-                                className="flex-1 outline-none text-sm text-slate-800 bg-transparent"
+                                className="flex-1 outline-none text-sm text-font-primary bg-transparent"
                             />
                         </div>
                     )}
 
                     {/* Subject */}
-                    <div className="flex items-center py-3 border-b border-slate-100 group transition-colors hover:border-slate-300">
-                        <div className="w-14 shrink-0 text-sm text-slate-500 font-medium">主题</div>
+                    <div className="flex items-center py-3 border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
+                        <div className="w-14 shrink-0 text-sm text-font-secondary font-medium">主题</div>
                         <input
                             value={subject}
                             onChange={(e) => setSubject(e.target.value)}
                             placeholder="请输入主题"
-                            className="flex-1 outline-none text-sm font-medium text-slate-800 bg-transparent placeholder:text-slate-300"
+                            className="flex-1 outline-none text-sm font-medium text-font-primary bg-transparent placeholder:text-font-tertiary"
                         />
                         <div className="shrink-0">
-                            <button className="text-[13px] text-slate-400 hover:text-blue-600 flex items-center gap-1">
+                            <button className="text-[13px] text-font-tertiary hover:text-brand flex items-center gap-1">
                                 重要性 <span className="text-[10px]">▼</span>
                             </button>
                         </div>
@@ -257,13 +257,13 @@ export function ComposeWindow() {
             </div>
 
             {/* Body */}
-            <div className="flex-1 relative min-h-0 bg-white cursor-text" onClick={() => document.getElementById('compose-editor')?.focus()}>
+            <div className="flex-1 relative min-h-0 bg-background-primary cursor-text" onClick={() => document.getElementById('compose-editor')?.focus()}>
                 <ScrollArea className="h-full w-full">
                     <div className="p-8">
                         <div
                             id="compose-editor"
                             contentEditable
-                            className="outline-none min-h-[300px] text-base leading-relaxed text-slate-800"
+                            className="outline-none min-h-[300px] text-base leading-relaxed text-font-primary"
                             onInput={(e) => setContent(e.currentTarget.textContent || "")}
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
@@ -285,7 +285,7 @@ export function ComposeWindow() {
         <div className="fixed inset-0 z-50 pointer-events-none">
             <div
                 ref={windowRef}
-                className="pointer-events-auto absolute shadow-2xl rounded-xl border border-slate-200"
+                className="pointer-events-auto absolute shadow-lg rounded-lg border border-comp-divider"
                 style={{
                     width: size.width,
                     height: size.height,

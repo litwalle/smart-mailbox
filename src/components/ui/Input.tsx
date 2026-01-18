@@ -9,8 +9,8 @@ const inputVariants = cva(
     {
         variants: {
             variant: {
-                default: "h-10 rounded-lg border border-border bg-white px-3 py-2 shadow-sm focus:border-accent-primary/50 focus:ring-2 focus:ring-accent-primary/10",
-                linear: "h-9 bg-transparent border-b border-comp-divider focus:border-accent-primary px-0 py-1.5 rounded-none",
+                default: "h-10 rounded border border-comp-divider bg-background-primary px-3 py-2 shadow-sm focus:border-brand/50 focus:ring-2 focus:ring-brand/10",
+                linear: "h-9 bg-transparent border-b border-comp-divider focus:border-brand px-0 py-1.5 rounded-none",
             }
         },
         defaultVariants: {

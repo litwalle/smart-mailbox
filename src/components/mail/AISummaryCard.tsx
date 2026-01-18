@@ -50,15 +50,15 @@ export function AISummaryCard({ summary, reason, tags, todos, actionCapsules }: 
     return (
         <div className="space-y-4 mb-6">
             {/* 1. Summary Card */}
-            <Card className="bg-blue-50/50 border-blue-100 shadow-sm overflow-hidden p-5">
+            <Card className="bg-comp-emphasize-tertiary border-brand/20 shadow-sm overflow-hidden p-5">
                 <div className="mb-4">
-                    <h3 className="text-base font-bold text-blue-600 mb-3 flex items-center justify-between">
+                    <h3 className="text-base font-bold text-brand mb-3 flex items-center justify-between">
                         Summary
                         <div className="flex gap-2">
-                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-blue-400 hover:text-blue-600">
+                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-brand/60 hover:text-brand">
                                 <span className="material-symbols-outlined text-[16px]">thumb_up</span>
                             </Button>
-                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-blue-400 hover:text-blue-600">
+                            <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-brand/60 hover:text-brand">
                                 <span className="material-symbols-outlined text-[16px]">thumb_down</span>
                             </Button>
                         </div>
@@ -66,8 +66,8 @@ export function AISummaryCard({ summary, reason, tags, todos, actionCapsules }: 
 
                     <ul className="space-y-2">
                         {summaryPoints.map((point, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm text-slate-700 leading-relaxed">
-                                <span className="block w-1 h-1 rounded-full bg-slate-400 mt-2 shrink-0" />
+                            <li key={idx} className="flex items-start gap-2 text-sm text-font-secondary leading-relaxed">
+                                <span className="block w-1 h-1 rounded-full bg-font-tertiary mt-2 shrink-0" />
                                 <span>{point}</span>
                             </li>
                         ))}
@@ -78,14 +78,14 @@ export function AISummaryCard({ summary, reason, tags, todos, actionCapsules }: 
                 {tags && tags.length > 0 && (
                     <div className="flex gap-2 mb-4 pl-3">
                         {tags.map(tag => (
-                            <span key={tag} className="text-[11px] text-slate-400 font-medium">#{tag}</span>
+                            <span key={tag} className="text-[11px] text-font-tertiary font-medium">#{tag}</span>
                         ))}
                     </div>
                 )}
 
                 {/* Action Buttons (Capsules) - No Icons */}
                 {actionCapsules && actionCapsules.length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-2 border-t border-blue-100/50">
+                    <div className="flex flex-wrap gap-2 pt-2 border-t border-brand/10">
                         {actionCapsules.map(capsule => (
                             <CapsuleButton
                                 key={capsule.id}

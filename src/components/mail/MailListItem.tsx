@@ -16,13 +16,13 @@ interface MailListItemProps {
     isSelected: boolean
 }
 
-// 标签样式配置 - Refined Semantic Colors
+// 标签样式配置 - Harmony Semantic Colors
 const TAG_STYLES: Record<string, string> = {
-    action: "bg-red-50 text-red-600 border-red-100", // Urgent -> Red
-    time: "bg-blue-50 text-blue-600 border-blue-100",
-    content: "bg-violet-50 text-violet-600 border-violet-100",
-    sender: "bg-slate-100 text-slate-500 border-slate-200",
-    default: "bg-slate-100 text-slate-500 border-slate-200"
+    action: "bg-warning/10 text-warning border-warning/30", // Urgent -> Red
+    time: "bg-brand/10 text-brand border-brand/30",
+    content: "bg-palette-6/15 text-palette-6 border-palette-6/30",
+    sender: "bg-background-secondary text-font-secondary border-comp-divider",
+    default: "bg-background-secondary text-font-secondary border-comp-divider"
 }
 
 export function MailListItem({ email, isSelected }: MailListItemProps) {
@@ -115,11 +115,11 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                 }
             }}
             className={cn(
-                "group relative flex flex-col gap-1 px-4 py-3 rounded-xl border border-transparent cursor-pointer transition-all",
+                "group relative flex flex-col gap-1 px-4 py-3 rounded-lg border border-transparent cursor-pointer transition-all",
                 isSelected || isMultiSelected
-                    ? "bg-white border-primary/20 shadow-md shadow-primary/5 ring-1 ring-primary/20 z-10"
-                    : "hover:bg-white hover:shadow-sm hover:border-slate-200 bg-transparent",
-                (!isSelected && !isMultiSelected && !email.isRead) && "bg-white/40"
+                    ? "bg-background-primary border-brand/20 shadow-md shadow-brand/5 ring-1 ring-brand/20 z-10"
+                    : "hover:bg-background-primary hover:shadow-sm hover:border-comp-divider bg-transparent",
+                (!isSelected && !isMultiSelected && !email.isRead) && "bg-background-primary/40"
             )}
         >
             {/* Row 1: Status + Avatar + Name + Time */}
@@ -137,18 +137,18 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                     {email.from.avatar ? (
                         <img
                             src={email.from.avatar}
-                            className="h-5 w-5 rounded-full object-cover shrink-0 bg-slate-200"
+                            className="h-5 w-5 rounded-full object-cover shrink-0 bg-background-tertiary"
                             alt={email.from.name}
                         />
                     ) : (
-                        <div className="h-5 w-5 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[10px] font-semibold text-slate-600 shrink-0">
+                        <div className="h-5 w-5 rounded-full bg-background-secondary border border-comp-divider flex items-center justify-center text-[10px] font-semibold text-font-secondary shrink-0">
                             {email.from.name.charAt(0)}
                         </div>
                     )}
 
                     <span className={cn(
                         "text-sm truncate",
-                        !email.isRead ? "font-semibold text-slate-900" : "font-medium text-slate-700"
+                        !email.isRead ? "font-semibold text-font-primary" : "font-medium text-font-secondary"
                     )}>
                         {email.from.name}
                     </span>
@@ -157,14 +157,14 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                 {/* Right: Time & Icons */}
                 <div className="flex items-center gap-2">
                     {email.priority === 'high' && (
-                        <CircleAlert className="w-3.5 h-3.5 text-red-500 stroke-[1.5px]" />
+                        <CircleAlert className="w-3.5 h-3.5 text-warning stroke-[1.5px]" />
                     )}
                     {email.hasAttachments && (
-                        <Paperclip className="w-3.5 h-3.5 text-slate-400 stroke-[1.5px]" />
+                        <Paperclip className="w-3.5 h-3.5 text-icon-tertiary stroke-[1.5px]" />
                     )}
                     <span className={cn(
                         "text-xs whitespace-nowrap",
-                        !email.isRead ? "text-slate-500 font-medium" : "text-slate-400"
+                        !email.isRead ? "text-font-secondary font-medium" : "text-font-tertiary"
                     )}>
                         {timeDisplay}
                     </span>
@@ -180,7 +180,7 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                         onToggleRead={handleAction(markAsRead)}
                         onToggleFlag={handleAction(toggleStar)}
                         onArchive={handleAction(archiveEmail)}
-                        className="shadow-sm shadow-slate-200 border-slate-100 bg-white" // Lighter shadow
+                        className="shadow-sm shadow-comp-divider border-comp-divider bg-background-primary" // Lighter shadow
                     />
                 </div>
             </div>
@@ -198,8 +198,8 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                     <div className={cn(
                         "w-4 h-4 rounded-[5px] border flex items-center justify-center transition-all", // 统一圆角矩形 Unified Rounded Rect
                         isMultiSelected
-                            ? "bg-primary border-primary text-white"
-                            : "border-slate-400 bg-white hover:border-slate-600"
+                            ? "bg-brand border-brand text-font-on-primary"
+                            : "border-icon-secondary bg-background-primary hover:border-icon-primary"
                     )}>
                         {isMultiSelected && <Check className="w-3 h-3 stroke-[3px]" />}
                     </div>
@@ -207,9 +207,9 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
 
                 <div className="flex-1 min-w-0 flex flex-col gap-1.5 ">
                     {/* Summary - Larger Text, Black Color */}
-                    <div className="text-[14px] text-slate-900 leading-snug line-clamp-2">
+                    <div className="text-[14px] text-font-primary leading-snug line-clamp-2">
                         {isMeeting && (
-                            <Calendar className="w-3.5 h-3.5 text-slate-400 inline-block mr-1 align-text-bottom" />
+                            <Calendar className="w-3.5 h-3.5 text-icon-tertiary inline-block mr-1 align-text-bottom" />
                         )}
                         {email.aiSummary || email.preview}
                     </div>

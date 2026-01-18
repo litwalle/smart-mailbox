@@ -98,9 +98,9 @@ export const mockCards: FocusCard[] = [
         priority: "medium",
         timeDisplay: "15:00",
         todoList: [
-            { id: "t-1", title: "Review Q3 Report", isDone: false, relatedEmailId: "e1" },
-            { id: "t-2", title: "Schedule call with Mike", isDone: false, relatedEmailId: "e2" },
-            { id: "t-3", title: "Respond to David about contract", isDone: true, relatedEmailId: "e4" }
+            { id: "t-1", content: "Review Q3 Report", isDone: false, relatedEmailId: "e1" },
+            { id: "t-2", content: "Schedule call with Mike", isDone: false, relatedEmailId: "e2" },
+            { id: "t-3", content: "Respond to David about contract", isDone: true, relatedEmailId: "e4" }
         ],
         guidanceText: "You have <b>3 action items</b> to complete today.",
         actions: [

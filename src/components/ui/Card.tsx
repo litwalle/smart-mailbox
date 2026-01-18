@@ -15,19 +15,19 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         let borderColorClass = ""
 
         // 这里可以细化颜色逻辑，简单起见用几个预设
-        if (accentColor === "primary") borderColorClass = "border-l-primary"
-        else if (accentColor === "success") borderColorClass = "border-l-green-500"
-        else if (accentColor === "warning") borderColorClass = "border-l-amber-500"
-        else if (accentColor === "danger") borderColorClass = "border-l-red-500"
+        if (accentColor === "primary") borderColorClass = "border-l-brand"
+        else if (accentColor === "success") borderColorClass = "border-l-confirm"
+        else if (accentColor === "warning") borderColorClass = "border-l-alert"
+        else if (accentColor === "danger") borderColorClass = "border-l-warning"
 
 
         return (
             <div
                 ref={ref}
                 className={cn(
-                    "rounded-xl border border-slate-200 bg-white shadow-card text-text-main",
-                    hoverEffect && "transition-all hover:shadow-lg hover:border-primary/30",
-                    activeEffect && "border-primary/50 shadow-md ring-1 ring-primary/10",
+                    "rounded-lg border border-comp-divider bg-background-primary shadow-sm text-font-primary",
+                    hoverEffect && "transition-all hover:shadow-md hover:border-brand/30",
+                    activeEffect && "border-brand/50 shadow-md ring-1 ring-brand/10",
                     accentClass,
                     borderColorClass,
                     className

@@ -42,43 +42,33 @@ export function MailHoverActions({
 
     return (
         <div className={cn(
-            "flex items-center gap-1 p-1 bg-white rounded-lg shadow-sm border border-slate-100",
+            "flex items-center gap-1 p-1 bg-background-primary rounded-lg shadow-sm border border-comp-divider",
             className
         )}>
             <button
                 onClick={(e) => handleAction(e, onArchive)}
-                className="p-1 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors"
+                className="p-1 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-md transition-colors"
                 title="Archive"
             >
                 <Archive className={iconClass} />
             </button>
             <button
                 onClick={(e) => handleAction(e, onDelete)}
-                className="p-1 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                className="p-1 text-icon-secondary hover:text-warning hover:bg-warning/10 rounded-md transition-colors"
                 title="Delete"
             >
                 <Trash2 className={iconClass} />
             </button>
             <button
                 onClick={(e) => handleAction(e, onComplete)}
-                className="p-1 text-slate-500 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors"
+                className="p-1 text-icon-secondary hover:text-confirm hover:bg-confirm/10 rounded-md transition-colors"
                 title="Complete"
             >
                 <Check className={iconClass} />
             </button>
             <button
-                // Using Clock as a placeholder for "Snooze" if needed, but user mentioned specific 5.
-                // Re-reading user request: "完成，删除，已读/未读，旗标、归档".
-                // I will stick to these 5.
-                onClick={(e) => handleAction(e, onToggleRead)} // Maybe "Snooze" isn't in the list?
-                // Wait, Figure 2 has 5 icons. Box, Trash, Check, Clock, Tag? 
-                // User text says: "Complete, Delete, Read/Unread, Flag, Archive".
-                // User text "Complete" = Check. "Delete" = Trash. "Archive" = Box. "Read/Unread" = Mail. "Flag" = Flag.
-                // The image might be different, visual "Clock" usually means Snooze. 
-                // I will follow the TEXT instructions for functionality but maybe add Snooze if it fits. 
-                // Actually, let's stick to the text: Complete, Delete, Read/Unread, Flag, Archive.
-                // That is 5 items.
-                className="p-1 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors"
+                onClick={(e) => handleAction(e, onToggleRead)}
+                className="p-1 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-md transition-colors"
                 title={isRead ? "Mark as Unread" : "Mark as Read"}
             >
                 {isRead ? <Mail className={iconClass} /> : <MailOpen className={iconClass} />}
@@ -86,8 +76,8 @@ export function MailHoverActions({
             <button
                 onClick={(e) => handleAction(e, onToggleFlag)}
                 className={cn(
-                    "p-1 rounded-md transition-colors hover:bg-slate-100",
-                    isStarred ? "text-yellow-500 hover:text-yellow-600" : "text-slate-500 hover:text-slate-900"
+                    "p-1 rounded-md transition-colors hover:bg-background-secondary",
+                    isStarred ? "text-palette-10 hover:text-palette-10" : "text-icon-secondary hover:text-icon-primary"
                 )}
                 title="Flag"
             >

@@ -22,20 +22,20 @@ export function BriefingHeader({ headline, summary, dateDisplay, weather = "Sunn
             <div className="relative z-10 space-y-4">
                 {/* Top Row: Greeting & Meta */}
                 <div className="flex items-start justify-between">
-                    <h1 className="text-3xl font-black text-slate-800 tracking-tight leading-tight">
+                    <h1 className="text-3xl font-black text-font-primary tracking-tight leading-tight">
                         {headline}
                     </h1>
 
                     {/* Date/Weather Pill */}
                     <div className="flex flex-col items-end">
-                        <div className="inline-flex items-center gap-3 bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-full">
-                            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+                        <div className="inline-flex items-center gap-3 bg-background-secondary border border-comp-divider px-3 py-1.5 rounded-full">
+                            <div className="flex items-center gap-1.5 text-xs font-semibold text-font-primary">
                                 <span>{fullDate}</span>
                                 <span className="opacity-50">|</span>
                                 <span>{weekDay}</span>
                             </div>
-                            <div className="flex items-center gap-1 text-xs text-slate-500">
-                                <span className="material-symbols-outlined text-[16px] text-amber-500">wb_sunny</span>
+                            <div className="flex items-center gap-1 text-xs text-font-secondary">
+                                <span className="material-symbols-outlined text-[16px] text-palette-10">wb_sunny</span>
                                 <span>{temperature}</span>
                             </div>
                         </div>
@@ -44,7 +44,7 @@ export function BriefingHeader({ headline, summary, dateDisplay, weather = "Sunn
 
                 {/* Summary Text */}
                 <div
-                    className="text-[18px] font-medium text-slate-700 leading-relaxed max-w-2xl tracking-tight [&_b]:font-medium [&_strong]:font-medium"
+                    className="text-[18px] font-medium text-font-secondary leading-relaxed max-w-2xl tracking-tight [&_b]:font-medium [&_strong]:font-medium"
                     dangerouslySetInnerHTML={{ __html: summary }}
                 />
             </div>

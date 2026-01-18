@@ -12,18 +12,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant = "primary", size = "md", isLoading, children, disabled, ...props }, ref) => {
 
         const variants = {
-            primary: "bg-primary text-white hover:bg-primary-hover active:scale-95 border-transparent",
-            secondary: "bg-white text-slate-700 border-slate-200 border hover:bg-slate-50 hover:border-slate-300 active:scale-95",
-            ghost: "bg-transparent text-text-secondary hover:text-text-main hover:bg-slate-100 border-transparent",
-            outline: "bg-transparent border border-primary text-primary hover:bg-primary-light active:scale-95",
-            pill: "rounded-full bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-all text-xs font-medium px-4 py-1.5 active:scale-95",
+            primary: "bg-brand text-font-on-primary hover:bg-brand/90 active:scale-95 border-transparent",
+            secondary: "bg-background-primary text-font-primary border-comp-divider border hover:bg-background-secondary hover:border-comp-divider active:scale-95",
+            ghost: "bg-transparent text-font-secondary hover:text-font-primary hover:bg-background-secondary border-transparent",
+            outline: "bg-transparent border border-brand text-brand hover:bg-comp-emphasize-tertiary active:scale-95",
+            pill: "rounded-full bg-background-primary text-font-secondary border border-comp-divider hover:bg-background-secondary transition-all text-xs font-medium px-4 py-1.5 active:scale-95",
         }
 
         const sizes = {
-            sm: "h-8 px-3 text-xs rounded-lg gap-1.5",
-            md: "h-10 px-5 py-2 text-sm rounded-xl gap-2",
-            lg: "h-12 px-8 text-base rounded-2xl gap-2.5",
-            icon: "h-10 w-10 p-2 flex items-center justify-center rounded-xl",
+            sm: "h-8 px-3 text-xs rounded gap-1.5",
+            md: "h-10 px-5 py-2 text-sm rounded gap-2",
+            lg: "h-12 px-8 text-base rounded-lg gap-2.5",
+            icon: "h-10 w-10 p-2 flex items-center justify-center rounded",
         }
 
         return (
