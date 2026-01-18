@@ -149,14 +149,14 @@ export function FocusView() {
 
 
     return (
-        <div className="flex flex-col h-full bg-background-secondary/50">
+        <div className="flex flex-col h-full bg-background-primary">
 
             {/* 1. Header & Toolbar */}
             <div className={cn(
                 "sticky top-0 z-20 transition-all duration-300 ease-in-out",
                 selectedEmailIds.length > 0
                     ? "bg-background-primary/80 backdrop-blur-sm border-b border-comp-divider px-2 h-[72px] flex flex-col justify-center"
-                    : "px-6 py-4 bg-background-secondary/90 backdrop-blur-md"
+                    : "px-6 py-4 bg-background-primary/90 backdrop-blur-md"
             )}>
                 {selectedEmailIds.length > 0 ? (
                     <BulkActionsToolbar
