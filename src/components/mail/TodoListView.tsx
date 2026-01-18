@@ -114,7 +114,7 @@ export function TodoListView() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search todos..."
                     leftIcon={<span className="material-symbols-outlined text-[18px]">search</span>}
-                    className="bg-slate-100 border-transparent focus:bg-white transition-all shadow-none focus:shadow-sm"
+                    className="bg-slate-100 border-transparent focus:bg-white transition-all shadow-none"
                 />
             </div>
 

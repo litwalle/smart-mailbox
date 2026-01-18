@@ -55,7 +55,7 @@ export function TodoItem({ todo, onToggle, onDismiss, onClick, className, animat
     const content = (
         <Card
             className={cn(
-                "p-4 border shadow-sm transition-all flex items-center gap-3",
+                "p-4 border transition-all flex items-center gap-3",
                 todo.isDone
                     ? "bg-background-secondary border-comp-divider"
                     : "bg-background-primary border-comp-divider hover:border-brand/30",
