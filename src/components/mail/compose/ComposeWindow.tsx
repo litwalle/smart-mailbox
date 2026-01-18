@@ -1,9 +1,21 @@
 import * as React from "react"
+import { cn } from "@/lib/utils"
 import { useMailStore } from "@/store/mailStore"
 import { EditorToolbar } from "@/components/features/editor/editor-toolbar"
+import { RichTextEditor, Editor } from "@/components/features/editor/RichTextEditor"
 import { Button } from "@/components/ui/Button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, Save, Paperclip, Lock, X, Minus, Maximize, Minimize, ChevronDown, Sparkles, UserCheck, PenLine, MoreHorizontal } from "lucide-react"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+    DropdownMenuSub,
+    DropdownMenuSubTrigger,
+    DropdownMenuSubContent,
+    DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu"
+import { Send, Save, Paperclip, Lock, X, Minus, Maximize, Minimize, ChevronDown, Sparkles, UserCheck, PenLine, MoreHorizontal, Clock, Settings, BookUser } from "lucide-react"
 
 export function ComposeWindow() {
     const { isComposeOpen, toggleCompose, composeDraft } = useMailStore()
@@ -14,9 +26,14 @@ export function ComposeWindow() {
     const [bcc, setBcc] = React.useState("")
     const [subject, setSubject] = React.useState("")
     const [content, setContent] = React.useState("")
+    const [editor, setEditor] = React.useState<Editor | null>(null)
 
+    // 标头栏设置：显示/隐藏抄送密送
     const [showCc, setShowCc] = React.useState(false)
     const [showBcc, setShowBcc] = React.useState(false)
+
+    // 输入框激活状态
+    const [activeField, setActiveField] = React.useState<string | null>(null)
 
     // Window State
     const [isFullscreen, setIsFullscreen] = React.useState(false)
@@ -210,9 +227,41 @@ export function ComposeWindow() {
                     <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
                         <PenLine className="w-5 h-5" strokeWidth={1.5} />
                     </Button>
-                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
-                        <MoreHorizontal className="w-5 h-5" strokeWidth={1.5} />
-                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] data-[state=open]:bg-[rgba(0,0,0,0.05)]">
+                                <MoreHorizontal className="w-5 h-5" strokeWidth={1.5} />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem>
+                                <Clock className="w-4 h-4 mr-2" />
+                                定时发信
+                            </DropdownMenuItem>
+                            <DropdownMenuSub>
+                                <DropdownMenuSubTrigger>
+                                    <Settings className="w-4 h-4 mr-2" />
+                                    标头栏设置
+                                </DropdownMenuSubTrigger>
+                                <DropdownMenuSubContent className="w-40">
+                                    <DropdownMenuCheckboxItem
+                                        checked={showCc}
+                                        onCheckedChange={setShowCc}
+                                        onSelect={(e) => e.preventDefault()}
+                                    >
+                                        显示抄送
+                                    </DropdownMenuCheckboxItem>
+                                    <DropdownMenuCheckboxItem
+                                        checked={showBcc}
+                                        onCheckedChange={setShowBcc}
+                                        onSelect={(e) => e.preventDefault()}
+                                    >
+                                        显示密送
+                                    </DropdownMenuCheckboxItem>
+                                </DropdownMenuSubContent>
+                            </DropdownMenuSub>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </div>
 
@@ -220,53 +269,105 @@ export function ComposeWindow() {
             <div className="px-6 pb-0 shrink-0">
                 <div className="space-y-0">
                     {/* To */}
-                    <div className="flex items-center h-[48px] border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
-                        <div className="w-14 shrink-0 text-sm text-font-secondary">收件人</div>
-                        <div className="flex-1 flex flex-col justify-center">
+                    <div
+                        className={cn(
+                            "flex items-center h-[48px] border-b transition-colors group",
+                            activeField === 'to' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
+                        )}
+                    >
+                        <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'to' ? "text-[#000000]" : "text-font-secondary")}>收件人</div>
+                        <div className="flex-1 flex flex-col justify-center relative">
                             <input
                                 value={to}
                                 onChange={(e) => setTo(e.target.value)}
-                                className="w-full outline-none text-sm text-font-primary bg-transparent placeholder:text-font-tertiary"
+                                onFocus={() => setActiveField('to')}
+                                onBlur={() => setActiveField(null)}
+                                className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'to' ? "text-[#000000]" : "text-font-primary")}
                             />
                         </div>
-                        <div className="shrink-0 flex items-center gap-1">
-                            {!showCc && <Button variant="ghost" onClick={() => setShowCc(true)} className="h-8 px-2 text-xs text-font-tertiary hover:text-brand font-medium rounded-md">抄送</Button>}
-                            {!showBcc && <Button variant="ghost" onClick={() => setShowBcc(true)} className="h-8 px-2 text-xs text-font-tertiary hover:text-brand font-medium rounded-md">密送</Button>}
-                        </div>
+                        {activeField === 'to' && (
+                            <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
+                                <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
+                                    <BookUser className="w-5 h-5" strokeWidth={1.5} />
+                                </Button>
+                            </div>
+                        )}
                     </div>
 
                     {/* Cc */}
                     {showCc && (
-                        <div className="flex items-center h-[48px] border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
-                            <div className="w-14 shrink-0 text-sm text-font-secondary">抄送</div>
-                            <input
-                                value={cc}
-                                onChange={(e) => setCc(e.target.value)}
-                                className="flex-1 outline-none text-sm text-font-primary bg-transparent"
-                            />
+                        <div
+                            className={cn(
+                                "flex items-center h-[48px] border-b transition-colors group",
+                                activeField === 'cc' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
+                            )}
+                        >
+                            <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'cc' ? "text-[#000000]" : "text-font-secondary")}>抄送</div>
+                            <div className="flex-1 flex flex-col justify-center relative">
+                                <input
+                                    value={cc}
+                                    onChange={(e) => setCc(e.target.value)}
+                                    onFocus={() => setActiveField('cc')}
+                                    onBlur={() => setActiveField(null)}
+                                    className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'cc' ? "text-[#000000]" : "text-font-primary")}
+                                />
+                            </div>
+                            {activeField === 'cc' && (
+                                <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
+                                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
+                                        <BookUser className="w-5 h-5" strokeWidth={1.5} />
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     )}
 
                     {/* Bcc */}
                     {showBcc && (
-                        <div className="flex items-center h-[48px] border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
-                            <div className="w-14 shrink-0 text-sm text-font-secondary">密送</div>
-                            <input
-                                value={bcc}
-                                onChange={(e) => setBcc(e.target.value)}
-                                className="flex-1 outline-none text-sm text-font-primary bg-transparent"
-                            />
+                        <div
+                            className={cn(
+                                "flex items-center h-[48px] border-b transition-colors group",
+                                activeField === 'bcc' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
+                            )}
+                        >
+                            <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'bcc' ? "text-[#000000]" : "text-font-secondary")}>密送</div>
+                            <div className="flex-1 flex flex-col justify-center relative">
+                                <input
+                                    value={bcc}
+                                    onChange={(e) => setBcc(e.target.value)}
+                                    onFocus={() => setActiveField('bcc')}
+                                    onBlur={() => setActiveField(null)}
+                                    className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'bcc' ? "text-[#000000]" : "text-font-primary")}
+                                />
+                            </div>
+                            {activeField === 'bcc' && (
+                                <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
+                                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
+                                        <BookUser className="w-5 h-5" strokeWidth={1.5} />
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     )}
 
                     {/* Subject */}
-                    <div className="flex items-center h-[48px] border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
-                        <div className="w-14 shrink-0 text-sm text-font-secondary font-medium">主题</div>
+                    <div
+                        className={cn(
+                            "flex items-center h-[48px] border-b transition-colors group",
+                            activeField === 'subject' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
+                        )}
+                    >
+                        <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'subject' ? "text-[#000000]" : "text-font-secondary")}>主题</div>
                         <input
                             value={subject}
                             onChange={(e) => setSubject(e.target.value)}
+                            onFocus={() => setActiveField('subject')}
+                            onBlur={() => setActiveField(null)}
                             placeholder="请输入主题"
-                            className="flex-1 outline-none text-sm font-medium text-font-primary bg-transparent placeholder:text-font-tertiary"
+                            className={cn(
+                                "flex-1 outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary",
+                                activeField === 'subject' ? "text-[#000000]" : "text-font-primary"
+                            )}
                         />
                         <div className="shrink-0">
                             <Button variant="ghost" className="h-8 px-2 text-[13px] text-font-tertiary hover:text-brand flex items-center gap-1 font-medium rounded-md">
@@ -279,19 +380,18 @@ export function ComposeWindow() {
 
             {/* Toolbar */}
             <div className="px-6 py-1 shrink-0">
-                <EditorToolbar className="h-[48px] !h-[48px]" />
+                <EditorToolbar className="h-[48px] !h-[48px]" editor={editor} />
             </div>
 
             {/* Body */}
-            <div className="flex-1 relative min-h-0 bg-background-primary cursor-text" onClick={() => document.getElementById('compose-editor')?.focus()}>
+            <div className="flex-1 relative min-h-0 bg-background-primary cursor-text" onClick={() => editor?.commands.focus()}>
                 <ScrollArea className="h-full w-full">
                     <div className="px-6 py-4">
-                        <div
-                            id="compose-editor"
-                            contentEditable
-                            className="outline-none min-h-[300px] text-base leading-relaxed text-font-primary"
-                            onInput={(e) => setContent(e.currentTarget.textContent || "")}
-                            dangerouslySetInnerHTML={{ __html: content }}
+                        <RichTextEditor
+                            content={content}
+                            onChange={setContent}
+                            onEditorReady={setEditor}
+                            placeholder="请输入正文内容..."
                         />
                     </div>
                 </ScrollArea>
@@ -317,6 +417,7 @@ export function ComposeWindow() {
                     height: size.height,
                     left: position.x,
                     top: position.y,
+                    boxShadow: '0 20px 120px rgba(0, 0, 0, 0.2)', // OUTER_DEFAULT_LG
                     transition: isDragging || isResizing ? 'none' : 'box-shadow 0.2s'
                 }}
             >

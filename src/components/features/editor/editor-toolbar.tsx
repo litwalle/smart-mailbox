@@ -72,8 +72,9 @@ const ToolbarButton = React.forwardRef<HTMLButtonElement, { icon: React.ReactNod
                 variant="ghost"
                 className={cn(
                     "w-10 h-10 p-0 rounded-lg hover:bg-[rgba(0,0,0,0.05)] transition-colors shrink-0 text-icon-primary",
-                    "data-[state=open]:bg-[rgba(0,0,0,0.05)] data-[state=open]:text-brand",
-                    active && "bg-[rgba(0,0,0,0.05)] text-brand",
+                    "data-[state=open]:bg-[rgba(0,0,0,0.08)]",
+                    // 选中状态：比hover深一点的背景色
+                    active && "bg-[rgba(0,0,0,0.08)]",
                     className
                 )}
                 {...props}
@@ -95,8 +96,8 @@ ToolbarButton.displayName = "ToolbarButton"
 
 
 // Reusable Trigger for Dropdowns
-const DropdownButtonTrigger = React.forwardRef<HTMLButtonElement, { icon?: React.ReactNode, label?: string, tooltip?: React.ReactNode, className?: string }>(
-    ({ icon, label, tooltip, className, ...props }, ref) => {
+const DropdownButtonTrigger = React.forwardRef<HTMLButtonElement, { icon?: React.ReactNode, label?: string, tooltip?: React.ReactNode, className?: string, minWidth?: string }>(
+    ({ icon, label, tooltip, className, minWidth, ...props }, ref) => {
         // Detect open state from Radix UI props
         const isMenuOpen = (props as any)["data-state"] === "open"
 
@@ -105,20 +106,22 @@ const DropdownButtonTrigger = React.forwardRef<HTMLButtonElement, { icon?: React
                 ref={ref}
                 variant="ghost"
                 className={cn(
-                    "flex items-center gap-0.5 px-1 cursor-pointer hover:bg-[rgba(0,0,0,0.05)] rounded-lg h-10 select-none shrink-0 text-icon-primary",
-                    "data-[state=open]:bg-[rgba(0,0,0,0.05)] data-[state=open]:text-brand",
-                    label && "gap-1 px-1.5",
+                    "flex items-center justify-between px-2 cursor-pointer hover:bg-[rgba(0,0,0,0.05)] rounded-lg h-10 select-none shrink-0 text-icon-primary",
+                    "data-[state=open]:bg-[rgba(0,0,0,0.08)]", // Slightly darker, no blue
                     className
                 )}
+                style={minWidth ? { width: minWidth, minWidth, maxWidth: minWidth } : undefined}
                 {...props}
             >
-                {icon && (
-                    <div className="h-5 w-5 flex items-center justify-center">
-                        {React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<any>, { strokeWidth: 1.5 }) : icon}
-                    </div>
-                )}
-                {label && <span className="text-sm font-medium whitespace-nowrap text-font-primary">{label}</span>}
-                <ChevronDown className="h-4 w-4 text-icon-secondary" strokeWidth={1.5} />
+                <div className="flex items-center gap-1">
+                    {icon && (
+                        <div className="h-5 w-5 flex items-center justify-center shrink-0">
+                            {React.isValidElement(icon) ? React.cloneElement(icon as React.ReactElement<any>, { strokeWidth: 1.5 }) : icon}
+                        </div>
+                    )}
+                    {label && <span className="text-sm font-medium whitespace-nowrap text-font-primary truncate text-left">{label}</span>}
+                </div>
+                <ChevronDown className="h-4 w-4 text-icon-secondary shrink-0 ml-1" strokeWidth={1.5} />
             </Button>
         )
 
@@ -151,9 +154,30 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
     // Dropdown Exclusive State
     const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null)
 
+    // 强制更新状态，用于在编辑器状态改变时触发重新渲染
+    const [, forceUpdate] = React.useReducer(x => x + 1, 0)
+
     const handleDropdownChange = (id: string) => (open: boolean) => {
         setActiveDropdown(open ? id : null)
     }
+
+    // 监听编辑器的选择和事务变化，确保格式按钮状态正确更新
+    React.useEffect(() => {
+        if (!editor) return
+
+        const handleUpdate = () => {
+            forceUpdate()
+        }
+
+        // 监听编辑器的选择变化和事务
+        editor.on('selectionUpdate', handleUpdate)
+        editor.on('transaction', handleUpdate)
+
+        return () => {
+            editor.off('selectionUpdate', handleUpdate)
+            editor.off('transaction', handleUpdate)
+        }
+    }, [editor])
 
     React.useEffect(() => {
         if (debugWidth !== undefined) {
@@ -231,15 +255,30 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
                 <div className="flex items-center gap-1 shrink overflow-hidden min-w-0">
                     {/* History */}
                     <div className="flex items-center gap-1 shrink-0">
-                        <ToolbarButton icon={<Undo2 />} tooltip="后退 Ctrl+Z" disabled={!!activeDropdown} />
-                        <ToolbarButton icon={<Redo2 />} tooltip="前进 Ctrl+Y" disabled={!!activeDropdown} />
+                        <ToolbarButton
+                            icon={<Undo2 />}
+                            tooltip="后退 Ctrl+Z"
+                            disabled={!!activeDropdown}
+                            onClick={() => editor?.chain().focus().undo().run()}
+                        />
+                        <ToolbarButton
+                            icon={<Redo2 />}
+                            tooltip="前进 Ctrl+Y"
+                            disabled={!!activeDropdown}
+                            onClick={() => editor?.chain().focus().redo().run()}
+                        />
                     </div>
                     <Divider />
 
                     {/* Format Painter */}
                     <div className="flex items-center gap-1 shrink-0">
                         <ToolbarButton icon={<Paintbrush />} tooltip="格式刷" disabled={!!activeDropdown} />
-                        <ToolbarButton icon={<Eraser />} tooltip="清除格式" disabled={!!activeDropdown} />
+                        <ToolbarButton
+                            icon={<Eraser />}
+                            tooltip="清除格式"
+                            disabled={!!activeDropdown}
+                            onClick={() => editor?.chain().focus().unsetAllMarks().clearNodes().run()}
+                        />
                     </div>
                     <Divider />
 
@@ -250,6 +289,7 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
                         <DropdownMenu open={activeDropdown === 'textType'} onOpenChange={handleDropdownChange('textType')}>
                             <DropdownMenuTrigger asChild>
                                 <DropdownButtonTrigger
+                                    minWidth="88px"
                                     label={
                                         editor?.isActive('heading', { level: 1 }) ? "标题 1" :
                                             editor?.isActive('heading', { level: 2 }) ? "标题 2" :
@@ -286,31 +326,38 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
                         {/* Font Family Dropdown */}
                         <DropdownMenu open={activeDropdown === 'fontFamily'} onOpenChange={handleDropdownChange('fontFamily')}>
                             <DropdownMenuTrigger asChild>
-                                <DropdownButtonTrigger label={fontFamily === "harmony" ? "鸿蒙黑体" : "其他字体"} tooltip="字体" />
+                                <DropdownButtonTrigger minWidth="100px" label={fontFamily === "harmony" ? "鸿蒙黑体" : fontFamily === "song" ? "宋体" : fontFamily === "kai" ? "楷体" : "默认"} tooltip="字体" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-40" align="start">
-                                <DropdownMenuRadioGroup value={fontFamily} onValueChange={setFontFamily}>
-                                    <DropdownMenuRadioItem value="harmony">鸿蒙黑体</DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="song">宋体</DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="kai">楷体</DropdownMenuRadioItem>
-                                </DropdownMenuRadioGroup>
+                                <DropdownMenuItem onClick={() => { setFontFamily("harmony"); editor?.chain().focus().setFontFamily("HarmonyOS Sans SC, sans-serif").run() }}>
+                                    鸿蒙黑体
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => { setFontFamily("song"); editor?.chain().focus().setFontFamily("SimSun, serif").run() }}>
+                                    宋体
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => { setFontFamily("kai"); editor?.chain().focus().setFontFamily("KaiTi, cursive").run() }}>
+                                    楷体
+                                </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
 
                         {/* Font Size Dropdown */}
                         <DropdownMenu open={activeDropdown === 'fontSize'} onOpenChange={handleDropdownChange('fontSize')}>
                             <DropdownMenuTrigger asChild>
-                                <DropdownButtonTrigger label={fontSize} tooltip="字号" />
+                                <DropdownButtonTrigger minWidth="80px" label={fontSize} tooltip="字号" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-32" align="start">
-                                <DropdownMenuRadioGroup value={fontSize} onValueChange={setFontSize}>
-                                    <DropdownMenuRadioItem value="12px">12px</DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="14px">14px</DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="16px">16px</DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="18px">18px</DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="24px">24px</DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="36px">36px</DropdownMenuRadioItem>
-                                </DropdownMenuRadioGroup>
+                                {["12px", "14px", "16px", "18px", "24px", "36px"].map((size) => (
+                                    <DropdownMenuItem
+                                        key={size}
+                                        onClick={() => {
+                                            setFontSize(size)
+                                            editor?.chain().focus().setFontSize(size).run()
+                                        }}
+                                    >
+                                        {size}
+                                    </DropdownMenuItem>
+                                ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
 
@@ -321,7 +368,9 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
                             disabled={!!activeDropdown}
                             onClick={() => {
                                 const val = parseInt(fontSize)
-                                if (val < 100) setFontSize(`${val + 2}px`)
+                                const newSize = val < 100 ? `${val + 2}px` : fontSize
+                                setFontSize(newSize)
+                                editor?.chain().focus().setFontSize(newSize).run()
                             }}
                         />
                         <ToolbarButton
@@ -331,7 +380,9 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
                             disabled={!!activeDropdown}
                             onClick={() => {
                                 const val = parseInt(fontSize)
-                                if (val > 10) setFontSize(`${val - 2}px`)
+                                const newSize = val > 10 ? `${val - 2}px` : fontSize
+                                setFontSize(newSize)
+                                editor?.chain().focus().setFontSize(newSize).run()
                             }}
                         />
                     </div>
@@ -340,13 +391,13 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
                     {/* Colors - Using standard ColorPicker */}
                     <div className="flex items-center gap-1 shrink-0">
                         <ColorPicker
-                            onChangeComplete={(c) => console.log('Text Color:', c)}
+                            onChangeComplete={(c) => editor?.chain().focus().setColor(c).run()}
                         >
                             <DropdownButtonTrigger icon={<Palette />} tooltip="文字颜色" />
                         </ColorPicker>
 
                         <ColorPicker
-                            onChangeComplete={(c) => console.log('Bg Color:', c)}
+                            onChangeComplete={(c) => editor?.chain().focus().toggleHighlight({ color: c }).run()}
                         >
                             <DropdownButtonTrigger icon={<Highlighter />} tooltip="文本背景色" />
                         </ColorPicker>
@@ -421,8 +472,12 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
                                             <DropdownButtonTrigger icon={<List />} tooltip="列表" />
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="start">
-                                            <DropdownMenuItem>无序列表</DropdownMenuItem>
-                                            <DropdownMenuItem>有序列表</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => editor?.chain().focus().toggleBulletList().run()}>
+                                                无序列表
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => editor?.chain().focus().toggleOrderedList().run()}>
+                                                有序列表
+                                            </DropdownMenuItem>
                                             <DropdownMenuItem>任务列表</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
@@ -520,16 +575,51 @@ export function EditorToolbar({ className, debugWidth, editor, ...props }: Edito
                 <div className="flex items-center shrink-0 gap-1">
                     <Divider />
                     <WithTooltip content="插入图片" disabled={!!activeDropdown}>
-                        <ToolbarButton icon={<ImageIcon />} />
+                        <ToolbarButton
+                            icon={<ImageIcon />}
+                            onClick={() => {
+                                const url = window.prompt("请输入图片 URL")
+                                if (url) {
+                                    editor?.chain().focus().setImage({ src: url }).run()
+                                }
+                            }}
+                        />
                     </WithTooltip>
 
                     <WithTooltip content="插入表格" disabled={!!activeDropdown}>
-                        <ToolbarButton icon={<TableIcon />} />
+                        <ToolbarButton
+                            icon={<TableIcon />}
+                            onClick={() => editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
+                        />
                     </WithTooltip>
 
-                    {!hideLink && <ToolbarButton icon={<Link />} tooltip="添加超链接 Ctrl+K" disabled={!!activeDropdown} />}
+                    {!hideLink && (
+                        <ToolbarButton
+                            icon={<Link />}
+                            tooltip="添加超链接 Ctrl+K"
+                            disabled={!!activeDropdown}
+                            active={editor?.isActive('link')}
+                            onClick={() => {
+                                const previousUrl = editor?.getAttributes('link').href
+                                const url = window.prompt("请输入链接 URL", previousUrl)
+                                if (url === null) return
+                                if (url === '') {
+                                    editor?.chain().focus().extendMarkRange('link').unsetLink().run()
+                                } else {
+                                    editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+                                }
+                            }}
+                        />
+                    )}
                     {!hideSmile && <ToolbarButton icon={<Smile />} tooltip="添加表情符号" disabled={!!activeDropdown} />}
-                    {!hideMinus && <ToolbarButton icon={<Minus />} tooltip="插入横线" disabled={!!activeDropdown} />}
+                    {!hideMinus && (
+                        <ToolbarButton
+                            icon={<Minus />}
+                            tooltip="插入横线"
+                            disabled={!!activeDropdown}
+                            onClick={() => editor?.chain().focus().setHorizontalRule().run()}
+                        />
+                    )}
 
                     {/* Insert More Button */}
                     {showInsertMore && (

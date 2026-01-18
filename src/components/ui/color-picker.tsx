@@ -68,6 +68,7 @@ export function ColorPicker({
     const [customColors, setCustomColors] = React.useState<string[]>([])
     const [recentColors, setRecentColors] = React.useState<string[]>([])
 
+    // 只在点击颜色时才设置选中态，不自动初始化
     const [activeSelection, setActiveSelection] = React.useState<{ section: string, index: string | number } | null>(null)
 
     React.useEffect(() => {
@@ -82,49 +83,18 @@ export function ColorPicker({
         if (storedRecent) setRecentColors(JSON.parse(storedRecent))
     }, [])
 
+    // 打开时清除选中态，只有点击时才显示选中
     React.useEffect(() => {
-        if (!isOpen) return
-
-        const basicIdx = presets.indexOf(value)
-        if (basicIdx !== -1) {
-            setActiveSelection({ section: 'basic', index: basicIdx })
-            return
+        if (isOpen) {
+            setActiveSelection(null)
         }
-
-        const themeDarkIdx = PRESETS_THEME_DARK.indexOf(value.toLowerCase())
-        if (themeDarkIdx !== -1) {
-            setActiveSelection({ section: 'theme-dark', index: themeDarkIdx })
-            return
-        }
-
-        const themeLightIdx = PRESETS_THEME_LIGHT.indexOf(value.toLowerCase())
-        if (themeLightIdx !== -1) {
-            setActiveSelection({ section: 'theme-light', index: themeLightIdx })
-            return
-        }
-
-        const usedIdx = recentColors.indexOf(value)
-        if (usedIdx !== -1) {
-            setActiveSelection({ section: 'recent', index: usedIdx })
-            return
-        }
-
-        const customIdx = customColors.indexOf(value)
-        if (customIdx !== -1) {
-            setActiveSelection({ section: 'custom', index: customIdx })
-            return
-        }
-        setActiveSelection(null)
-    }, [isOpen, value, presets, recentColors, customColors])
+    }, [isOpen])
 
 
     const handleColorChange = (newColor: string, section: string, index: string | number) => {
         setColor(newColor)
         setActiveSelection({ section, index })
         onChange?.(newColor)
-    }
-
-    const handleComplete = (newColor: string) => {
         onChangeComplete?.(newColor)
         addToRecent(newColor)
     }
@@ -159,7 +129,8 @@ export function ColorPicker({
             const result = await eyeDropper.open()
             setColor(result.sRGBHex)
             onChange?.(result.sRGBHex)
-            handleComplete(result.sRGBHex)
+            onChangeComplete?.(result.sRGBHex)
+            addToRecent(result.sRGBHex)
             setActiveSelection(null)
         } catch (e) {
             // Cancelled
@@ -180,7 +151,7 @@ export function ColorPicker({
                         key={c}
                         color={c}
                         isActive={activeSelection?.section === 'custom' && activeSelection?.index === i}
-                        onClick={() => { handleColorChange(c, 'custom', i); handleComplete(c); }}
+                        onClick={() => handleColorChange(c, 'custom', i)}
                         onContextMenu={(e) => {
                             e.preventDefault()
                             removeCustomColor(c)
@@ -215,7 +186,7 @@ export function ColorPicker({
     }
 
     return (
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <Popover open={isOpen} onOpenChange={setIsOpen} modal={true}>
             <PopoverTrigger asChild disabled={disabled}>
                 {children || (
                     <Button
@@ -232,10 +203,15 @@ export function ColorPicker({
                 )}
             </PopoverTrigger>
             <PopoverContent
-                className="w-[320px] p-0 rounded-[16px] border-gray-200 shadow-xl"
+                className="w-[320px] p-0 rounded-lg border-gray-200 shadow-lg"
                 align="start"
                 collisionPadding={16}
                 sideOffset={8}
+                onInteractOutside={(e) => e.preventDefault()}
+                onPointerDownOutside={(e) => {
+                    // 只有点击外部时才关闭
+                    setIsOpen(false)
+                }}
             >
                 {view === "grid" ? (
                     <div className="p-4 space-y-4">
@@ -243,24 +219,29 @@ export function ColorPicker({
                             <div className="mb-2 text-[16px] font-medium text-foreground">基础色</div>
                             <div className="grid grid-cols-7 gap-3">
                                 {presets.map((c, i) => (
-                                    <div key={i} className="relative flex items-center justify-center">
+                                    <div key={i} className="relative flex items-center justify-center h-7 w-7">
                                         {i === 28 ? (
-                                            <div className="relative h-9 w-9">
-                                                <ColorButton
-                                                    color={c}
-                                                    isActive={isSelected('basic', i)}
-                                                    onClick={() => { handleColorChange(c, 'basic', i); handleComplete(c); }}
-                                                    className={cn("absolute inset-0 z-0", "border-slate-200")}
-                                                />
-                                                <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-10">
-                                                    <div className="w-[1px] h-5 bg-slate-300 rotate-45" />
+                                            /* 无色图标 - 白色底+斜线 */
+                                            <button
+                                                className={cn(
+                                                    "h-7 w-7 rounded-full border transition-all hover:scale-110",
+                                                    "focus:outline-none",
+                                                    isSelected('basic', i)
+                                                        ? "ring-4 ring-[#0A59F7] ring-offset-2 border-background"
+                                                        : "border-slate-200"
+                                                )}
+                                                style={{ backgroundColor: '#FFFFFF' }}
+                                                onClick={() => handleColorChange(c, 'basic', i)}
+                                            >
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <div className="w-[1px] h-4 bg-slate-300 rotate-45" />
                                                 </div>
-                                            </div>
+                                            </button>
                                         ) : (
                                             <ColorButton
                                                 color={c}
                                                 isActive={isSelected('basic', i)}
-                                                onClick={() => { handleColorChange(c, 'basic', i); handleComplete(c); }}
+                                                onClick={() => handleColorChange(c, 'basic', i)}
                                                 className={cn(c.toUpperCase() === "#FFFFFF" && "border-slate-200")}
                                             />
                                         )}
@@ -280,7 +261,7 @@ export function ColorPicker({
                                             isTheme
                                             textColor="white"
                                             isActive={isSelected('theme-dark', i)}
-                                            onClick={() => { handleColorChange(c, 'theme-dark', i); handleComplete(c); }}
+                                            onClick={() => handleColorChange(c, 'theme-dark', i)}
                                         />
                                     ))}
                                     {PRESETS_THEME_LIGHT.map((c, i) => (
@@ -290,7 +271,7 @@ export function ColorPicker({
                                             isTheme
                                             textColor={PRESETS_THEME_DARK[i]}
                                             isActive={isSelected('theme-light', i)}
-                                            onClick={() => { handleColorChange(c, 'theme-light', i); handleComplete(c); }}
+                                            onClick={() => handleColorChange(c, 'theme-light', i)}
                                         />
                                     ))}
                                 </div>
@@ -306,7 +287,7 @@ export function ColorPicker({
                                             key={c}
                                             color={c}
                                             isActive={isSelected('recent', i)}
-                                            onClick={() => { handleColorChange(c, 'recent', i); handleComplete(c); }}
+                                            onClick={() => handleColorChange(c, 'recent', i)}
                                         />
                                     ))}
                                 </div>
@@ -433,7 +414,7 @@ function ColorButton({
     return (
         <button
             className={cn(
-                "group relative rounded-full border shadow-sm transition-all hover:scale-110",
+                "group relative rounded-full border transition-all hover:scale-110",
                 "focus:outline-none focus:ring-2 focus:ring-[#0A59F7] focus:ring-offset-2",
                 ringClass,
                 isTheme && "flex items-center justify-center font-normal text-[20px]", // text size 20px
