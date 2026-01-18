@@ -19,7 +19,7 @@ export function Sidebar() {
     }
 
     return (
-        <div className="flex flex-col h-full bg-slate-50 border-r border-slate-200 transition-all duration-300">
+        <div className="flex flex-col h-full bg-background-secondary border-r border-comp-divider transition-all duration-300">
             {/* 1. Top Header */}
             <div className={cn(
                 "h-16 flex items-center shrink-0 transition-all",
@@ -29,7 +29,7 @@ export function Sidebar() {
                     // Collapsed: Click to Expand (SM Logo)
                     <button
                         onClick={toggleSidebar}
-                        className="p-1 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 transition-colors"
+                        className="p-1 rounded-md text-icon-tertiary hover:text-icon-primary hover:bg-background-tertiary transition-colors"
                         title="展开侧边栏"
                     >
                         <span className="material-symbols-outlined text-[20px] transform rotate-180">dock_to_left</span>
@@ -37,15 +37,15 @@ export function Sidebar() {
                 ) : (
                     // Expanded: Full Logo + Collapse Button
                     <>
-                        <div className="flex items-center gap-2 text-slate-800">
-                            <span className="font-serif font-black text-xl tracking-tighter italic text-blue-600">M.</span>
-                            <span className="font-bold text-sm tracking-tight text-slate-700 uppercase">
+                        <div className="flex items-center gap-2 text-font-primary">
+                            <span className="font-serif font-black text-xl tracking-tighter italic text-brand">M.</span>
+                            <span className="font-bold text-sm tracking-tight text-font-secondary uppercase">
                                 {activeModule === 'calendar' ? 'Calendar' : 'Mailbox'}
                             </span>
                         </div>
                         <button
                             onClick={toggleSidebar}
-                            className="text-slate-400 hover:text-slate-600 p-1 rounded-md hover:bg-slate-200/50 transition-colors"
+                            className="text-icon-tertiary hover:text-icon-primary p-1 rounded-md hover:bg-background-tertiary transition-colors"
                             title="收起边栏"
                         >
                             <span className="material-symbols-outlined text-[20px]">dock_to_left</span>
@@ -59,19 +59,19 @@ export function Sidebar() {
                 {activeModule === 'mail' && <SidebarMail isCollapsed={isSidebarCollapsed} />}
                 {activeModule === 'calendar' && <SidebarCalendar isCollapsed={isSidebarCollapsed} />}
                 {activeModule === 'contacts' && (
-                    <div className={cn("p-4 text-center text-slate-400 text-sm mt-10", isSidebarCollapsed && "hidden")}>通讯录模块开发中</div>
+                    <div className={cn("p-4 text-center text-font-tertiary text-sm mt-10", isSidebarCollapsed && "hidden")}>通讯录模块开发中</div>
                 )}
                 {activeModule === 'settings' && (
-                    <div className={cn("p-4 text-center text-slate-400 text-sm mt-10", isSidebarCollapsed && "hidden")}>设置模块开发中</div>
+                    <div className={cn("p-4 text-center text-font-tertiary text-sm mt-10", isSidebarCollapsed && "hidden")}>设置模块开发中</div>
                 )}
             </div>
 
             {/* 3. Bottom Navigation Bar */}
             <div className={cn(
-                "border-t border-slate-200 bg-white shrink-0 transition-all",
+                "border-t border-comp-divider bg-background-primary shrink-0 transition-all",
                 isSidebarCollapsed
-                    ? "flex flex-col items-center py-4 space-y-4 w-full" // Vertical layout when collapsed
-                    : "h-14 flex items-center justify-around px-2"     // Horizontal layout when expanded
+                    ? "flex flex-col items-center py-4 space-y-4 w-full"
+                    : "h-14 flex items-center justify-around px-2"
             )}>
                 <BottomNavIcon
                     icon="mail"
@@ -113,7 +113,7 @@ function BottomNavIcon({ icon, isActive, onClick, label, isCollapsed }: { icon: 
                 onClick={onClick}
                 className={cn(
                     "flex items-center justify-center w-8 h-8 rounded-lg transition-all",
-                    isActive ? "text-blue-600 bg-blue-50" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                    isActive ? "text-brand bg-comp-emphasize-tertiary" : "text-icon-tertiary hover:text-icon-primary hover:bg-background-secondary"
                 )}
                 title={label}
             >
@@ -133,7 +133,7 @@ function BottomNavIcon({ icon, isActive, onClick, label, isCollapsed }: { icon: 
             onClick={onClick}
             className={cn(
                 "flex flex-col items-center justify-center w-10 h-10 rounded-lg transition-all",
-                isActive ? "text-blue-600 bg-blue-50" : "text-slate-400 hover:text-slate-600 hover:bg-slate-50"
+                isActive ? "text-brand bg-comp-emphasize-tertiary" : "text-icon-tertiary hover:text-icon-primary hover:bg-background-secondary"
             )}
             title={label}
         >

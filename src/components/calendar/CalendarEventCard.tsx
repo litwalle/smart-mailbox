@@ -25,62 +25,55 @@ export function CalendarEventCard({ event, onClick, style, isSelected, isPast = 
     // Layout Logic: duration < 45min -> horizontal
     const isShort = durationM < 45;
 
-    // Base Styles
-    let containerClass = "bg-blue-50 border-blue-100 text-blue-700 hover:bg-blue-100";
-    let accentColor = "bg-blue-500";
-    let textColor = "text-blue-700";
+    // Base Styles - Using Harmony palette
+    let containerClass = "bg-brand/10 border-brand/20 text-brand hover:bg-brand/15";
+    let accentColor = "bg-brand";
+    let textColor = "text-brand";
 
     // Status Logic
     const isCancelled = event.status === 'cancelled';
 
-    // Type Specific Styles
+    // Type Specific Styles - Using Harmony palette
     if (event.type === 'task') {
-        containerClass = "bg-emerald-50 border-emerald-100 text-emerald-700 hover:bg-emerald-100";
-        accentColor = "bg-emerald-500";
-        textColor = "text-emerald-700";
+        containerClass = "bg-confirm/10 border-confirm/20 text-confirm hover:bg-confirm/15";
+        accentColor = "bg-confirm";
+        textColor = "text-confirm";
     } else if (event.type === 'reminder') {
-        containerClass = "bg-purple-50 border-purple-100 text-purple-700 hover:bg-purple-100";
-        accentColor = "bg-purple-500";
-        textColor = "text-purple-700";
+        containerClass = "bg-palette-6/10 border-palette-6/20 text-palette-6 hover:bg-palette-6/15";
+        accentColor = "bg-palette-6";
+        textColor = "text-palette-6";
     }
 
     // Cancelled State
     if (isCancelled) {
-        containerClass = "bg-slate-100 border-slate-300 text-slate-500 overflow-hidden";
-        accentColor = "bg-slate-300";
-        textColor = "text-slate-400 line-through decoration-slate-300";
+        containerClass = "bg-background-tertiary border-comp-divider text-font-tertiary overflow-hidden";
+        accentColor = "bg-font-tertiary";
+        textColor = "text-font-tertiary line-through decoration-comp-divider";
     }
 
     // Past State (Transparency) - Only if NOT selected
-    // If selected, we want full visibility to read details, or maybe just slight opacity?
-    // User request: "current timeline above... calendar items should be expired card will have lower transparency"
-    // Let's apply opacity-60 if past and not selected.
-    // If selected, we keep it fully opaque or maybe opacity-90. Let's stick to opaque for readability/focus.
     if (isPast && !isSelected) {
-        containerClass = cn(containerClass, "opacity-60 grayscale-[0.3]"); // Add some grayscale too for "expired" feel
+        containerClass = cn(containerClass, "opacity-60 grayscale-[0.3]");
     }
 
     // Selected State overrides
     if (isSelected) {
         if (isCancelled) {
-            // Selected Cancelled: Darker gray background, white text
-            containerClass = "bg-slate-500 border-slate-500 text-white shadow-md z-30";
-            accentColor = "bg-slate-500"; // Blend in
-            textColor = "text-slate-100 line-through decoration-slate-300";
+            containerClass = "bg-font-secondary border-font-secondary text-font-on-primary shadow-md z-30";
+            accentColor = "bg-font-secondary";
+            textColor = "text-font-on-primary/80 line-through decoration-font-on-primary/30";
         } else {
-            // Selected Active: Solid background matching the accent of unselected state (500 shade)
             if (event.type === 'task') {
-                containerClass = "bg-emerald-500 border-emerald-500 text-white shadow-md z-30 ring-0";
-                accentColor = "bg-emerald-500"; // Blend in
+                containerClass = "bg-confirm border-confirm text-font-on-primary shadow-md z-30 ring-0";
+                accentColor = "bg-confirm";
             } else if (event.type === 'reminder') {
-                containerClass = "bg-purple-500 border-purple-500 text-white shadow-md z-30 ring-0";
-                accentColor = "bg-purple-500"; // Blend in
+                containerClass = "bg-palette-6 border-palette-6 text-font-on-primary shadow-md z-30 ring-0";
+                accentColor = "bg-palette-6";
             } else {
-                // Meeting (Blue)
-                containerClass = "bg-blue-500 border-blue-500 text-white shadow-md z-30 ring-0";
-                accentColor = "bg-blue-500"; // Blend in
+                containerClass = "bg-brand border-brand text-font-on-primary shadow-md z-30 ring-0";
+                accentColor = "bg-brand";
             }
-            textColor = "text-white";
+            textColor = "text-font-on-primary";
         }
     }
 
