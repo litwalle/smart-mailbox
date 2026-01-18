@@ -84,7 +84,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
     return (
         <div className="max-w-4xl mx-auto px-8 pb-12 w-full">
             {/* Response Action Bar - Card Style */}
-            <div className="mb-4 bg-background-primary border border-comp-divider rounded-lg p-4 shadow-sm min-h-[72px] flex items-center justify-between transition-all duration-300">
+            <div className="mb-4 bg-background-primary border border-comp-divider rounded-lg p-4 min-h-[72px] flex items-center justify-between transition-all duration-300">
                 {status === 'pending' ? (
                     <>
                         <div className="font-medium text-font-primary text-sm">Confirm your attendance</div>
@@ -92,7 +92,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             <Button
                                 variant="primary"
                                 size="sm"
-                                className="bg-brand hover:bg-brand/90 min-w-[90px] shadow-sm rounded-lg"
+                                className="bg-brand hover:bg-brand/90 min-w-[90px] rounded-lg"
                                 onClick={() => setStatus('accepted')}
                             >
                                 Accept
@@ -100,7 +100,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             <Button
                                 variant="secondary"
                                 size="sm"
-                                className="bg-background-primary hover:bg-background-secondary min-w-[90px] shadow-sm border border-comp-divider rounded-lg text-font-primary"
+                                className="bg-background-primary hover:bg-background-secondary min-w-[90px] border border-comp-divider rounded-lg text-font-primary"
                                 onClick={() => setStatus('tentative')}
                             >
                                 Maybe
@@ -159,7 +159,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
             </div>
 
             {/* Main Card - Subtle shadow */}
-            <div className="bg-background-primary border border-comp-divider rounded-lg overflow-hidden mt-0 shadow-sm">
+            <div className="bg-background-primary border border-comp-divider rounded-lg overflow-hidden mt-0">
 
                 {/* Card Header */}
                 <div className="bg-background-secondary p-6 border-b border-comp-divider">
@@ -215,7 +215,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-brand hover:bg-brand/90 shadow-sm transition-colors text-font-on-primary border-0"
+                                    className="h-9 px-4 gap-2 bg-brand hover:bg-brand/90 transition-colors text-font-on-primary border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">videocam</span>
@@ -224,7 +224,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-confirm hover:bg-confirm/90 shadow-sm transition-colors text-font-on-primary border-0"
+                                    className="h-9 px-4 gap-2 bg-confirm hover:bg-confirm/90 transition-colors text-font-on-primary border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">videocam</span>
@@ -233,7 +233,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-palette-6 hover:bg-palette-6/90 shadow-sm transition-colors text-font-on-primary border-0"
+                                    className="h-9 px-4 gap-2 bg-palette-6 hover:bg-palette-6/90 transition-colors text-font-on-primary border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">open_in_new</span>

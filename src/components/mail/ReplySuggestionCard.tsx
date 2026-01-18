@@ -32,7 +32,7 @@ export function ReplySuggestionCard({ suggestion, onUse, index }: ReplySuggestio
 
     return (
         <div className={cn(
-            "group flex flex-col w-full h-[220px] rounded-xl border shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden shrink-0",
+            "group flex flex-col w-full h-[220px] rounded-xl border hover:border-brand/30 transition-all duration-200 overflow-hidden shrink-0",
             styleClass
         )}>
             {/* Header: Strategy Title + Action */}

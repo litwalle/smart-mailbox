@@ -180,7 +180,7 @@ export function FocusView() {
                         {/* Search Bar */}
                         <div className="relative group mb-3">
                             <div className="absolute inset-0 bg-gradient-to-r from-brand/10 to-brand/5 rounded-lg blur opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                            <div className="relative bg-background-primary border border-comp-divider rounded-lg shadow-sm flex items-center px-3 py-2.5 gap-3 transition-all group-hover:border-brand/30 group-hover:shadow-md">
+                            <div className="relative bg-background-primary border border-comp-divider rounded-lg flex items-center px-3 py-2.5 gap-3 transition-all group-hover:border-brand/30">
                                 <span className="material-symbols-outlined text-[18px] text-icon-tertiary">auto_awesome</span>
                                 <input
                                     className="flex-1 bg-transparent border-none outline-none text-sm placeholder:text-font-tertiary text-font-primary"

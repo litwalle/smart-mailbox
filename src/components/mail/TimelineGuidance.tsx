@@ -19,7 +19,7 @@ export function TimelineGuidance({ summary, dateDisplay, className }: TimelineGu
             </div>
 
             {/* Content Card */}
-            <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-brand/30 transition-all duration-300">
                 {/* Date Pill */}
                 <div className="mb-3">
                     <span className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold tracking-wide">

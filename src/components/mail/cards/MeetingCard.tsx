@@ -60,7 +60,7 @@ export function MeetingCard({ meeting, className, compact, onJoin, onClick }: Me
     return (
         <div
             className={cn(
-                "bg-background-primary rounded-lg p-5 border border-comp-divider hover:shadow-lg hover:-translate-y-[2px] transition-all duration-300 cursor-pointer",
+                "bg-background-primary rounded-lg p-5 border border-comp-divider hover:-translate-y-[2px] transition-all duration-300 cursor-pointer",
                 className
             )}
             onClick={onClick}

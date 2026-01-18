@@ -117,8 +117,8 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
             className={cn(
                 "group relative flex flex-col gap-1 px-4 py-3 rounded-lg border border-transparent cursor-pointer transition-all",
                 isSelected || isMultiSelected
-                    ? "bg-background-primary border-brand/20 shadow-md shadow-brand/5 ring-1 ring-brand/20 z-10"
-                    : "hover:bg-background-primary hover:shadow-sm hover:border-comp-divider bg-transparent",
+                    ? "bg-background-primary border-brand/20 ring-1 ring-brand/20 z-10"
+                    : "hover:bg-background-primary hover:border-comp-divider bg-transparent",
                 (!isSelected && !isMultiSelected && !email.isRead) && "bg-background-primary/40"
             )}
         >

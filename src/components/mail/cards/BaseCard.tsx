@@ -42,9 +42,9 @@ export function BaseCard({
             className={cn(
                 "group relative border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer flex flex-col",
                 isSpecial
-                    ? "bg-background-primary/90 backdrop-blur-md border-comp-divider shadow-sm"
-                    : "bg-background-primary/90 backdrop-blur-md border-comp-divider shadow-sm",
-                "hover:shadow-md hover:-translate-y-[2px] hover:border-brand/30",
+                    ? "bg-background-primary/90 backdrop-blur-md border-comp-divider"
+                    : "bg-background-primary/90 backdrop-blur-md border-comp-divider",
+                "hover:-translate-y-[2px] hover:border-brand/30",
                 className
             )}
             onClick={onClick}

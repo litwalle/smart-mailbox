@@ -42,7 +42,7 @@ export function MailHoverActions({
 
     return (
         <div className={cn(
-            "flex items-center gap-1 p-1 bg-background-primary rounded-lg shadow-sm border border-comp-divider",
+            "flex items-center gap-1 p-1 bg-background-primary rounded-lg border border-comp-divider",
             className
         )}>
             <button

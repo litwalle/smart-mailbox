@@ -50,7 +50,7 @@ export function AISummaryCard({ summary, reason, tags, todos, actionCapsules }: 
     return (
         <div className="space-y-4 mb-6">
             {/* 1. Summary Card */}
-            <Card className="bg-comp-emphasize-tertiary border-brand/20 shadow-sm overflow-hidden p-5">
+            <Card className="bg-comp-emphasize-tertiary border-brand/20 overflow-hidden p-5">
                 <div className="mb-4">
                     <h3 className="text-base font-bold text-brand mb-3 flex items-center justify-between">
                         Summary

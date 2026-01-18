@@ -54,7 +54,7 @@ export function ReaderSimulatorSidebar({ mockData }: ReaderSimulatorSidebarProps
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
                 {/* Mood Prediction */}
-                <Card className="p-4 border-comp-divider shadow-sm">
+                <Card className="p-4 border-comp-divider">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-semibold text-font-secondary uppercase">Predicted Reaction</span>
                         <span className="text-xs text-font-tertiary">85% Confidence</span>
@@ -77,13 +77,13 @@ export function ReaderSimulatorSidebar({ mockData }: ReaderSimulatorSidebarProps
                         <span className="text-xs font-semibold text-font-secondary uppercase">Potential Risks</span>
                     </div>
                     <div className="space-y-2">
-                        <div className="bg-background-primary p-3 rounded-lg border border-warning/20 shadow-sm text-sm text-font-primary">
+                        <div className="bg-background-primary p-3 rounded-lg border border-warning/20 text-sm text-font-primary">
                             <span className="text-warning font-medium">Too informal:</span> "Hey guys" might be inappropriate for the CFO.
                             <div className="mt-2 flex gap-2">
                                 <Button size="sm" variant="outline" className="h-6 text-xs bg-background-primary">Replace with "Dear Team"</Button>
                             </div>
                         </div>
-                        <div className="bg-background-primary p-3 rounded-lg border border-palette-10/20 shadow-sm text-sm text-font-primary">
+                        <div className="bg-background-primary p-3 rounded-lg border border-palette-10/20 text-sm text-font-primary">
                             <span className="text-palette-10 font-medium">Vague timeline:</span> "Soon" is ambiguous.
                             <div className="mt-2 flex gap-2">
                                 <Button size="sm" variant="outline" className="h-6 text-xs bg-background-primary">Specify Date</Button>
@@ -98,7 +98,7 @@ export function ReaderSimulatorSidebar({ mockData }: ReaderSimulatorSidebarProps
                         <span className="material-symbols-outlined text-brand text-sm">auto_awesome</span>
                         <span className="text-xs font-semibold text-font-secondary uppercase">AI Copilot</span>
                     </div>
-                    <div className="bg-background-primary p-3 rounded-lg border border-brand/10 shadow-sm text-sm text-font-secondary italic">
+                    <div className="bg-background-primary p-3 rounded-lg border border-brand/10 text-sm text-font-secondary italic">
                         "The tone is generally good, but consider adding an executive summary at the top for the CFO."
                     </div>
                     <div className="mt-2 flex">
