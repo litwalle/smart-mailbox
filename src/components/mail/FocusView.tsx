@@ -203,10 +203,10 @@ export function FocusView() {
                                 ]}
                             />
                             <div className="flex items-center gap-2">
-                                <button className="h-8 w-8 rounded-lg flex items-center justify-center text-icon-secondary hover:text-icon-primary hover:bg-background-tertiary transition-colors">
+                                <button className="h-8 w-8 rounded-lg flex items-center justify-center text-icon-primary hover:bg-background-tertiary transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">refresh</span>
                                 </button>
-                                <button className="h-8 w-8 rounded-lg flex items-center justify-center text-icon-secondary hover:text-icon-primary hover:bg-background-tertiary transition-colors">
+                                <button className="h-8 w-8 rounded-lg flex items-center justify-center text-icon-primary hover:bg-background-tertiary transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">filter_list</span>
                                 </button>
                             </div>

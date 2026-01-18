@@ -105,7 +105,7 @@ export function TransitCard({ card, onAction }: TransitCardProps) {
                         <path
                             d="M60,65 C120,65 180,50 240,50"
                             stroke="url(#routeGradient)"
-                            strokeWidth="3"
+                            strokeWidth="1.5"
                             fill="none"
                             strokeLinecap="round"
                             strokeDasharray="6 4"

@@ -37,21 +37,21 @@ export function MailDetailToolbar({
             <div className="flex items-center gap-1">
                 {/* Reply Actions */}
                 <button
-                    className="p-2 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
+                    className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="Reply"
                     onClick={onReply}
                 >
                     <Reply className="w-5 h-5" />
                 </button>
                 <button
-                    className="p-2 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
+                    className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="Reply All"
                     onClick={onReplyAll}
                 >
                     <ReplyAll className="w-5 h-5" />
                 </button>
                 <button
-                    className="p-2 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
+                    className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="Forward"
                     onClick={onForward}
                 >
@@ -62,14 +62,14 @@ export function MailDetailToolbar({
 
                 {/* Status Actions */}
                 <button
-                    className="p-2 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
+                    className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title={email.isRead ? "Mark as Unread" : "Mark as Read"}
                     onClick={onToggleRead}
                 >
                     {email.isRead ? <Mail className="w-5 h-5" /> : <MailOpen className="w-5 h-5" />}
                 </button>
                 <button
-                    className="p-2 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
+                    className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="Move to..."
                     onClick={onMove}
                 >
@@ -80,14 +80,14 @@ export function MailDetailToolbar({
 
                 {/* Flag & More */}
                 <button
-                    className="p-2 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
+                    className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="Flag"
                     onClick={onFlag}
                 >
                     <Flag className="w-5 h-5" />
                 </button>
                 <button
-                    className="p-2 text-icon-secondary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
+                    className="p-2 text-icon-primary hover:text-icon-primary hover:bg-background-secondary rounded-lg transition-colors"
                     title="More options"
                     onClick={onMore}
                 >

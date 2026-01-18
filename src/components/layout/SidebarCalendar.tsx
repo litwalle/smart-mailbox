@@ -157,7 +157,7 @@ export function SidebarCalendar({ isCollapsed }: SidebarCalendarProps) {
                                                 cal.checked ? cn(cal.color, "border-transparent text-white") : "border-slate-300 bg-white group-hover:border-slate-400"
                                             )}>
                                                 {cal.checked && (
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
                                                         <polyline points="20 6 9 17 4 12"></polyline>
                                                     </svg>
                                                 )}
