@@ -57,16 +57,16 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
     // Attendee Block Component - Clean, no shadow
     const AttendeeBlock = ({ attendee }: { attendee: typeof meeting.attendees[0] }) => {
         const statusConfig = {
-            accepted: { icon: Check, color: "text-emerald-600" },
-            declined: { icon: X, color: "text-red-500" },
-            tentative: { icon: CircleHelp, color: "text-amber-500" },
-            pending: { icon: Clock, color: "text-slate-400" }
+            accepted: { icon: Check, color: "text-confirm" },
+            declined: { icon: X, color: "text-warning" },
+            tentative: { icon: CircleHelp, color: "text-palette-10" },
+            pending: { icon: Clock, color: "text-icon-tertiary" }
         }
         const config = statusConfig[attendee.status] || statusConfig.pending
         const StatusIcon = config.icon
 
         return (
-            <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-md px-2.5 py-1 text-sm text-slate-700 mr-2 mb-2">
+            <div className="inline-flex items-center gap-2 bg-background-secondary border border-comp-divider rounded-md px-2.5 py-1 text-sm text-font-primary mr-2 mb-2">
                 <span className="font-medium">{attendee.name}</span>
                 <StatusIcon className={cn("w-3.5 h-3.5", config.color)} />
             </div>
@@ -75,8 +75,8 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
 
     // Section Title - Design System Compliant
     const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-        <h3 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-            <span className="w-0.5 h-3.5 bg-blue-500 rounded-full" />
+        <h3 className="text-[10px] font-bold text-font-secondary uppercase tracking-widest mb-3 flex items-center gap-2">
+            <span className="w-0.5 h-3.5 bg-brand rounded-full" />
             {children}
         </h3>
     )
@@ -84,15 +84,15 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
     return (
         <div className="max-w-4xl mx-auto px-8 pb-12 w-full">
             {/* Response Action Bar - Card Style */}
-            <div className="mb-4 bg-white border border-slate-200 rounded-xl p-4 shadow-sm min-h-[72px] flex items-center justify-between transition-all duration-300">
+            <div className="mb-4 bg-background-primary border border-comp-divider rounded-lg p-4 shadow-sm min-h-[72px] flex items-center justify-between transition-all duration-300">
                 {status === 'pending' ? (
                     <>
-                        <div className="font-medium text-slate-700 text-sm">Confirm your attendance</div>
+                        <div className="font-medium text-font-primary text-sm">Confirm your attendance</div>
                         <div className="flex items-center gap-3">
                             <Button
                                 variant="primary"
                                 size="sm"
-                                className="bg-blue-600 hover:bg-blue-700 min-w-[90px] shadow-sm rounded-lg"
+                                className="bg-brand hover:bg-brand/90 min-w-[90px] shadow-sm rounded-lg"
                                 onClick={() => setStatus('accepted')}
                             >
                                 Accept
@@ -100,7 +100,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             <Button
                                 variant="secondary"
                                 size="sm"
-                                className="bg-white hover:bg-slate-50 min-w-[90px] shadow-sm border border-slate-200 rounded-lg text-slate-700"
+                                className="bg-background-primary hover:bg-background-secondary min-w-[90px] shadow-sm border border-comp-divider rounded-lg text-font-primary"
                                 onClick={() => setStatus('tentative')}
                             >
                                 Maybe
@@ -108,7 +108,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-slate-500 hover:text-slate-700 hover:bg-slate-100 min-w-[80px] rounded-lg"
+                                className="text-font-secondary hover:text-font-primary hover:bg-background-secondary min-w-[80px] rounded-lg"
                                 onClick={() => setStatus('declined')}
                             >
                                 Decline
@@ -120,9 +120,9 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                         <div className="flex items-center gap-3">
                             <div className={cn(
                                 "w-8 h-8 rounded-full flex items-center justify-center",
-                                status === 'accepted' && "bg-emerald-100 text-emerald-600",
-                                status === 'declined' && "bg-slate-100 text-slate-500",
-                                status === 'tentative' && "bg-amber-100 text-amber-600"
+                                status === 'accepted' && "bg-confirm/15 text-confirm",
+                                status === 'declined' && "bg-background-secondary text-font-secondary",
+                                status === 'tentative' && "bg-palette-10/15 text-palette-10"
                             )}>
                                 {status === 'accepted' && <Check className="w-5 h-5" />}
                                 {status === 'declined' && <X className="w-5 h-5" />}
@@ -131,15 +131,15 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             <div className="flex flex-col">
                                 <span className={cn(
                                     "font-semibold text-sm",
-                                    status === 'accepted' && "text-emerald-700",
-                                    status === 'declined' && "text-slate-600",
-                                    status === 'tentative' && "text-amber-700"
+                                    status === 'accepted' && "text-confirm",
+                                    status === 'declined' && "text-font-secondary",
+                                    status === 'tentative' && "text-palette-10"
                                 )}>
                                     {status === 'accepted' && "Going"}
                                     {status === 'declined' && "Declined"}
                                     {status === 'tentative' && "Maybe"}
                                 </span>
-                                <span className="text-xs text-slate-500">
+                                <span className="text-xs text-font-tertiary">
                                     {status === 'accepted' && "You accepted this meeting invitation."}
                                     {status === 'declined' && "You declined this meeting invitation."}
                                     {status === 'tentative' && "You tentatively accepted this meeting."}
@@ -149,7 +149,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="text-slate-400 hover:text-slate-600"
+                            className="text-font-tertiary hover:text-font-secondary"
                             onClick={() => setStatus('pending')}
                         >
                             Change Response
@@ -159,63 +159,63 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
             </div>
 
             {/* Main Card - Subtle shadow */}
-            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden mt-0 shadow-sm">
+            <div className="bg-background-primary border border-comp-divider rounded-lg overflow-hidden mt-0 shadow-sm">
 
                 {/* Card Header */}
-                <div className="bg-slate-50 p-6 border-b border-slate-100">
+                <div className="bg-background-secondary p-6 border-b border-comp-divider">
                     <div className="flex justify-between items-start gap-6">
                         <div className="flex-1">
                             {/* Badge */}
                             <div className="mb-2">
                                 <span className={cn(
                                     "text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider",
-                                    status === 'accepted' ? "bg-emerald-600 text-white" :
-                                        status === 'declined' ? "bg-slate-500 text-white" :
-                                            "bg-blue-600 text-white"
+                                    status === 'accepted' ? "bg-confirm text-font-on-primary" :
+                                        status === 'declined' ? "bg-font-secondary text-font-on-primary" :
+                                            "bg-brand text-font-on-primary"
                                 )}>
                                     {status === 'pending' ? 'Invitation' : status}
                                 </span>
                             </div>
 
                             {/* Title */}
-                            <h2 className="text-xl font-bold text-slate-900 mb-4">{displayTitle}</h2>
+                            <h2 className="text-xl font-bold text-font-primary mb-4">{displayTitle}</h2>
 
                             {/* Info Rows */}
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2.5 text-slate-700">
-                                    <Calendar className="w-4 h-4 text-blue-500 shrink-0" />
+                                <div className="flex items-center gap-2.5 text-font-primary">
+                                    <Calendar className="w-4 h-4 text-brand shrink-0" />
                                     <span className="font-medium text-sm">
                                         {dateStr} {timeStr}
-                                        <span className="text-slate-400 font-normal ml-1.5">({meeting.timeZone})</span>
+                                        <span className="text-font-tertiary font-normal ml-1.5">({meeting.timeZone})</span>
                                     </span>
                                 </div>
-                                <div className="flex items-center gap-2.5 text-slate-700">
-                                    <MapPin className="w-4 h-4 text-rose-500 shrink-0" />
+                                <div className="flex items-center gap-2.5 text-font-primary">
+                                    <MapPin className="w-4 h-4 text-warning shrink-0" />
                                     <span className="font-medium text-sm">{displayLocation}</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Date Block - Clean */}
-                        <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 flex flex-col items-center shrink-0 min-w-[72px]">
-                            <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">
+                        <div className="bg-background-primary border border-comp-divider rounded-lg px-4 py-3 flex flex-col items-center shrink-0 min-w-[72px]">
+                            <span className="text-[10px] font-bold text-warning uppercase tracking-widest">
                                 {format(startDate, "MMM")}
                             </span>
-                            <span className="text-3xl font-black text-slate-900 leading-none mt-0.5">
+                            <span className="text-3xl font-black text-font-primary leading-none mt-0.5">
                                 {format(startDate, "d")}
                             </span>
                         </div>
                     </div>
 
                     {/* Actions - Now only Join Buttons on Left */}
-                    <div className="mt-5 pt-4 border-t border-slate-200/60 flex items-center justify-between min-h-[40px]">
+                    <div className="mt-5 pt-4 border-t border-comp-divider/60 flex items-center justify-between min-h-[40px]">
                         {/* Join Meeting Buttons - Moved to Left, Distinct Colors */}
                         {meeting.joinUrl && (
                             <div className="flex items-center gap-3">
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-blue-600 hover:bg-blue-700 shadow-sm transition-colors text-white border-0"
+                                    className="h-9 px-4 gap-2 bg-brand hover:bg-brand/90 shadow-sm transition-colors text-font-on-primary border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">videocam</span>
@@ -224,7 +224,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-emerald-600 hover:bg-emerald-700 shadow-sm transition-colors text-white border-0"
+                                    className="h-9 px-4 gap-2 bg-confirm hover:bg-confirm/90 shadow-sm transition-colors text-font-on-primary border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">videocam</span>
@@ -233,7 +233,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-colors text-white border-0"
+                                    className="h-9 px-4 gap-2 bg-palette-6 hover:bg-palette-6/90 shadow-sm transition-colors text-font-on-primary border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">open_in_new</span>
@@ -253,9 +253,9 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                     {meeting.agendaItems && meeting.agendaItems.length > 0 && (
                         <div>
                             <SectionTitle>Agenda</SectionTitle>
-                            <div className="border border-slate-200 rounded-lg overflow-hidden ml-2.5">
+                            <div className="border border-comp-divider rounded-lg overflow-hidden ml-2.5">
                                 <table className="w-full text-sm">
-                                    <thead className="bg-slate-50/80 text-slate-500 text-xs font-medium border-b border-slate-200">
+                                    <thead className="bg-background-secondary/80 text-font-secondary text-xs font-medium border-b border-comp-divider">
                                         <tr>
                                             <th className="px-3 py-2 w-10 text-center">#</th>
                                             <th className="px-3 py-2 text-left">Topic</th>
@@ -264,18 +264,18 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                             <th className="px-3 py-2 w-16 text-right">Duration</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-slate-100">
+                                    <tbody className="divide-y divide-comp-divider/50">
                                         {meeting.agendaItems.map((item, index) => (
-                                            <tr key={item.id} className="hover:bg-slate-50/50">
-                                                <td className="px-3 py-2 text-center text-slate-400 font-mono text-xs">{index + 1}</td>
-                                                <td className="px-3 py-2 font-medium text-slate-700">{getAgendaTitle(item)}</td>
+                                            <tr key={item.id} className="hover:bg-background-secondary/50">
+                                                <td className="px-3 py-2 text-center text-font-tertiary font-mono text-xs">{index + 1}</td>
+                                                <td className="px-3 py-2 font-medium text-font-primary">{getAgendaTitle(item)}</td>
                                                 <td className="px-3 py-2">
-                                                    <span className="inline-flex px-1.5 py-0.5 rounded text-xs font-medium bg-indigo-50 text-indigo-600">
+                                                    <span className="inline-flex px-1.5 py-0.5 rounded text-xs font-medium bg-brand/10 text-brand">
                                                         {getAgendaType(item)}
                                                     </span>
                                                 </td>
-                                                <td className="px-3 py-2 text-slate-500 font-mono text-xs">{item.time}</td>
-                                                <td className="px-3 py-2 text-right text-slate-500">{item.duration}</td>
+                                                <td className="px-3 py-2 text-font-secondary font-mono text-xs">{item.time}</td>
+                                                <td className="px-3 py-2 text-right text-font-secondary">{item.duration}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -288,12 +288,12 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                     <div>
                         <SectionTitle>Resources</SectionTitle>
                         <div className="flex items-center gap-2 ml-2.5">
-                            <Button variant="secondary" size="sm" className="gap-1.5 text-slate-600 text-xs h-8">
+                            <Button variant="secondary" size="sm" className="gap-1.5 text-font-secondary text-xs h-8">
                                 <FileText className="w-3.5 h-3.5" />
                                 View Detailed Agenda
                             </Button>
                             {meeting.materials && meeting.materials.length > 0 && (
-                                <Button variant="secondary" size="sm" className="gap-1.5 text-slate-600 text-xs h-8">
+                                <Button variant="secondary" size="sm" className="gap-1.5 text-font-secondary text-xs h-8">
                                     <ExternalLink className="w-3.5 h-3.5" />
                                     View Materials ({meeting.materials.length})
                                 </Button>
@@ -304,14 +304,14 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                     {/* Attendees */}
                     <div>
                         <SectionTitle>
-                            Attendees <span className="text-slate-300 font-normal">({meeting.attendees.length})</span>
+                            Attendees <span className="text-font-tertiary font-normal">({meeting.attendees.length})</span>
                         </SectionTitle>
 
                         <div className="ml-2.5 space-y-4">
                             {internalAttendees.length > 0 && (
                                 <div>
-                                    <h4 className="text-[10px] font-semibold text-emerald-600 mb-2 uppercase tracking-wide flex items-center gap-1">
-                                        <span className="w-1 h-1 bg-emerald-500 rounded-full" />
+                                    <h4 className="text-[10px] font-semibold text-confirm mb-2 uppercase tracking-wide flex items-center gap-1">
+                                        <span className="w-1 h-1 bg-confirm rounded-full" />
                                         Internal
                                     </h4>
                                     <div className="flex flex-wrap">
@@ -322,8 +322,8 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
 
                             {externalAttendees.length > 0 && (
                                 <div>
-                                    <h4 className="text-[10px] font-semibold text-violet-600 mb-2 uppercase tracking-wide flex items-center gap-1">
-                                        <span className="w-1 h-1 bg-violet-500 rounded-full" />
+                                    <h4 className="text-[10px] font-semibold text-palette-6 mb-2 uppercase tracking-wide flex items-center gap-1">
+                                        <span className="w-1 h-1 bg-palette-6 rounded-full" />
                                         External
                                     </h4>
                                     <div className="flex flex-wrap">
@@ -338,13 +338,13 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                     {meeting.notices && meeting.notices.length > 0 && (
                         <div>
                             <SectionTitle>
-                                <TriangleAlert className="w-3 h-3 text-amber-500" />
+                                <TriangleAlert className="w-3 h-3 text-palette-10" />
                                 Important Notices
                             </SectionTitle>
                             <ul className="ml-2.5 space-y-1.5">
                                 {displayNotices?.map((notice, i) => (
-                                    <li key={i} className="text-sm text-slate-600 flex items-start gap-2">
-                                        <span className="w-1 h-1 rounded-full bg-amber-400 mt-2 shrink-0" />
+                                    <li key={i} className="text-sm text-font-secondary flex items-start gap-2">
+                                        <span className="w-1 h-1 rounded-full bg-palette-10 mt-2 shrink-0" />
                                         {notice}
                                     </li>
                                 ))}

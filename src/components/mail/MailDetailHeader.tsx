@@ -79,14 +79,14 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
         <div className="max-w-4xl mx-auto px-8 pt-8 pb-0">
             {/* Subject */}
             <div className="flex items-start justify-between gap-4 mb-2">
-                <h1 className="text-2xl font-bold text-slate-900 leading-tight">
+                <h1 className="text-2xl font-bold text-font-primary leading-tight">
                     {email.subject}
                 </h1>
                 <button
                     onClick={() => onToggleStar(email.id)}
-                    className="p-1 rounded-full hover:bg-slate-100 transition-colors shrink-0 mt-1"
+                    className="p-1 rounded-full hover:bg-background-secondary transition-colors shrink-0 mt-1"
                 >
-                    <Star className={cn("w-6 h-6", email.isStarred ? "fill-yellow-400 text-yellow-400" : "text-slate-300")} />
+                    <Star className={cn("w-6 h-6", email.isStarred ? "fill-palette-10 text-palette-10" : "text-icon-tertiary")} />
                 </button>
             </div>
 
@@ -106,26 +106,26 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
                 {email.from.avatar ? (
                     <img
                         src={email.from.avatar}
-                        className="h-12 w-12 rounded-full object-cover bg-slate-200 border border-slate-100 shrink-0"
+                        className="h-12 w-12 rounded-full object-cover bg-background-secondary border border-comp-divider shrink-0"
                         alt={email.from.name}
                     />
                 ) : (
-                    <div className="h-12 w-12 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-lg font-bold text-slate-600 shrink-0">
+                    <div className="h-12 w-12 rounded-full bg-background-secondary border border-comp-divider flex items-center justify-center text-lg font-bold text-font-secondary shrink-0">
                         {email.from.name.charAt(0)}
                     </div>
                 )}
 
                 <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
-                        <div className="font-semibold text-slate-900">{email.from.name}</div>
-                        <div className="text-sm text-slate-500 font-medium whitespace-nowrap ml-4">
+                        <div className="font-semibold text-font-primary">{email.from.name}</div>
+                        <div className="text-sm text-font-secondary font-medium whitespace-nowrap ml-4">
                             {format(new Date(email.sentAt), "MMM d, yyyy, h:mm a")}
                         </div>
                     </div>
 
                     {/* Toggle Interaction */}
                     <div
-                        className="flex items-center gap-1 text-sm text-slate-500 cursor-pointer hover:text-slate-800 transition-colors group select-none"
+                        className="flex items-center gap-1 text-sm text-font-secondary cursor-pointer hover:text-font-primary transition-colors group select-none"
                         onClick={() => setIsDetailsOpen(!isDetailsOpen)}
                     >
                         <span className="truncate">
@@ -133,7 +133,7 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
                         </span>
                         <div className={cn(
                             "p-0.5 rounded-sm transition-all duration-200",
-                            isDetailsOpen ? "bg-slate-100 rotate-180" : "group-hover:bg-slate-100"
+                            isDetailsOpen ? "bg-background-secondary rotate-180" : "group-hover:bg-background-secondary"
                         )}>
                             <ChevronDown className="w-4 h-4" />
                         </div>
