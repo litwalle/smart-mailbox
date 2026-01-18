@@ -17,6 +17,7 @@ interface TransitCardProps {
         id: string
         title: string
         timeDisplay?: string
+        relatedEmailId?: string
         meetingData?: {
             id?: string
             title?: string
@@ -32,10 +33,12 @@ interface TransitCardProps {
         }
         actions: Array<{ label: string; isPrimary?: boolean }>
     },
+    isSelected?: boolean
+    selectedEmailId?: string | null
     onAction?: (id: string, action: string) => void
 }
 
-export function TransitCard({ card, onAction }: TransitCardProps) {
+export function TransitCard({ card, isSelected, selectedEmailId, onAction }: TransitCardProps) {
     // Determine title: Use suggestedAction if available, otherwise "建议出发"
     // Wait, user requested specific title: "从C区出发去F区参加会议"
     // So we use card.transitData.suggestedAction which we just added.
@@ -44,6 +47,7 @@ export function TransitCard({ card, onAction }: TransitCardProps) {
     return (
         <BaseCard
             isSpecial
+            isSelected={isSelected}
             className="border-blue-100/50"
             // Title
             icon={
@@ -76,6 +80,7 @@ export function TransitCard({ card, onAction }: TransitCardProps) {
                             tags: card.meetingData.tags || []
                         }}
                         compact
+                        isSelected={card.relatedEmailId === selectedEmailId}
                         className="mb-5 -mt-1 bg-blue-50/50 border-blue-100/60 shadow-none"
                     />
                 )}

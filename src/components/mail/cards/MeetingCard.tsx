@@ -17,11 +17,12 @@ interface MeetingCardProps {
     meeting: MeetingData
     className?: string
     compact?: boolean
+    isSelected?: boolean
     onJoin?: () => void
     onClick?: () => void
 }
 
-export function MeetingCard({ meeting, className, compact, onJoin, onClick }: MeetingCardProps) {
+export function MeetingCard({ meeting, className, compact, isSelected, onJoin, onClick }: MeetingCardProps) {
 
     // Generate initials for avatars
     const getInitials = (name: string) => {
@@ -60,7 +61,9 @@ export function MeetingCard({ meeting, className, compact, onJoin, onClick }: Me
     return (
         <div
             className={cn(
-                "bg-background-primary rounded-lg p-5 border border-comp-divider hover:-translate-y-[2px] transition-all duration-300 cursor-pointer",
+                "bg-background-primary rounded-lg p-5 border transition-all duration-300 cursor-pointer",
+                isSelected ? "border-brand/50 z-10" : "border-comp-divider",
+                !isSelected && "hover:-translate-y-[2px] hover:border-brand/30",
                 className
             )}
             onClick={onClick}

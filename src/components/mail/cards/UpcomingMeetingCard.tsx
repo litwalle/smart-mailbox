@@ -7,6 +7,7 @@ interface UpcomingMeetingCardProps {
     card: {
         id: string
         title: string
+        relatedEmailId?: string
         timeDisplay?: string
         summary?: string
         meetingData: {
@@ -20,9 +21,10 @@ interface UpcomingMeetingCardProps {
     },
     onJoin?: () => void
     onDismiss?: () => void
+    isSelected?: boolean
 }
 
-export function UpcomingMeetingCard({ card, onJoin, onDismiss }: UpcomingMeetingCardProps) {
+export function UpcomingMeetingCard({ card, onJoin, onDismiss, isSelected }: UpcomingMeetingCardProps) {
     const attendeeCount = card.meetingData.attendees.length
 
     const getInitials = (name: string) => name.substring(0, 2).toUpperCase()
@@ -50,6 +52,7 @@ export function UpcomingMeetingCard({ card, onJoin, onDismiss }: UpcomingMeeting
 
     return (
         <BaseCard
+            isSelected={isSelected}
             // Header - consistent with other cards
             icon={
                 <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">

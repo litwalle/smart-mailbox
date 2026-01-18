@@ -3,7 +3,7 @@ import { useMailStore } from "@/store/mailStore"
 import { EditorToolbar } from "@/components/features/editor/editor-toolbar"
 import { Button } from "@/components/ui/Button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, Save, Paperclip, Lock, X, Minus, Maximize, Minimize } from "lucide-react"
+import { Send, Save, Paperclip, Lock, X, Minus, Maximize, Minimize, ChevronDown, Sparkles, UserCheck, PenLine, MoreHorizontal } from "lucide-react"
 
 export function ComposeWindow() {
     const { isComposeOpen, toggleCompose, composeDraft } = useMailStore()
@@ -21,7 +21,7 @@ export function ComposeWindow() {
     // Window State
     const [isFullscreen, setIsFullscreen] = React.useState(false)
     const [position, setPosition] = React.useState({ x: 0, y: 0 })
-    const [size, setSize] = React.useState({ width: 900, height: 700 })
+    const [size, setSize] = React.useState({ width: 1110, height: 700 })
     const [isDragging, setIsDragging] = React.useState(false)
     const [isResizing, setIsResizing] = React.useState<string | null>(null)
     const dragOffset = React.useRef({ x: 0, y: 0 })
@@ -62,10 +62,10 @@ export function ComposeWindow() {
                 let newWidth = resizeStart.current.width
                 let newHeight = resizeStart.current.height
 
-                if (isResizing.includes('e')) newWidth = Math.max(600, Math.min(1600, resizeStart.current.width + deltaX))
+                if (isResizing.includes('e')) newWidth = Math.max(1110, Math.min(1600, resizeStart.current.width + deltaX))
                 if (isResizing.includes('s')) newHeight = Math.max(500, Math.min(1000, resizeStart.current.height + deltaY))
                 if (isResizing.includes('w')) {
-                    newWidth = Math.max(600, Math.min(1600, resizeStart.current.width - deltaX))
+                    newWidth = Math.max(1110, Math.min(1600, resizeStart.current.width - deltaX))
                     setPosition(prev => ({ ...prev, x: resizeStart.current.x + (resizeStart.current.width - newWidth) / 2 + deltaX }))
                 }
                 if (isResizing.includes('n')) {
@@ -128,90 +128,116 @@ export function ComposeWindow() {
     // Resize Handles Component
     const ResizeHandles = () => (
         <>
-            {/* Edges */}
-            <div className="absolute top-0 left-2 right-2 h-1 cursor-n-resize" onMouseDown={handleResizeStart('n')} />
-            <div className="absolute bottom-0 left-2 right-2 h-1 cursor-s-resize" onMouseDown={handleResizeStart('s')} />
-            <div className="absolute left-0 top-2 bottom-2 w-1 cursor-w-resize" onMouseDown={handleResizeStart('w')} />
-            <div className="absolute right-0 top-2 bottom-2 w-1 cursor-e-resize" onMouseDown={handleResizeStart('e')} />
-            {/* Corners */}
-            <div className="absolute top-0 left-0 w-3 h-3 cursor-nw-resize" onMouseDown={handleResizeStart('nw')} />
-            <div className="absolute top-0 right-0 w-3 h-3 cursor-ne-resize" onMouseDown={handleResizeStart('ne')} />
-            <div className="absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize" onMouseDown={handleResizeStart('sw')} />
-            <div className="absolute bottom-0 right-0 w-3 h-3 cursor-se-resize" onMouseDown={handleResizeStart('se')} />
+            {/* Edges - Increased Area & Z-Index */}
+            <div className="absolute top-0 left-2 right-2 h-2 cursor-n-resize z-50 -mt-1" onMouseDown={handleResizeStart('n')} />
+            <div className="absolute bottom-0 left-2 right-2 h-2 cursor-s-resize z-50 -mb-1" onMouseDown={handleResizeStart('s')} />
+            <div className="absolute left-0 top-2 bottom-2 w-2 cursor-w-resize z-50 -ml-1" onMouseDown={handleResizeStart('w')} />
+            <div className="absolute right-0 top-2 bottom-2 w-2 cursor-e-resize z-50 -mr-1" onMouseDown={handleResizeStart('e')} />
+            {/* Corners - Increased Area & Z-Index */}
+            <div className="absolute top-0 left-0 w-4 h-4 cursor-nw-resize z-50 -mt-1 -ml-1" onMouseDown={handleResizeStart('nw')} />
+            <div className="absolute top-0 right-0 w-4 h-4 cursor-ne-resize z-50 -mt-1 -mr-1" onMouseDown={handleResizeStart('ne')} />
+            <div className="absolute bottom-0 left-0 w-4 h-4 cursor-sw-resize z-50 -mb-1 -ml-1" onMouseDown={handleResizeStart('sw')} />
+            <div className="absolute bottom-0 right-0 w-4 h-4 cursor-se-resize z-50 -mb-1 -mr-1" onMouseDown={handleResizeStart('se')} />
         </>
     )
 
     // Window Content
     const WindowContent = (
-        <div className="flex flex-col h-full bg-background-primary rounded-lg overflow-hidden">
-            {/* Header / Drag Handle */}
+        <div className="flex flex-col h-full bg-background-primary rounded-lg overflow-hidden relative">
+            {/* Header / Drag Handle - Height 48px */}
             <div
-                className="shrink-0 cursor-grab active:cursor-grabbing"
+                className="shrink-0 cursor-grab active:cursor-grabbing relative z-10"
                 onMouseDown={handleDragStart}
             >
-                <div className="flex items-center justify-between px-6 py-3 bg-background-primary border-b border-transparent select-none">
+                <div className="flex items-center justify-between px-6 h-[48px] bg-background-primary border-b border-transparent select-none">
                     <div className="flex items-baseline gap-3">
-                        <h3 className="font-bold text-font-primary text-[16px]">新建邮件</h3>
-                        <span className="text-xs text-font-tertiary font-medium">06:20:32 自动保存</span>
+                        <h3 className="font-bold text-font-primary text-[15px]">新建邮件</h3>
+                        <span className="text-[11px] text-font-tertiary">06:20:32 自动保存</span>
                     </div>
                     <div className="flex items-center gap-2" onMouseDown={e => e.stopPropagation()}>
-                        <Button variant="ghost" size="icon" className="h-7 w-7 text-icon-tertiary hover:bg-background-secondary hover:text-icon-primary rounded-md" onClick={toggleFullscreen}>
-                            {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+                        <Button variant="ghost" size="icon" className="w-8 h-8 text-icon-secondary hover:bg-background-secondary hover:text-icon-primary rounded-lg transition-colors" onClick={toggleFullscreen}>
+                            {isFullscreen ? <Minimize className="w-5 h-5" strokeWidth={1.5} /> : <Maximize className="w-5 h-5" strokeWidth={1.5} />}
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-7 w-7 text-icon-tertiary hover:bg-background-secondary hover:text-icon-primary rounded-md" onClick={() => toggleCompose(false)}>
-                            <Minus className="w-4 h-4" />
+                        <Button variant="ghost" size="icon" className="w-8 h-8 text-icon-secondary hover:bg-background-secondary hover:text-icon-primary rounded-lg transition-colors" onClick={() => toggleCompose(false)}>
+                            <Minus className="w-5 h-5" strokeWidth={1.5} />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-7 w-7 text-icon-tertiary hover:bg-warning/10 hover:text-warning rounded-md" onClick={() => toggleCompose(false)}>
-                            <X className="w-4 h-4" />
+                        <Button variant="ghost" size="icon" className="w-8 h-8 text-icon-secondary hover:bg-warning/10 hover:text-warning rounded-lg transition-colors" onClick={() => toggleCompose(false)}>
+                            <X className="w-5 h-5" strokeWidth={1.5} />
                         </Button>
                     </div>
                 </div>
             </div>
 
             {/* Main Action Bar */}
-            <div className="px-6 py-3 flex items-center gap-3 bg-background-primary shrink-0">
-                <Button className="bg-brand hover:bg-brand/90 text-font-on-primary rounded-lg px-5 h-9 shadow-sm shadow-brand/20 gap-2 transition-all active:scale-95" onClick={handleSend}>
-                    <Send className="w-4 h-4 ml-[-2px] rotate-1" />
-                    <span className="font-semibold text-[14px]">发送</span>
-                </Button>
+            <div className="px-6 pb-2 pt-0.5 flex items-center justify-between bg-background-primary shrink-0 relative z-10">
+                {/* Left Side: Send + Primary Actions */}
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="primary"
+                        className="px-6 h-10 gap-2 shadow-none transition-all active:scale-95 rounded-lg"
+                        onClick={handleSend}
+                    >
+                        <Send className="w-5 h-5 ml-[-2px] rotate-1" strokeWidth={1.5} />
+                        <span className="font-semibold text-[14px]">发送</span>
+                    </Button>
 
+                    <div className="flex items-center gap-2">
+                        {/* Restore Grey Background: use bg-background-secondary + hover darken */}
+                        <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary bg-background-secondary hover:bg-background-tertiary">
+                            <Save className="w-5 h-5" strokeWidth={1.5} />
+                        </Button>
+
+                        {/* Combined Buttons with Dropdowns */}
+                        <Button variant="ghost" className="px-1.5 h-10 rounded-lg flex items-center gap-0.5 text-icon-primary bg-background-secondary hover:bg-background-tertiary">
+                            <Paperclip className="w-5 h-5" strokeWidth={1.5} />
+                            <ChevronDown className="w-3 h-3 text-icon-tertiary opacity-70" strokeWidth={1.5} />
+                        </Button>
+                        <Button variant="ghost" className="px-1.5 h-10 rounded-lg flex items-center gap-0.5 text-icon-primary bg-background-secondary hover:bg-background-tertiary">
+                            <Lock className="w-5 h-5" strokeWidth={1.5} />
+                            <ChevronDown className="w-3 h-3 text-icon-tertiary opacity-70" strokeWidth={1.5} />
+                        </Button>
+                    </div>
+                </div>
+
+                {/* Right Side: Secondary Actions (AI, Check, Signature, More) */}
                 <div className="flex items-center gap-1">
-                    <Button variant="secondary" className="bg-background-secondary hover:bg-background-tertiary text-font-primary rounded-lg px-3 h-9">
-                        <Save className="w-4 h-4" />
+                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
+                        <Sparkles className="w-5 h-5 text-brand" strokeWidth={1.5} />
                     </Button>
-                    <Button variant="secondary" className="bg-background-secondary hover:bg-background-tertiary text-font-primary rounded-lg px-3 h-9 flex items-center gap-1">
-                        <Paperclip className="w-4 h-4" />
-                        <span className="text-xs font-medium opacity-60">▼</span>
+                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
+                        <UserCheck className="w-5 h-5" strokeWidth={1.5} />
                     </Button>
-                    <Button variant="secondary" className="bg-background-secondary hover:bg-background-tertiary text-font-primary rounded-lg px-3 h-9 flex items-center gap-1">
-                        <Lock className="w-4 h-4" />
-                        <span className="text-xs font-medium opacity-60">▼</span>
+                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
+                        <PenLine className="w-5 h-5" strokeWidth={1.5} />
+                    </Button>
+                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
+                        <MoreHorizontal className="w-5 h-5" strokeWidth={1.5} />
                     </Button>
                 </div>
             </div>
 
             {/* Fields Area */}
-            <div className="px-6 pb-2 shrink-0">
-                <div className="space-y-1">
+            <div className="px-6 pb-0 shrink-0">
+                <div className="space-y-0">
                     {/* To */}
-                    <div className="flex items-start py-2 border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
-                        <div className="w-14 shrink-0 pt-1 text-sm text-font-secondary">收件人</div>
-                        <div className="flex-1 flex flex-col">
+                    <div className="flex items-center h-[48px] border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
+                        <div className="w-14 shrink-0 text-sm text-font-secondary">收件人</div>
+                        <div className="flex-1 flex flex-col justify-center">
                             <input
                                 value={to}
                                 onChange={(e) => setTo(e.target.value)}
                                 className="w-full outline-none text-sm text-font-primary bg-transparent placeholder:text-font-tertiary"
                             />
                         </div>
-                        <div className="shrink-0 flex items-center gap-3 text-[13px] text-font-tertiary">
-                            {!showCc && <button onClick={() => setShowCc(true)} className="hover:text-brand">抄送</button>}
-                            {!showBcc && <button onClick={() => setShowBcc(true)} className="hover:text-brand">密送</button>}
+                        <div className="shrink-0 flex items-center gap-1">
+                            {!showCc && <Button variant="ghost" onClick={() => setShowCc(true)} className="h-8 px-2 text-xs text-font-tertiary hover:text-brand font-medium rounded-md">抄送</Button>}
+                            {!showBcc && <Button variant="ghost" onClick={() => setShowBcc(true)} className="h-8 px-2 text-xs text-font-tertiary hover:text-brand font-medium rounded-md">密送</Button>}
                         </div>
                     </div>
 
                     {/* Cc */}
                     {showCc && (
-                        <div className="flex items-center py-2 border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
+                        <div className="flex items-center h-[48px] border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
                             <div className="w-14 shrink-0 text-sm text-font-secondary">抄送</div>
                             <input
                                 value={cc}
@@ -223,7 +249,7 @@ export function ComposeWindow() {
 
                     {/* Bcc */}
                     {showBcc && (
-                        <div className="flex items-center py-2 border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
+                        <div className="flex items-center h-[48px] border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
                             <div className="w-14 shrink-0 text-sm text-font-secondary">密送</div>
                             <input
                                 value={bcc}
@@ -234,7 +260,7 @@ export function ComposeWindow() {
                     )}
 
                     {/* Subject */}
-                    <div className="flex items-center py-3 border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
+                    <div className="flex items-center h-[48px] border-b border-comp-divider/50 group transition-colors hover:border-comp-divider">
                         <div className="w-14 shrink-0 text-sm text-font-secondary font-medium">主题</div>
                         <input
                             value={subject}
@@ -243,23 +269,23 @@ export function ComposeWindow() {
                             className="flex-1 outline-none text-sm font-medium text-font-primary bg-transparent placeholder:text-font-tertiary"
                         />
                         <div className="shrink-0">
-                            <button className="text-[13px] text-font-tertiary hover:text-brand flex items-center gap-1">
-                                重要性 <span className="text-[10px]">▼</span>
-                            </button>
+                            <Button variant="ghost" className="h-8 px-2 text-[13px] text-font-tertiary hover:text-brand flex items-center gap-1 font-medium rounded-md">
+                                重要性 <ChevronDown className="w-3 h-3 text-icon-tertiary" strokeWidth={1.5} />
+                            </Button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Toolbar */}
-            <div className="px-6 py-2 shrink-0">
-                <EditorToolbar />
+            <div className="px-6 py-1 shrink-0">
+                <EditorToolbar className="h-[48px] !h-[48px]" />
             </div>
 
             {/* Body */}
             <div className="flex-1 relative min-h-0 bg-background-primary cursor-text" onClick={() => document.getElementById('compose-editor')?.focus()}>
                 <ScrollArea className="h-full w-full">
-                    <div className="p-8">
+                    <div className="px-6 py-4">
                         <div
                             id="compose-editor"
                             contentEditable

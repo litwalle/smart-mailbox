@@ -7,6 +7,7 @@ interface StandardEmailCardProps {
     card: {
         id: string
         title: string
+        relatedEmailId?: string
         summary: string
         timeDisplay?: string
         relatedEmail?: {
@@ -21,10 +22,11 @@ interface StandardEmailCardProps {
         actions: Array<{ label: string; isPrimary?: boolean }>
     },
     isHovered?: boolean
+    isSelected?: boolean
     onArchive?: (id: string) => void
 }
 
-export function StandardEmailCard({ card, isHovered, onArchive }: StandardEmailCardProps) {
+export function StandardEmailCard({ card, isHovered, isSelected, onArchive }: StandardEmailCardProps) {
 
     // 1. Icon Logic
     const renderIcon = () => {
@@ -58,6 +60,7 @@ export function StandardEmailCard({ card, isHovered, onArchive }: StandardEmailC
         <BaseCard
             className="group"
             isHovered={isHovered}
+            isSelected={isSelected}
 
             // Slots
             icon={renderIcon()}

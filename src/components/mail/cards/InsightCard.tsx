@@ -9,6 +9,7 @@ interface InsightCardProps {
         title: string
         summary: string
         timeDisplay?: string
+        relatedEmailId?: string
         insightData: {
             imageUrl: string
             tag: string
@@ -16,13 +17,15 @@ interface InsightCardProps {
         }
         actions: Array<{ label: string; isPrimary?: boolean }>
     },
+    isSelected?: boolean
     onAction?: (id: string, action: string) => void
 }
 
-export function InsightCard({ card, onAction }: InsightCardProps) {
+export function InsightCard({ card, isSelected, onAction }: InsightCardProps) {
     return (
         <BaseCard
             className="group"
+            isSelected={isSelected}
             // Standard Header
             icon={
                 <div className="w-8 h-8 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">

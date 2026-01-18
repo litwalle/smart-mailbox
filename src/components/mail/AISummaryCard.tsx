@@ -50,10 +50,13 @@ export function AISummaryCard({ summary, reason, tags, todos, actionCapsules }: 
     return (
         <div className="space-y-4 mb-6">
             {/* 1. Summary Card */}
-            <Card className="bg-comp-emphasize-tertiary border-brand/20 overflow-hidden p-5">
+            <Card className="bg-comp-emphasize-tertiary border-none shadow-none overflow-hidden p-5">
                 <div className="mb-4">
                     <h3 className="text-base font-bold text-brand mb-3 flex items-center justify-between">
-                        Summary
+                        <div className="flex items-center">
+                            <span className="material-symbols-outlined text-[20px] mr-1.5 opacity-90">auto_awesome</span>
+                            Summary
+                        </div>
                         <div className="flex gap-2">
                             <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-brand/60 hover:text-brand">
                                 <span className="material-symbols-outlined text-[16px]">thumb_up</span>

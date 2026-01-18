@@ -22,14 +22,15 @@ export function SidebarMail({ isCollapsed }: SidebarMailProps) {
             {/* Header: Compose Button */}
             <div className={cn("mb-2 pt-2 transition-all", isCollapsed ? "px-2 flex justify-center" : "px-3")}>
                 <Button
+                    variant="secondary"
+                    size="md"
                     onClick={() => toggleCompose(true)}
                     className={cn(
-                        "transition-all border border-comp-divider bg-background-primary hover:bg-background-secondary text-font-primary rounded-lg shadow-none",
+                        "shadow-none transition-all",
                         isCollapsed
-                            ? "h-10 w-10 p-0 justify-center"
+                            ? "w-10 p-0 justify-center"
                             : "w-full justify-center gap-3"
                     )}
-                    size="lg"
                     title="写信"
                 >
                     <span className={cn("material-symbols-outlined text-brand", isCollapsed ? "text-[22px]" : "text-[20px]")}>edit_square</span>

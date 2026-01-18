@@ -23,12 +23,15 @@ interface MeetingScheduleCardProps {
         meetingList: Meeting[]
         actions: Array<{ label: string; isPrimary?: boolean }>
     },
+    isSelected?: boolean
+    selectedEmailId?: string | null
     onAction?: (id: string, action: string) => void
 }
 
-export function MeetingScheduleCard({ card, onAction }: MeetingScheduleCardProps) {
+export function MeetingScheduleCard({ card, isSelected, selectedEmailId, onAction }: MeetingScheduleCardProps) {
     return (
         <BaseCard
+            isSelected={isSelected}
             // Header
             icon={
                 <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
@@ -56,6 +59,7 @@ export function MeetingScheduleCard({ card, onAction }: MeetingScheduleCardProps
                     <MeetingCard
                         key={meeting.id}
                         meeting={meeting}
+                        isSelected={meeting.relatedEmailId === selectedEmailId}
                         // If relatedEmailId exists, clicking 'Join' or the card itself could open it.
                         // For 'Join', we might want a specific meeting link, but here we treat it as 'Open Detail'
                         onJoin={() => onAction?.(meeting.id, 'join')}

@@ -232,7 +232,7 @@ export function ColorPicker({
                 )}
             </PopoverTrigger>
             <PopoverContent
-                className="w-[380px] p-0 rounded-[16px]"
+                className="w-[320px] p-0 rounded-[16px] border-gray-200 shadow-xl"
                 align="start"
                 collisionPadding={16}
                 sideOffset={8}
@@ -434,15 +434,15 @@ function ColorButton({
         <button
             className={cn(
                 "group relative rounded-full border shadow-sm transition-all hover:scale-110",
-                "focus:outline-none focus:ring-4 focus:ring-[#0A59F7] focus:ring-offset-2",
+                "focus:outline-none focus:ring-2 focus:ring-[#0A59F7] focus:ring-offset-2",
                 ringClass,
-                isTheme && "flex items-center justify-center font-normal text-[24px]", // text size 24px
+                isTheme && "flex items-center justify-center font-normal text-[20px]", // text size 20px
                 className
             )}
             style={{
                 backgroundColor: color,
-                width: width === "36px" ? "2.25rem" : width, // h-9 = 2.25rem
-                height: height === "36px" ? "2.25rem" : height,
+                width: width === "36px" ? "1.75rem" : width, // 28px = 1.75rem
+                height: height === "36px" ? "1.75rem" : height,
                 color: textColor || "white" // Default white text
             }}
             onClick={onClick}

@@ -25,7 +25,7 @@ export function SegmentedControl<T extends string = string>({
 }: SegmentedControlProps<T>) {
     return (
         <div className={cn(
-            "flex bg-background-secondary p-1 rounded-lg items-center justify-center",
+            "flex bg-background-secondary p-1 rounded-xl items-center justify-center",
             className
         )}>
             {options.map((option) => {
@@ -36,7 +36,7 @@ export function SegmentedControl<T extends string = string>({
                         key={option.value}
                         onClick={() => onChange(option.value)}
                         className={cn(
-                            "flex items-center justify-center gap-1.5 font-medium rounded-md transition-all relative z-10 whitespace-nowrap outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0",
+                            "flex items-center justify-center gap-1.5 font-medium rounded-lg transition-all relative z-10 whitespace-nowrap outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0",
                             size === "sm" ? "px-2.5 py-1 text-xs" : "px-3 py-1.5 text-sm",
                             isActive
                                 ? "bg-background-primary text-font-primary font-semibold"

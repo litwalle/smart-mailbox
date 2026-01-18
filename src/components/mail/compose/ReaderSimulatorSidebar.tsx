@@ -38,7 +38,7 @@ export function ReaderSimulatorSidebar({ mockData }: ReaderSimulatorSidebarProps
                             className={`
                                 flex flex-col items-center gap-1 min-w-[70px] p-2 rounded-lg transition-all border
                                 ${selectedPersona === persona.id
-                                    ? 'bg-comp-emphasize-tertiary border-brand/20 ring-1 ring-brand/20'
+                                    ? 'bg-comp-emphasize-tertiary border-brand/50'
                                     : 'bg-background-primary border-comp-divider hover:border-brand/30 hover:bg-background-secondary'
                                 }
                             `}

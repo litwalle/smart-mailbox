@@ -92,7 +92,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             <Button
                                 variant="primary"
                                 size="sm"
-                                className="bg-brand hover:bg-brand/90 min-w-[90px] rounded-lg"
+                                className="min-w-[90px] border-0"
                                 onClick={() => setStatus('accepted')}
                             >
                                 Accept
@@ -100,7 +100,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             <Button
                                 variant="secondary"
                                 size="sm"
-                                className="bg-background-primary hover:bg-background-secondary min-w-[90px] border border-comp-divider rounded-lg text-font-primary"
+                                className="min-w-[90px]"
                                 onClick={() => setStatus('tentative')}
                             >
                                 Maybe
@@ -108,7 +108,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-font-secondary hover:text-font-primary hover:bg-background-secondary min-w-[80px] rounded-lg"
+                                className="min-w-[80px]"
                                 onClick={() => setStatus('declined')}
                             >
                                 Decline
@@ -215,7 +215,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-brand hover:bg-brand/90 transition-colors text-font-on-primary border-0"
+                                    className="h-9 px-4 gap-2 border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">videocam</span>
@@ -224,7 +224,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-confirm hover:bg-confirm/90 transition-colors text-font-on-primary border-0"
+                                    className="h-9 px-4 gap-2 bg-confirm hover:bg-confirm/90 border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">videocam</span>
@@ -233,7 +233,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    className="h-9 px-4 gap-2 bg-palette-6 hover:bg-palette-6/90 transition-colors text-font-on-primary border-0"
+                                    className="h-9 px-4 gap-2 bg-palette-6 hover:bg-palette-6/90 border-0"
                                     onClick={() => window.open(meeting.joinUrl, '_blank')}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">open_in_new</span>

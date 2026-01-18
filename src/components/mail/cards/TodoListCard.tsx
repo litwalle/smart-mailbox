@@ -8,18 +8,21 @@ interface TodoListCardProps {
     card: {
         id: string
         title: string
+        relatedEmailId?: string
         todoList: TodoItemData[]
         actions: Array<{ label: string; isPrimary?: boolean }>
     }
     onToggleTodo: (cardId: string, todoId: string) => void
     onTodoClick?: (emailId: string) => void
+    isSelected?: boolean
     onAction?: (id: string, action: string) => void
 }
 
-export function TodoListCard({ card, onToggleTodo, onTodoClick, onAction }: TodoListCardProps) {
+export function TodoListCard({ card, isSelected, onToggleTodo, onTodoClick, onAction }: TodoListCardProps) {
     return (
         <BaseCard
             title={card.title}
+            isSelected={isSelected}
             icon={
                 <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
                     <span className="material-symbols-outlined text-[18px]">check_circle</span>

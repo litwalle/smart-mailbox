@@ -197,7 +197,7 @@ function MailDetailContent({ email }: { email: import("@/types/mail").Email }) {
         <>
             {/* Translation Toolbar - Sticky/Fixed at top of content area */}
             {email.translatedContent && (
-                <div className="px-8 py-2 bg-background-primary border-b border-comp-divider flex items-center justify-between shrink-0 z-20">
+                <div className="px-8 py-2 bg-background-primary border-b-[0.5px] border-comp-divider flex items-center justify-between shrink-0 z-20">
                     <div className="flex items-center gap-2">
                         <span className="material-symbols-outlined text-icon-primary text-[18px]">translate</span>
                         <span className="text-sm font-semibold text-font-secondary">AI Translation</span>
@@ -240,7 +240,7 @@ function MeetingEmailContent({ email, onToggleStar }: { email: import("@/types/m
         <>
             {/* Translation Toolbar - Same as regular emails */}
             {hasTranslation && (
-                <div className="px-8 py-2 bg-background-primary border-b border-comp-divider flex items-center justify-between shrink-0 z-20">
+                <div className="px-8 py-2 bg-background-primary border-b-[0.5px] border-comp-divider flex items-center justify-between shrink-0 z-20">
                     <div className="flex items-center gap-2">
                         <span className="material-symbols-outlined text-icon-primary text-[18px]">translate</span>
                         <span className="text-sm font-semibold text-font-secondary">AI Translation</span>

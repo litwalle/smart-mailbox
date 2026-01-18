@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 interface BaseCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
     isSpecial?: boolean
     isHovered?: boolean
+    isSelected?: boolean
     children?: React.ReactNode
 
     // Configuration Slots
@@ -25,6 +26,7 @@ export function BaseCard({
     className,
     isSpecial = false,
     isHovered = false,
+    isSelected = false,
     onClick,
 
     icon,
@@ -41,10 +43,10 @@ export function BaseCard({
         <div
             className={cn(
                 "group relative border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer flex flex-col",
-                isSpecial
-                    ? "bg-background-primary/90 backdrop-blur-md border-comp-divider"
-                    : "bg-background-primary/90 backdrop-blur-md border-comp-divider",
-                "hover:-translate-y-[2px] hover:border-brand/30",
+                isSelected
+                    ? "border-brand/50 bg-background-primary z-10"
+                    : "border-comp-divider bg-background-primary/90 backdrop-blur-md",
+                !isSelected && "hover:-translate-y-[2px] hover:border-brand/30",
                 className
             )}
             onClick={onClick}

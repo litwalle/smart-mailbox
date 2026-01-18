@@ -6,6 +6,7 @@ import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
+    HoverCardPortal,
 } from "@/components/ui/hover-card"
 import { Separator } from "@/components/ui/separator"
 import { AlertCircle, Info, XCircle } from "lucide-react"
@@ -66,6 +67,11 @@ export interface HoverTipProps {
      * Max Width of the tooltip (default: auto/min-content)
      */
     width?: "auto" | "fixed" | "stretchy"
+
+    /**
+     * Force disable the tooltip
+     */
+    disabled?: boolean
 }
 
 export function HoverTip({
@@ -80,7 +86,15 @@ export function HoverTip({
     sideOffset = 5,
     className,
     width = "auto",
+    disabled = false,
 }: HoverTipProps) {
+    // Track if mouse has explicitly entered after the component was enabled
+    const [hasMouseEntered, setHasMouseEntered] = React.useState(false)
+
+    // Reset the mouse entry state whenever disabled changes
+    React.useEffect(() => {
+        setHasMouseEntered(false)
+    }, [disabled])
 
     // Resolve styling based on type
     const typeStyles = {
@@ -97,74 +111,81 @@ export function HoverTip({
 
     const TypeIcon = iconMap[type]
 
+    // If disabled, don't render the HoverCard at all - just return the children
+    if (disabled) {
+        return <>{children}</>
+    }
+
     return (
-        <HoverCard openDelay={50} closeDelay={100}>
-            <HoverCardTrigger asChild>
+        <HoverCard openDelay={300} closeDelay={100} open={hasMouseEntered ? undefined : false}>
+            <HoverCardTrigger asChild onPointerEnter={() => setHasMouseEntered(true)}>
                 {children}
             </HoverCardTrigger>
-            <HoverCardContent
-                side={side}
-                sideOffset={sideOffset}
-                align={align === "center" ? "center" : align === "end" ? "end" : "start"}
-                className={cn(
-                    "z-[9999] p-2 shadow-lg rounded-lg border border-border/50 bg-white",
-                    width === 'auto' && "w-auto max-w-[320px]",
-                    width === 'fixed' && "w-[260px]",
-                    typeStyles[type],
-                    className
-                )}
-            >
-                <div className={cn(
-                    "flex flex-col gap-1",
-                    align === "center" && "items-center text-center",
-                    align === "end" && "items-end text-right",
-                    align === "start" && "items-start text-left"
-                )}>
-                    {/* Main Content Area */}
-                    {(title || content) && (
-                        <div className="flex flex-col gap-0.5 w-full">
-                            {title && (
-                                <div className={cn("text-sm font-medium text-foreground flex items-center gap-2",
+            <HoverCardPortal>
+                <HoverCardContent
+                    side={side}
+                    sideOffset={sideOffset}
+                    align={align === "center" ? "center" : align === "end" ? "end" : "start"}
+                    className={cn(
+                        "z-[9999] p-2 shadow-lg rounded-lg border border-gray-200 bg-white",
+                        width === 'auto' && "w-auto max-w-[320px]",
+                        width === 'fixed' && "w-[260px]",
+                        typeStyles[type],
+                        className
+                    )}
+                >
+                    <div className={cn(
+                        "flex flex-col gap-1",
+                        align === "center" && "items-center text-center",
+                        align === "end" && "items-end text-right",
+                        align === "start" && "items-start text-left"
+                    )}>
+                        {/* Main Content Area */}
+                        {(title || content) && (
+                            <div className="flex flex-col gap-0.5 w-full">
+                                {title && (
+                                    <div className={cn("text-sm font-medium text-foreground flex items-center gap-2",
+                                        align === "center" && "justify-center",
+                                        align === "end" && "justify-end"
+                                    )}>
+                                        {title}
+                                    </div>
+                                )}
+                                {content && (
+                                    <div className={cn("text-sm text-foreground/90")}>
+                                        {content}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Description */}
+                        {description && (
+                            <div className="text-xs text-muted-foreground break-all">
+                                {description}
+                            </div>
+                        )}
+
+                        {/* Footer Area with Separator */}
+                        {footer && (
+                            <>
+                                <Separator className="my-2 bg-border/60" />
+                                <div className={cn(
+                                    "flex items-center gap-2 text-xs w-full",
+                                    type === 'error' && "text-destructive font-medium",
+                                    type === 'warning' && "text-amber-600 font-medium",
+                                    !['error', 'warning'].includes(type) && "text-muted-foreground",
                                     align === "center" && "justify-center",
                                     align === "end" && "justify-end"
                                 )}>
-                                    {title}
+                                    {['error', 'warning'].includes(type) && TypeIcon}
+                                    <span>{footer}</span>
                                 </div>
-                            )}
-                            {content && (
-                                <div className={cn("text-sm text-foreground/90")}>
-                                    {content}
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    {/* Description */}
-                    {description && (
-                        <div className="text-xs text-muted-foreground break-all">
-                            {description}
-                        </div>
-                    )}
-
-                    {/* Footer Area with Separator */}
-                    {footer && (
-                        <>
-                            <Separator className="my-2 bg-border/60" />
-                            <div className={cn(
-                                "flex items-center gap-2 text-xs w-full",
-                                type === 'error' && "text-destructive font-medium",
-                                type === 'warning' && "text-amber-600 font-medium",
-                                !['error', 'warning'].includes(type) && "text-muted-foreground",
-                                align === "center" && "justify-center",
-                                align === "end" && "justify-end"
-                            )}>
-                                {['error', 'warning'].includes(type) && TypeIcon}
-                                <span>{footer}</span>
-                            </div>
-                        </>
-                    )}
-                </div>
-            </HoverCardContent>
+                            </>
+                        )}
+                    </div>
+                </HoverCardContent>
+            </HoverCardPortal>
         </HoverCard>
     )
 }

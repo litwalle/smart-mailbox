@@ -269,9 +269,11 @@ export function FocusView() {
                                 {cards.map((card) => {
                                     // Determine Card Component
                                     let CardComponent;
+                                    const isSelected = card.relatedEmailId === selectedEmailId;
                                     const commonProps = {
                                         card: card as any,
-                                        onAction: handleCardAction
+                                        onAction: handleCardAction,
+                                        isSelected
                                     }
 
                                     // MeetingCard & TodoListCard are now Self-Contained (Include Timeline)
@@ -283,7 +285,7 @@ export function FocusView() {
                                     } else if (card.insightData) {
                                         CardComponent = <InsightCard {...commonProps} />;
                                     } else if (card.meetingList) {
-                                        CardComponent = <MeetingScheduleCard {...commonProps} />;
+                                        CardComponent = <MeetingScheduleCard {...commonProps} selectedEmailId={selectedEmailId} />;
                                     } else if (card.id === 'focus-upcoming-meeting' && card.meetingData) {
                                         // Use UpcomingMeetingCard for the prominently displayed upcoming meeting
                                         CardComponent = (
@@ -291,6 +293,7 @@ export function FocusView() {
                                                 card={card as any}
                                                 onJoin={() => handleCardAction(card.id, 'join')}
                                                 onDismiss={() => handleCardArchive(card.id, card.relatedEmailId)}
+                                                isSelected={isSelected}
                                             />
                                         );
                                     } else if (card.meetingData) {
@@ -298,6 +301,7 @@ export function FocusView() {
                                             <MeetingCard
                                                 meeting={card.meetingData as any}
                                                 onJoin={() => handleCardAction(card.id, 'join')}
+                                                isSelected={isSelected}
                                                 onClick={() => {
                                                     if (card.relatedEmailId) selectEmail(card.relatedEmailId)
                                                 }}

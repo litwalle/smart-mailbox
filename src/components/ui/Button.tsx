@@ -20,10 +20,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }
 
         const sizes = {
-            sm: "h-8 px-3 text-xs rounded gap-1.5",
-            md: "h-10 px-5 py-2 text-sm rounded gap-2",
-            lg: "h-12 px-8 text-base rounded-lg gap-2.5",
-            icon: "h-10 w-10 p-2 flex items-center justify-center rounded",
+            sm: "h-8 px-3 text-xs rounded-lg gap-1.5 font-medium",
+            md: "h-10 px-5 py-2 text-sm rounded-lg gap-2 font-medium",
+            lg: "h-12 px-8 text-base rounded-lg gap-2.5 font-bold",
+            icon: "h-10 w-10 p-2 flex items-center justify-center rounded-lg",
         }
 
         return (
