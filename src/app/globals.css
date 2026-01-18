@@ -52,7 +52,8 @@
   --color-comp-background-neutral: #000000;
   --color-comp-emphasize-secondary: #0A59F733;
   --color-comp-emphasize-tertiary: #0A59F719;
-  --color-comp-divider: #00000033;
+  --color-comp-divider: #00000019;
+  /* 10% black - softer borders */
   --color-comp-common-contrary: #FFFFFF;
   --color-comp-background-focus: #F1F3F5;
 
