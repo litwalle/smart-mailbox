@@ -19,7 +19,7 @@ export function Sidebar() {
     }
 
     return (
-        <div className="flex flex-col h-full bg-background-secondary border-r border-comp-divider transition-all duration-300">
+        <div className="flex flex-col h-full bg-background-secondary transition-all duration-300">
             {/* 1. Top Header */}
             <div className={cn(
                 "h-16 flex items-center shrink-0 transition-all",
@@ -68,7 +68,7 @@ export function Sidebar() {
 
             {/* 3. Bottom Navigation Bar */}
             <div className={cn(
-                "border-t border-comp-divider bg-background-primary shrink-0 transition-all",
+                "bg-background-secondary shrink-0 transition-all",
                 isSidebarCollapsed
                     ? "flex flex-col items-center py-4 space-y-4 w-full"
                     : "h-14 flex items-center justify-around px-2"
