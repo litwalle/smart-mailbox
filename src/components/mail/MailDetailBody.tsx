@@ -2,7 +2,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Email } from "@/types/mail"
 import { SplitScrollView } from "./SplitScrollView"
-import { LuReply, LuReplyAll, LuForward } from "react-icons/lu"
+import { Reply, ReplyAll, Forward } from "lucide-react"
 import { SegmentedControl } from "@/components/ui/SegmentedControl"
 
 interface MailDetailBodyProps {
@@ -55,15 +55,15 @@ export function MailDetailBody({ email }: MailDetailBodyProps) {
             {/* Action Area (Reply/Forward) */}
             <div className="flex gap-4 pt-8 border-t border-slate-100">
                 <button className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-300 text-slate-600 font-medium hover:bg-slate-50 hover:border-slate-400 transition-all">
-                    <LuReply className="w-4 h-4" />
+                    <Reply className="w-4 h-4" />
                     Reply
                 </button>
                 <button className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-300 text-slate-600 font-medium hover:bg-slate-50 hover:border-slate-400 transition-all">
-                    <LuReplyAll className="w-4 h-4" />
+                    <ReplyAll className="w-4 h-4" />
                     Reply All
                 </button>
                 <button className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-300 text-slate-600 font-medium hover:bg-slate-50 hover:border-slate-400 transition-all">
-                    <LuForward className="w-4 h-4" />
+                    <Forward className="w-4 h-4" />
                     Forward
                 </button>
             </div>

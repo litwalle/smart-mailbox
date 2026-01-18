@@ -1,6 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { LuArchive, LuTrash2, LuMail, LuX, LuCheck } from "react-icons/lu"
+import { Archive, Trash2, Mail, X, Check } from "lucide-react"
 
 interface BulkActionsToolbarProps {
     selectedCount: number
@@ -37,7 +37,7 @@ export function BulkActionsToolbar({
                             className="w-4 h-4 rounded-[5px] border-2 border-primary bg-primary flex items-center justify-center cursor-pointer hover:bg-blue-600 transition-colors"
                         >
                             {isAllSelected ? (
-                                <LuCheck className="w-3 h-3 text-white stroke-[3px]" />
+                                <Check className="w-3 h-3 text-white stroke-[3px]" />
                             ) : (
                                 <div className="w-2 h-2 bg-white rounded-[1px]" />
                             )}
@@ -51,13 +51,13 @@ export function BulkActionsToolbar({
                 {/* Right: Actions */}
                 <div className="flex items-center gap-2">
                     <button onClick={onArchive} className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors" title="Archive">
-                        <LuArchive className="w-5 h-5 stroke-[1.5px]" />
+                        <Archive className="w-5 h-5 stroke-[1.5px]" />
                     </button>
                     <button onClick={onDelete} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete">
-                        <LuTrash2 className="w-5 h-5 stroke-[1.5px]" />
+                        <Trash2 className="w-5 h-5 stroke-[1.5px]" />
                     </button>
                     <button onClick={onMarkUnread} className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors" title="Mark Unread">
-                        <LuMail className="w-5 h-5 stroke-[1.5px]" />
+                        <Mail className="w-5 h-5 stroke-[1.5px]" />
                     </button>
 
                     {/* Divider */}
@@ -65,7 +65,7 @@ export function BulkActionsToolbar({
 
                     {/* Close Button */}
                     <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors" title="Cancel Selection">
-                        <LuX className="w-5 h-5 stroke-[1.5px]" />
+                        <X className="w-5 h-5 stroke-[1.5px]" />
                     </button>
                 </div>
             </div>
@@ -88,15 +88,15 @@ export function BulkActionsToolbar({
                 {/* Check / Icon Indicator Removed per user request */}
 
                 <button onClick={onArchive} className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-700 font-medium group text-sm">
-                    <LuArchive className="w-4 h-4 text-slate-500 group-hover:text-slate-900 stroke-[1.5px]" />
+                    <Archive className="w-4 h-4 text-slate-500 group-hover:text-slate-900 stroke-[1.5px]" />
                     <span>Archive</span>
                 </button>
                 <button onClick={onDelete} className="flex items-center gap-2 px-3 py-2 hover:bg-red-50 rounded-xl transition-colors text-slate-700 font-medium group text-sm">
-                    <LuTrash2 className="w-4 h-4 text-slate-500 group-hover:text-red-600 stroke-[1.5px]" />
+                    <Trash2 className="w-4 h-4 text-slate-500 group-hover:text-red-600 stroke-[1.5px]" />
                     <span>Delete</span>
                 </button>
                 <button onClick={onMarkUnread} className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-700 font-medium group text-sm">
-                    <LuMail className="w-4 h-4 text-slate-500 group-hover:text-slate-900 stroke-[1.5px]" />
+                    <Mail className="w-4 h-4 text-slate-500 group-hover:text-slate-900 stroke-[1.5px]" />
                     <span>Unread</span>
                 </button>
 
@@ -105,7 +105,7 @@ export function BulkActionsToolbar({
 
                 {/* Close Button */}
                 <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors">
-                    <LuX className="w-5 h-5 stroke-[1.5px]" />
+                    <X className="w-5 h-5 stroke-[1.5px]" />
                 </button>
             </div>
         </div>

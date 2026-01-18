@@ -5,11 +5,11 @@ import { Email } from "@/types/mail"
 import { useMailStore } from "@/store/mailStore"
 import { MailHoverActions } from "./MailHoverActions"
 import {
-    LuCalendar,
-    LuPaperclip,
-    LuCircleAlert,
-    LuCheck
-} from "react-icons/lu"
+    Calendar,
+    Paperclip,
+    CircleAlert,
+    Check
+} from "lucide-react"
 
 interface MailListItemProps {
     email: Email
@@ -157,10 +157,10 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                 {/* Right: Time & Icons */}
                 <div className="flex items-center gap-2">
                     {email.priority === 'high' && (
-                        <LuCircleAlert className="w-3.5 h-3.5 text-red-500 stroke-[1.5px]" />
+                        <CircleAlert className="w-3.5 h-3.5 text-red-500 stroke-[1.5px]" />
                     )}
                     {email.hasAttachments && (
-                        <LuPaperclip className="w-3.5 h-3.5 text-slate-400 stroke-[1.5px]" />
+                        <Paperclip className="w-3.5 h-3.5 text-slate-400 stroke-[1.5px]" />
                     )}
                     <span className={cn(
                         "text-xs whitespace-nowrap",
@@ -201,7 +201,7 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                             ? "bg-primary border-primary text-white"
                             : "border-slate-400 bg-white hover:border-slate-600"
                     )}>
-                        {isMultiSelected && <LuCheck className="w-3 h-3 stroke-[3px]" />}
+                        {isMultiSelected && <Check className="w-3 h-3 stroke-[3px]" />}
                     </div>
                 </div>
 
@@ -209,7 +209,7 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                     {/* Summary - Larger Text, Black Color */}
                     <div className="text-[14px] text-slate-900 leading-snug line-clamp-2">
                         {isMeeting && (
-                            <LuCalendar className="w-3.5 h-3.5 text-slate-400 inline-block mr-1 align-text-bottom" />
+                            <Calendar className="w-3.5 h-3.5 text-slate-400 inline-block mr-1 align-text-bottom" />
                         )}
                         {email.aiSummary || email.preview}
                     </div>

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Email, User } from "@/types/mail"
-import { LuGlobe, LuLock } from "react-icons/lu"
+import { Globe, Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface MailRecipientDetailsProps {
@@ -21,7 +21,7 @@ function RecipientName({ user, isExternal, isLast }: { user: User; isExternal?: 
     return (
         <span className="inline-flex items-center text-sm text-slate-700 font-medium">
             {showGlobe && (
-                <LuGlobe className="w-3.5 h-3.5 text-green-600 mr-1" />
+                <Globe className="w-3.5 h-3.5 text-green-600 mr-1" />
             )}
             {user.name}
             {!isLast && <span className="mx-1 text-slate-400">;</span>}
@@ -83,7 +83,7 @@ export function MailRecipientDetails({ email, currentUserId, onClose }: MailReci
                     <div className="flex items-center gap-1.5">
                         <span>Security:</span>
                         <span className="text-green-600 flex items-center gap-0.5">
-                            <LuLock className="w-3 h-3" />
+                            <Lock className="w-3 h-3" />
                             Standard encryption (TLS)
                         </span>
                     </div>

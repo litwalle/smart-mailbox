@@ -43,7 +43,7 @@ export function AISummaryCard({ summary, reason, tags, todos, actionCapsules }: 
         deadline: todo.deadline ? new Date(todo.deadline).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : undefined,
         action: todo.action ? {
             label: todo.action.label,
-            onClick: todo.action.onClick
+            onClick: () => window.open(todo.action!.url, '_blank')
         } : undefined
     })
 

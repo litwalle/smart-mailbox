@@ -2,14 +2,14 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 // We use react-icons/lu for 1.5px stroke line icons as requested
 import {
-    LuCheck,
-    LuTrash2,
-    LuMail,
-    LuMailOpen,
-    LuFlag,
-    LuArchive,
-    LuClock
-} from "react-icons/lu"
+    Check,
+    Trash2,
+    Mail,
+    MailOpen,
+    Flag,
+    Archive,
+    Clock
+} from "lucide-react"
 
 interface MailHoverActionsProps {
     className?: string
@@ -50,21 +50,21 @@ export function MailHoverActions({
                 className="p-1 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors"
                 title="Archive"
             >
-                <LuArchive className={iconClass} />
+                <Archive className={iconClass} />
             </button>
             <button
                 onClick={(e) => handleAction(e, onDelete)}
                 className="p-1 text-slate-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
                 title="Delete"
             >
-                <LuTrash2 className={iconClass} />
+                <Trash2 className={iconClass} />
             </button>
             <button
                 onClick={(e) => handleAction(e, onComplete)}
                 className="p-1 text-slate-500 hover:text-green-600 hover:bg-green-50 rounded-md transition-colors"
                 title="Complete"
             >
-                <LuCheck className={iconClass} />
+                <Check className={iconClass} />
             </button>
             <button
                 // Using Clock as a placeholder for "Snooze" if needed, but user mentioned specific 5.
@@ -81,7 +81,7 @@ export function MailHoverActions({
                 className="p-1 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors"
                 title={isRead ? "Mark as Unread" : "Mark as Read"}
             >
-                {isRead ? <LuMail className={iconClass} /> : <LuMailOpen className={iconClass} />}
+                {isRead ? <Mail className={iconClass} /> : <MailOpen className={iconClass} />}
             </button>
             <button
                 onClick={(e) => handleAction(e, onToggleFlag)}
@@ -91,7 +91,7 @@ export function MailHoverActions({
                 )}
                 title="Flag"
             >
-                <LuFlag className={cn(iconClass, isStarred && "fill-current")} />
+                <Flag className={cn(iconClass, isStarred && "fill-current")} />
             </button>
         </div>
     )

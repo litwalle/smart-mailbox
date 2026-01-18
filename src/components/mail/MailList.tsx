@@ -11,12 +11,12 @@ import { InboxZeroState } from "@/components/mail/InboxZeroState"
 import { BulkActionsToolbar } from "./BulkActionsToolbar"
 // Import icons for bulk actions
 import {
-    LuSquareCheck,
-    LuX,
-    LuArchive,
-    LuTrash2,
-    LuMailOpen
-} from "react-icons/lu"
+    SquareCheck,
+    X,
+    Archive,
+    Trash2,
+    MailOpen
+} from "lucide-react"
 
 export function MailList() {
     const {

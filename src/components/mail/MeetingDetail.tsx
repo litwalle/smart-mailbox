@@ -4,17 +4,17 @@ import { Email } from "@/types/mail"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/Button"
 import {
-    LuCalendar,
-    LuMapPin,
-    LuVideo,
-    LuCheck,
-    LuX,
-    LuCircleHelp,
-    LuClock,
-    LuFileText,
-    LuExternalLink,
-    LuTriangleAlert
-} from "react-icons/lu"
+    Calendar,
+    MapPin,
+    Video,
+    Check,
+    X,
+    CircleHelp,
+    Clock,
+    FileText,
+    ExternalLink,
+    TriangleAlert
+} from "lucide-react"
 
 interface MeetingDetailProps {
     email: Email
@@ -57,10 +57,10 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
     // Attendee Block Component - Clean, no shadow
     const AttendeeBlock = ({ attendee }: { attendee: typeof meeting.attendees[0] }) => {
         const statusConfig = {
-            accepted: { icon: LuCheck, color: "text-emerald-600" },
-            declined: { icon: LuX, color: "text-red-500" },
-            tentative: { icon: LuCircleHelp, color: "text-amber-500" },
-            pending: { icon: LuClock, color: "text-slate-400" }
+            accepted: { icon: Check, color: "text-emerald-600" },
+            declined: { icon: X, color: "text-red-500" },
+            tentative: { icon: CircleHelp, color: "text-amber-500" },
+            pending: { icon: Clock, color: "text-slate-400" }
         }
         const config = statusConfig[attendee.status] || statusConfig.pending
         const StatusIcon = config.icon
@@ -124,9 +124,9 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 status === 'declined' && "bg-slate-100 text-slate-500",
                                 status === 'tentative' && "bg-amber-100 text-amber-600"
                             )}>
-                                {status === 'accepted' && <LuCheck className="w-5 h-5" />}
-                                {status === 'declined' && <LuX className="w-5 h-5" />}
-                                {status === 'tentative' && <LuCircleHelp className="w-5 h-5" />}
+                                {status === 'accepted' && <Check className="w-5 h-5" />}
+                                {status === 'declined' && <X className="w-5 h-5" />}
+                                {status === 'tentative' && <CircleHelp className="w-5 h-5" />}
                             </div>
                             <div className="flex flex-col">
                                 <span className={cn(
@@ -183,14 +183,14 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             {/* Info Rows */}
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2.5 text-slate-700">
-                                    <LuCalendar className="w-4 h-4 text-blue-500 shrink-0" />
+                                    <Calendar className="w-4 h-4 text-blue-500 shrink-0" />
                                     <span className="font-medium text-sm">
                                         {dateStr} {timeStr}
                                         <span className="text-slate-400 font-normal ml-1.5">({meeting.timeZone})</span>
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-2.5 text-slate-700">
-                                    <LuMapPin className="w-4 h-4 text-rose-500 shrink-0" />
+                                    <MapPin className="w-4 h-4 text-rose-500 shrink-0" />
                                     <span className="font-medium text-sm">{displayLocation}</span>
                                 </div>
                             </div>
@@ -289,12 +289,12 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                         <SectionTitle>Resources</SectionTitle>
                         <div className="flex items-center gap-2 ml-2.5">
                             <Button variant="secondary" size="sm" className="gap-1.5 text-slate-600 text-xs h-8">
-                                <LuFileText className="w-3.5 h-3.5" />
+                                <FileText className="w-3.5 h-3.5" />
                                 View Detailed Agenda
                             </Button>
                             {meeting.materials && meeting.materials.length > 0 && (
                                 <Button variant="secondary" size="sm" className="gap-1.5 text-slate-600 text-xs h-8">
-                                    <LuExternalLink className="w-3.5 h-3.5" />
+                                    <ExternalLink className="w-3.5 h-3.5" />
                                     View Materials ({meeting.materials.length})
                                 </Button>
                             )}
@@ -338,7 +338,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                     {meeting.notices && meeting.notices.length > 0 && (
                         <div>
                             <SectionTitle>
-                                <LuTriangleAlert className="w-3 h-3 text-amber-500" />
+                                <TriangleAlert className="w-3 h-3 text-amber-500" />
                                 Important Notices
                             </SectionTitle>
                             <ul className="ml-2.5 space-y-1.5">

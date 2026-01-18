@@ -4,11 +4,11 @@ import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 // Import icons
 import {
-    LuArchive,
-    LuTrash2,
-    LuMail,
-    LuCheck
-} from "react-icons/lu"
+    Archive,
+    Trash2,
+    Mail,
+    Check
+} from "lucide-react"
 import { MailDetailHeader } from "./MailDetailHeader"
 import { MailDetailToolbar } from "./MailDetailToolbar"
 import { BulkActionsToolbar } from "./BulkActionsToolbar"

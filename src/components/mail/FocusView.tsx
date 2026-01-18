@@ -1,5 +1,5 @@
 import * as React from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, Variants } from "framer-motion"
 import { useMailStore } from "@/store/mailStore"
 import { getFocusBriefingForAccount } from "@/data/dataFoundation"
 
@@ -20,6 +20,30 @@ import { TodoListCard } from "./cards/TodoListCard"
 import { StandardEmailCard } from "./cards/StandardEmailCard"
 import { MeetingCard } from "./cards/MeetingCard"
 import { UpcomingMeetingCard } from "./cards/UpcomingMeetingCard"
+
+// Animation Variants
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.05
+        }
+    }
+}
+
+const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.4,
+            ease: "easeOut"
+        }
+    }
+}
 
 export function FocusView() {
     const {
@@ -213,20 +237,33 @@ export function FocusView() {
                     </div>
                 ) : (
                     /* Secretary View - Narrative Stream */
-                    <div className="px-6 pb-12 space-y-8">
+                    <motion.div
+                        className="px-6 pb-12 space-y-8"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
                         {/* Cards Stream */}
                         <div className="space-y-12 relative">
                             {/* Vertical Timeline Line */}
-                            <div className="absolute left-[15px] top-6 bottom-10 w-[2px] bg-gradient-to-b from-blue-100 via-slate-200 to-transparent z-0"></div>
+                            <motion.div
+                                className="absolute left-[15px] top-6 bottom-10 w-[2px] bg-gradient-to-b from-blue-100 via-slate-200 to-transparent z-0"
+                                initial={{ opacity: 0, scaleY: 0 }}
+                                animate={{ opacity: 1, scaleY: 1 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                style={{ originY: 0 }}
+                            />
 
                             {/* Briefing Header (Greeting + Summary) */}
-                            <TimelineItemWrapper className="mb-8">
-                                <BriefingHeader
-                                    headline={briefing.headline}
-                                    summary={briefing.summary}
-                                    dateDisplay={briefing.dateDisplay}
-                                />
-                            </TimelineItemWrapper>
+                            <motion.div variants={itemVariants}>
+                                <TimelineItemWrapper className="mb-8">
+                                    <BriefingHeader
+                                        headline={briefing.headline}
+                                        summary={briefing.summary}
+                                        dateDisplay={briefing.dateDisplay}
+                                    />
+                                </TimelineItemWrapper>
+                            </motion.div>
 
                             <AnimatePresence mode="popLayout">
                                 {cards.map((card) => {
@@ -287,10 +324,8 @@ export function FocusView() {
                                     return (
                                         <TimelineItemWrapper key={card.id}>
                                             <motion.div
-                                                layout
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                exit={{ opacity: 0, scale: 0.95 }}
+                                                variants={itemVariants}
+                                                exit={{ opacity: 0, transition: { duration: 0.2 } }}
                                             >
                                                 {/* Guidance Text */}
                                                 {card.guidanceText && (
@@ -313,7 +348,7 @@ export function FocusView() {
                                 })}
                             </AnimatePresence>
                         </div>
-                    </div>
+                    </motion.div>
                 )}
             </div>
         </div>

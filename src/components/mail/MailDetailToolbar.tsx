@@ -1,13 +1,13 @@
 import {
-    LuReply,
-    LuReplyAll,
-    LuForward,
-    LuMail,
-    LuMailOpen,
-    LuFolderInput,
-    LuFlag,
-    LuEllipsisVertical
-} from "react-icons/lu"
+    Reply,
+    ReplyAll,
+    Forward,
+    Mail,
+    MailOpen,
+    FolderInput,
+    Flag,
+    EllipsisVertical
+} from "lucide-react"
 import { format } from "date-fns"
 import { Email } from "@/types/mail"
 
@@ -41,21 +41,21 @@ export function MailDetailToolbar({
                     title="Reply"
                     onClick={onReply}
                 >
-                    <LuReply className="w-5 h-5" />
+                    <Reply className="w-5 h-5" />
                 </button>
                 <button
                     className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                     title="Reply All"
                     onClick={onReplyAll}
                 >
-                    <LuReplyAll className="w-5 h-5" />
+                    <ReplyAll className="w-5 h-5" />
                 </button>
                 <button
                     className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                     title="Forward"
                     onClick={onForward}
                 >
-                    <LuForward className="w-5 h-5" />
+                    <Forward className="w-5 h-5" />
                 </button>
 
                 <div className="w-px h-5 bg-slate-200 mx-2" />
@@ -66,14 +66,14 @@ export function MailDetailToolbar({
                     title={email.isRead ? "Mark as Unread" : "Mark as Read"}
                     onClick={onToggleRead}
                 >
-                    {email.isRead ? <LuMail className="w-5 h-5" /> : <LuMailOpen className="w-5 h-5" />}
+                    {email.isRead ? <Mail className="w-5 h-5" /> : <MailOpen className="w-5 h-5" />}
                 </button>
                 <button
                     className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                     title="Move to..."
                     onClick={onMove}
                 >
-                    <LuFolderInput className="w-5 h-5" />
+                    <FolderInput className="w-5 h-5" />
                 </button>
 
                 <div className="w-px h-5 bg-slate-200 mx-2" />
@@ -84,14 +84,14 @@ export function MailDetailToolbar({
                     title="Flag"
                     onClick={onFlag}
                 >
-                    <LuFlag className="w-5 h-5" />
+                    <Flag className="w-5 h-5" />
                 </button>
                 <button
                     className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                     title="More options"
                     onClick={onMore}
                 >
-                    <LuEllipsisVertical className="w-5 h-5" />
+                    <EllipsisVertical className="w-5 h-5" />
                 </button>
             </div>
 

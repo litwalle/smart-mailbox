@@ -1,5 +1,5 @@
 import * as React from "react"
-import { LuStar, LuReply, LuReplyAll, LuForward, LuChevronDown } from "react-icons/lu"
+import { Star, Reply, ReplyAll, Forward, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { Email } from "@/types/mail"
@@ -86,7 +86,7 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
                     onClick={() => onToggleStar(email.id)}
                     className="p-1 rounded-full hover:bg-slate-100 transition-colors shrink-0 mt-1"
                 >
-                    <LuStar className={cn("w-6 h-6", email.isStarred ? "fill-yellow-400 text-yellow-400" : "text-slate-300")} />
+                    <Star className={cn("w-6 h-6", email.isStarred ? "fill-yellow-400 text-yellow-400" : "text-slate-300")} />
                 </button>
             </div>
 
@@ -135,7 +135,7 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
                             "p-0.5 rounded-sm transition-all duration-200",
                             isDetailsOpen ? "bg-slate-100 rotate-180" : "group-hover:bg-slate-100"
                         )}>
-                            <LuChevronDown className="w-4 h-4" />
+                            <ChevronDown className="w-4 h-4" />
                         </div>
                     </div>
                 </div>

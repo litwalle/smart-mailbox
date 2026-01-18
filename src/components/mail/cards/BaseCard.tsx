@@ -38,11 +38,7 @@ export function BaseCard({
     ...props
 }: BaseCardProps) {
     return (
-        <motion.div
-            layout
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+        <div
             className={cn(
                 "group relative border rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer flex flex-col",
                 isSpecial
@@ -113,6 +109,6 @@ export function BaseCard({
                 {footer}
             </div>
 
-        </motion.div>
+        </div>
     )
 }
