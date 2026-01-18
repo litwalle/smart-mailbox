@@ -1,42 +1,102 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors - Semantic */
-  --color-primary: #2563EB;
+  /* =========================================
+     1. Global Primitives (Harmony System)
+     ========================================= */
+
+  /* A. Brand & Functional Colors */
+  --color-brand: #0A59F7;
+  --color-warning: #E84026;
+  --color-alert: #ED6F21;
+  --color-confirm: #64BB5C;
+
+  /* B. Typography Colors */
+  --color-font-primary: #000000E5;
+  --color-font-secondary: #00000099;
+  --color-font-tertiary: #00000066;
+  --color-font-fourth: #00000033;
+  --color-font-emphasize: #0A59F7;
+  --color-font-on-primary: #FFFFFF;
+  --color-font-on-secondary: #FFFFFF99;
+  --color-font-on-tertiary: #FFFFFF66;
+  --color-font-on-fourth: #FFFFFF33;
+
+  /* C. Icon Colors */
+  --color-icon-primary: #000000E5;
+  --color-icon-secondary: #00000099;
+  --color-icon-tertiary: #00000066;
+  --color-icon-fourth: #00000033;
+  --color-icon-emphasize: #0A59F7;
+  --color-icon-sub-emphasize: #0A59F766;
+  --color-icon-on-primary: #FFFFFF;
+  --color-icon-on-secondary: #FFFFFF99;
+  --color-icon-on-tertiary: #FFFFFF66;
+  --color-icon-on-fourth: #FFFFFF33;
+
+  /* D. Background Colors */
+  --color-background-primary: #FFFFFF;
+  --color-background-secondary: #F1F3F5;
+  --color-background-tertiary: #E5E5EA;
+  --color-background-fourth: #D1D1D6;
+  --color-background-emphasize: #0A59F7;
+
+  /* E. Component Specific Colors */
+  --color-comp-foreground-primary: #000000;
+  --color-comp-background-primary: #FFFFFF;
+  --color-comp-background-primary-contrary: #FFFFFF;
+  --color-comp-background-gray: #F1F3F5;
+  --color-comp-background-secondary: #00000019;
+  --color-comp-background-tertiary: #0000000C;
+  --color-comp-background-emphasize: #0A59F7;
+  --color-comp-background-neutral: #000000;
+  --color-comp-emphasize-secondary: #0A59F733;
+  --color-comp-emphasize-tertiary: #0A59F719;
+  --color-comp-divider: #00000033;
+  --color-comp-common-contrary: #FFFFFF;
+  --color-comp-background-focus: #F1F3F5;
+
+  /* F. Multicolor Palette */
+  --color-palette-1: #0A59F7;
+  --color-palette-2: #46B1E3;
+  --color-palette-3: #61CFBE;
+  --color-palette-4: #64BB5C;
+  --color-palette-5: #A5D61D;
+  --color-palette-6: #AC49F5;
+  --color-palette-7: #E64566;
+  --color-palette-8: #E84026;
+  --color-palette-9: #ED6F21;
+  --color-palette-10: #F9A01E;
+  --color-palette-11: #F7CE00;
+  --color-palette-12: #838388;
+
+  /* Legacy / Backward Compatibility */
+  --color-primary: var(--color-brand);
   --color-primary-light: #EFF6FF;
   --color-primary-hover: #0F6BD0;
+  /* Pending precise mapping */
 
-  --color-surface-card: #FFFFFF;
+  --color-surface-card: var(--color-background-primary);
   --color-surface-hover: #F1F5F9;
   --color-sidebar-bg: #F8FAFC;
   --color-slate-body: #F8FAFC;
 
-  --color-border-color: #E2E8F0;
+  --color-border-color: var(--color-comp-divider);
 
-  --color-text-main: #0F172A;
-  --color-text-secondary: #64748B;
+  --color-text-main: var(--color-font-primary);
+  --color-text-secondary: var(--color-font-secondary);
 
   /* Fonts */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* Shadows */
+  /* Shadows - Preserved */
   --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
   --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
   --shadow-floating: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-  /* New Mappings for Compose Window */
-  --color-background-primary: #FFFFFF;
-  --color-background-secondary: #F8FAFC;
-  --color-brand: var(--color-primary);
-  --color-brand-hover: var(--color-primary-hover);
-  --color-font-primary: var(--color-text-main);
-  --color-font-secondary: var(--color-text-secondary);
-  --color-font-tertiary: #94A3B8;
-  --color-icon-primary: var(--color-text-main);
-  --color-icon-secondary: var(--color-text-secondary);
-  --color-border: var(--color-border-color);
-  --color-comp-divider: #E2E8F0;
-  --color-accent-primary: var(--color-primary);
+
+  /* Additional Aliases for Component update */
+  --color-accent-primary: var(--color-brand);
   --color-accent-secondary: #EFF6FF;
 }
 
