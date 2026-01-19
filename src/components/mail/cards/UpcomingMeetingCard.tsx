@@ -94,7 +94,7 @@ export function UpcomingMeetingCard({ card, onJoin, onDismiss, isSelected }: Upc
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
                         </span>
-                        15 min left
+                        剩余 15 分钟
                     </span>
                 </div>
 
@@ -109,7 +109,7 @@ export function UpcomingMeetingCard({ card, onJoin, onDismiss, isSelected }: Upc
                     }}
                 >
                     <span className="material-symbols-outlined text-[18px] mr-1.5">videocam</span>
-                    Join
+                    入会
                 </Button>
             </div>
 
@@ -148,7 +148,7 @@ export function UpcomingMeetingCard({ card, onJoin, onDismiss, isSelected }: Upc
                         )}
                     </div>
                     <span className="text-[13px] font-medium text-slate-500">
-                        {attendeeCount} Participants
+                        {attendeeCount} 人参与
                     </span>
                 </div>
 

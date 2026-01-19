@@ -58,7 +58,7 @@ export function TransitCard({ card, isSelected, selectedEmailId, onAction }: Tra
             title={displayTitle}
             // Subtitle: Uses original "预计...出发"
             subtitle={`预计 ${card.transitData.departureTime} 出发`}
-            time={card.timeDisplay || "Now"}
+            time={card.timeDisplay || "现在"}
             onComplete={() => onAction?.(card.id, 'archive')}
             footer={<FocusCardActions actions={card.actions} />}
         >

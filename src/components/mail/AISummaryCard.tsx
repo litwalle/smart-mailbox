@@ -55,7 +55,7 @@ export function AISummaryCard({ summary, reason, tags, todos, actionCapsules }: 
                     <h3 className="text-base font-bold text-brand mb-3 flex items-center justify-between">
                         <div className="flex items-center">
                             <span className="material-symbols-outlined text-[20px] mr-1.5 opacity-90">auto_awesome</span>
-                            Summary
+                            智能摘要
                         </div>
                         <div className="flex gap-2">
                             <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-brand/60 hover:text-brand">

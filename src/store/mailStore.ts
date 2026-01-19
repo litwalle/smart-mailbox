@@ -31,6 +31,9 @@ interface MailStore {
     toggleSidebar: () => void;
 
     searchQuery: string;
+    isSearchActive: boolean;
+    setSearchActive: (isActive: boolean) => void;
+
     filterType: 'all' | 'unread' | 'flagged';
     isComposeOpen: boolean;
     composeDraft: { to: string; subject: string; content: string } | null;
@@ -46,6 +49,7 @@ interface MailStore {
 
     // Actions
     selectFolder: (id: string) => void;
+    addFolder: (folder: Folder) => void;
     selectEmail: (id: string | null) => void;
     selectEvent: (id: string | null) => void;
     setCalendarFilter: (type: keyof MailStore['calendarFilters'], value: boolean) => void;
@@ -70,6 +74,7 @@ interface MailStore {
 
     // Getters
     getFilteredEmails: () => Email[];
+    getGlobalSearchResults: () => Email[];
 }
 
 export const useMailStore = create<MailStore>((set, get) => {
@@ -111,6 +116,9 @@ export const useMailStore = create<MailStore>((set, get) => {
         toggleSidebar: () => set((state) => ({ isSidebarCollapsed: !state.isSidebarCollapsed })),
 
         searchQuery: '',
+        isSearchActive: false,
+        setSearchActive: (isActive) => set({ isSearchActive: isActive }),
+
         filterType: 'all',
         isComposeOpen: false,
         composeDraft: null,
@@ -121,6 +129,9 @@ export const useMailStore = create<MailStore>((set, get) => {
             selectedEmailIds: [], // Clear multi-select on folder change
             isFocusMode: id === 'focus'
         }),
+        addFolder: (folder) => set((state) => ({
+            folders: [...state.folders, folder]
+        })),
         selectEmail: (id) => {
             set({ selectedEmailId: id });
             if (id) get().markAsRead(id);
@@ -231,6 +242,18 @@ export const useMailStore = create<MailStore>((set, get) => {
 
             // Sort by Date Desc
             return filtered.sort((a, b) => new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime());
+        },
+
+        getGlobalSearchResults: () => {
+            const state = get();
+            if (!state.searchQuery) return [];
+
+            const q = state.searchQuery.toLowerCase();
+            return state.emails.filter(e =>
+                e.subject.toLowerCase().includes(q) ||
+                e.from.name.toLowerCase().includes(q) ||
+                e.content.toLowerCase().includes(q)
+            ).sort((a, b) => new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime());
         }
     };
 });

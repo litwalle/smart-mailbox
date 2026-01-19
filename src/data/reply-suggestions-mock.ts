@@ -32,9 +32,9 @@ export const mockReplySuggestions: ReplySuggestion[] = [
     },
     {
         id: "sugg-5",
-        mailId: "1", // Keep legacy just in case
-        strategy: "Legacy Test",
-        preview: "Test content."
+        mailId: "1",
+        strategy: "请求更多信息",
+        preview: "能否提供更多关于此问题的背景信息？这样我能更好地评估影响范围。"
     }
 ];
 

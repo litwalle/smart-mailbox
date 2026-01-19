@@ -104,7 +104,7 @@ export function MeetingCard({ meeting, className, compact, isSelected, onJoin, o
                     }}
                 >
                     <span className="material-symbols-outlined text-[18px] mr-1.5">videocam</span>
-                    Join
+                    入会
                 </Button>
             </div>
 
@@ -115,7 +115,7 @@ export function MeetingCard({ meeting, className, compact, isSelected, onJoin, o
                 </div>
                 <div>
                     <div className="text-[14px] font-semibold text-font-primary">
-                        {meeting.date || "Today, Jan 16"}
+                        {meeting.date || "今天, 1月 16日"}
                     </div>
                     <div className="text-[13px] text-brand font-medium">
                         {meeting.time}
@@ -147,7 +147,7 @@ export function MeetingCard({ meeting, className, compact, isSelected, onJoin, o
                         )}
                     </div>
                     <span className="text-[13px] text-font-secondary font-medium">
-                        {meeting.attendees.length} Participants
+                        {meeting.attendees.length} 人参与
                     </span>
                 </div>
 

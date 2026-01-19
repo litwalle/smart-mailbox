@@ -2,6 +2,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { useMailStore } from "@/store/mailStore"
 import { EditorToolbar } from "@/components/features/editor/editor-toolbar"
+import { ComposeAISidebar } from "./ComposeAISidebar"
 import { RichTextEditor, Editor } from "@/components/features/editor/RichTextEditor"
 import { Button } from "@/components/ui/Button"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -41,6 +42,7 @@ export function ComposeWindow() {
     const [size, setSize] = React.useState({ width: 1110, height: 700 })
     const [isDragging, setIsDragging] = React.useState(false)
     const [isResizing, setIsResizing] = React.useState<string | null>(null)
+    const [isAISidebarOpen, setIsAISidebarOpen] = React.useState(false)
     const dragOffset = React.useRef({ x: 0, y: 0 })
     const resizeStart = React.useRef({ x: 0, y: 0, width: 0, height: 0 })
     const windowRef = React.useRef<HTMLDivElement>(null)
@@ -63,6 +65,14 @@ export function ComposeWindow() {
             setContent(composeDraft.content || "")
         }
     }, [isComposeOpen, composeDraft])
+
+    // Listen for AI Assistant open event (from EditorBubbleMenu)
+    React.useEffect(() => {
+        const handleOpenAssistant = () => setIsAISidebarOpen(true)
+        window.addEventListener('open-writing-assistant', handleOpenAssistant)
+        return () => window.removeEventListener('open-writing-assistant', handleOpenAssistant)
+    }, [])
+
 
     // Mouse handlers for drag and resize
     React.useEffect(() => {
@@ -166,7 +176,7 @@ export function ComposeWindow() {
                 className="shrink-0 cursor-grab active:cursor-grabbing relative z-10"
                 onMouseDown={handleDragStart}
             >
-                <div className="flex items-center justify-between px-6 h-[48px] bg-background-primary border-b border-transparent select-none">
+                <div className="flex items-center justify-between px-6 h-[48px] bg-background-primary border-b border-comp-divider/50 select-none">
                     <div className="flex items-baseline gap-3">
                         <h3 className="font-bold text-font-primary text-[15px]">新建邮件</h3>
                         <span className="text-[11px] text-font-tertiary">06:20:32 自动保存</span>
@@ -185,216 +195,238 @@ export function ComposeWindow() {
                 </div>
             </div>
 
-            {/* Main Action Bar */}
-            <div className="px-6 pb-2 pt-0.5 flex items-center justify-between bg-background-primary shrink-0 relative z-10">
-                {/* Left Side: Send + Primary Actions */}
-                <div className="flex items-center gap-2">
-                    <Button
-                        variant="primary"
-                        className="px-6 h-10 gap-2 shadow-none transition-all active:scale-95 rounded-lg"
-                        onClick={handleSend}
-                    >
-                        <Send className="w-5 h-5 ml-[-2px] rotate-1" strokeWidth={1.5} />
-                        <span className="font-semibold text-[14px]">发送</span>
-                    </Button>
-
-                    <div className="flex items-center gap-2">
-                        {/* Restore Grey Background: use bg-background-secondary + hover darken */}
-                        <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary bg-background-secondary hover:bg-background-tertiary">
-                            <Save className="w-5 h-5" strokeWidth={1.5} />
-                        </Button>
-
-                        {/* Combined Buttons with Dropdowns */}
-                        <Button variant="ghost" className="px-1.5 h-10 rounded-lg flex items-center gap-0.5 text-icon-primary bg-background-secondary hover:bg-background-tertiary">
-                            <Paperclip className="w-5 h-5" strokeWidth={1.5} />
-                            <ChevronDown className="w-3 h-3 text-icon-tertiary opacity-70" strokeWidth={1.5} />
-                        </Button>
-                        <Button variant="ghost" className="px-1.5 h-10 rounded-lg flex items-center gap-0.5 text-icon-primary bg-background-secondary hover:bg-background-tertiary">
-                            <Lock className="w-5 h-5" strokeWidth={1.5} />
-                            <ChevronDown className="w-3 h-3 text-icon-tertiary opacity-70" strokeWidth={1.5} />
-                        </Button>
-                    </div>
-                </div>
-
-                {/* Right Side: Secondary Actions (AI, Check, Signature, More) */}
-                <div className="flex items-center gap-1">
-                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
-                        <Sparkles className="w-5 h-5 text-brand" strokeWidth={1.5} />
-                    </Button>
-                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
-                        <UserCheck className="w-5 h-5" strokeWidth={1.5} />
-                    </Button>
-                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
-                        <PenLine className="w-5 h-5" strokeWidth={1.5} />
-                    </Button>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] data-[state=open]:bg-[rgba(0,0,0,0.05)]">
-                                <MoreHorizontal className="w-5 h-5" strokeWidth={1.5} />
+            <div className="flex-1 flex flex-row overflow-hidden min-h-0 relative">
+                {/* Main Left Content */}
+                <div className="flex-1 flex flex-col min-w-0 bg-background-primary">
+                    {/* Main Action Bar */}
+                    <div className="px-6 pb-2 pt-3 flex items-center justify-between bg-background-primary shrink-0 relative z-10">
+                        {/* Left Side: Send + Primary Actions */}
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="primary"
+                                className="px-6 h-10 gap-2 shadow-none transition-all active:scale-95 rounded-lg"
+                                onClick={handleSend}
+                            >
+                                <Send className="w-5 h-5 ml-[-2px] rotate-1" strokeWidth={1.5} />
+                                <span className="font-semibold text-[14px]">发送</span>
                             </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-48">
-                            <DropdownMenuItem>
-                                <Clock className="w-4 h-4 mr-2" />
-                                定时发信
-                            </DropdownMenuItem>
-                            <DropdownMenuSub>
-                                <DropdownMenuSubTrigger>
-                                    <Settings className="w-4 h-4 mr-2" />
-                                    标头栏设置
-                                </DropdownMenuSubTrigger>
-                                <DropdownMenuSubContent className="w-40">
-                                    <DropdownMenuCheckboxItem
-                                        checked={showCc}
-                                        onCheckedChange={setShowCc}
-                                        onSelect={(e) => e.preventDefault()}
-                                    >
-                                        显示抄送
-                                    </DropdownMenuCheckboxItem>
-                                    <DropdownMenuCheckboxItem
-                                        checked={showBcc}
-                                        onCheckedChange={setShowBcc}
-                                        onSelect={(e) => e.preventDefault()}
-                                    >
-                                        显示密送
-                                    </DropdownMenuCheckboxItem>
-                                </DropdownMenuSubContent>
-                            </DropdownMenuSub>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-            </div>
 
-            {/* Fields Area */}
-            <div className="px-6 pb-0 shrink-0">
-                <div className="space-y-0">
-                    {/* To */}
-                    <div
-                        className={cn(
-                            "flex items-center h-[48px] border-b transition-colors group",
-                            activeField === 'to' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
-                        )}
-                    >
-                        <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'to' ? "text-[#000000]" : "text-font-secondary")}>收件人</div>
-                        <div className="flex-1 flex flex-col justify-center relative">
-                            <input
-                                value={to}
-                                onChange={(e) => setTo(e.target.value)}
-                                onFocus={() => setActiveField('to')}
-                                onBlur={() => setActiveField(null)}
-                                className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'to' ? "text-[#000000]" : "text-font-primary")}
-                            />
-                        </div>
-                        {activeField === 'to' && (
-                            <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
-                                <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
-                                    <BookUser className="w-5 h-5" strokeWidth={1.5} />
+                            <div className="flex items-center gap-2">
+                                {/* Restore Grey Background: use bg-background-secondary + hover darken */}
+                                <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary bg-background-secondary hover:bg-background-tertiary">
+                                    <Save className="w-5 h-5" strokeWidth={1.5} />
+                                </Button>
+
+                                {/* Combined Buttons with Dropdowns */}
+                                <Button variant="ghost" className="px-1.5 h-10 rounded-lg flex items-center gap-0.5 text-icon-primary bg-background-secondary hover:bg-background-tertiary">
+                                    <Paperclip className="w-5 h-5" strokeWidth={1.5} />
+                                    <ChevronDown className="w-3 h-3 text-icon-tertiary opacity-70" strokeWidth={1.5} />
+                                </Button>
+                                <Button variant="ghost" className="px-1.5 h-10 rounded-lg flex items-center gap-0.5 text-icon-primary bg-background-secondary hover:bg-background-tertiary">
+                                    <Lock className="w-5 h-5" strokeWidth={1.5} />
+                                    <ChevronDown className="w-3 h-3 text-icon-tertiary opacity-70" strokeWidth={1.5} />
                                 </Button>
                             </div>
-                        )}
+                        </div>
+
+                        {/* Right Side: Secondary Actions (AI, Check, Signature, More) */}
+                        <div className="flex items-center gap-1">
+                            <Button
+                                variant="ghost"
+                                className={cn(
+                                    "w-10 h-10 p-0 rounded-lg transition-colors",
+                                    isAISidebarOpen
+                                        ? "bg-brand/10 text-brand hover:bg-brand/20"
+                                        : "text-icon-primary hover:bg-[rgba(0,0,0,0.05)]"
+                                )}
+                                onClick={() => setIsAISidebarOpen(!isAISidebarOpen)}
+                            >
+                                <Sparkles className={cn("w-5 h-5", isAISidebarOpen ? "text-brand" : "text-brand")} strokeWidth={1.5} />
+                            </Button>
+                            <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
+                                <UserCheck className="w-5 h-5" strokeWidth={1.5} />
+                            </Button>
+                            <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)]">
+                                <PenLine className="w-5 h-5" strokeWidth={1.5} />
+                            </Button>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] data-[state=open]:bg-[rgba(0,0,0,0.05)]">
+                                        <MoreHorizontal className="w-5 h-5" strokeWidth={1.5} />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-48">
+                                    <DropdownMenuItem>
+                                        <Clock className="w-4 h-4 mr-2" />
+                                        定时发信
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSub>
+                                        <DropdownMenuSubTrigger>
+                                            <Settings className="w-4 h-4 mr-2" />
+                                            标头栏设置
+                                        </DropdownMenuSubTrigger>
+                                        <DropdownMenuSubContent className="w-40">
+                                            <DropdownMenuCheckboxItem
+                                                checked={showCc}
+                                                onCheckedChange={setShowCc}
+                                                onSelect={(e) => e.preventDefault()}
+                                            >
+                                                显示抄送
+                                            </DropdownMenuCheckboxItem>
+                                            <DropdownMenuCheckboxItem
+                                                checked={showBcc}
+                                                onCheckedChange={setShowBcc}
+                                                onSelect={(e) => e.preventDefault()}
+                                            >
+                                                显示密送
+                                            </DropdownMenuCheckboxItem>
+                                        </DropdownMenuSubContent>
+                                    </DropdownMenuSub>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </div>
 
-                    {/* Cc */}
-                    {showCc && (
-                        <div
-                            className={cn(
-                                "flex items-center h-[48px] border-b transition-colors group",
-                                activeField === 'cc' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
-                            )}
-                        >
-                            <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'cc' ? "text-[#000000]" : "text-font-secondary")}>抄送</div>
-                            <div className="flex-1 flex flex-col justify-center relative">
-                                <input
-                                    value={cc}
-                                    onChange={(e) => setCc(e.target.value)}
-                                    onFocus={() => setActiveField('cc')}
-                                    onBlur={() => setActiveField(null)}
-                                    className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'cc' ? "text-[#000000]" : "text-font-primary")}
-                                />
+                    {/* Fields Area */}
+                    <div className="px-6 pb-0 shrink-0">
+                        <div className="space-y-0">
+                            {/* To */}
+                            <div
+                                className={cn(
+                                    "flex items-center h-[48px] border-b transition-colors group",
+                                    activeField === 'to' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
+                                )}
+                            >
+                                <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'to' ? "text-[#000000]" : "text-font-secondary")}>收件人</div>
+                                <div className="flex-1 flex flex-col justify-center relative">
+                                    <input
+                                        value={to}
+                                        onChange={(e) => setTo(e.target.value)}
+                                        onFocus={() => setActiveField('to')}
+                                        onBlur={() => setActiveField(null)}
+                                        className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'to' ? "text-[#000000]" : "text-font-primary")}
+                                    />
+                                </div>
+                                {activeField === 'to' && (
+                                    <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
+                                        <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
+                                            <BookUser className="w-5 h-5" strokeWidth={1.5} />
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
-                            {activeField === 'cc' && (
-                                <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
-                                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
-                                        <BookUser className="w-5 h-5" strokeWidth={1.5} />
-                                    </Button>
+
+                            {/* Cc */}
+                            {showCc && (
+                                <div
+                                    className={cn(
+                                        "flex items-center h-[48px] border-b transition-colors group",
+                                        activeField === 'cc' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
+                                    )}
+                                >
+                                    <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'cc' ? "text-[#000000]" : "text-font-secondary")}>抄送</div>
+                                    <div className="flex-1 flex flex-col justify-center relative">
+                                        <input
+                                            value={cc}
+                                            onChange={(e) => setCc(e.target.value)}
+                                            onFocus={() => setActiveField('cc')}
+                                            onBlur={() => setActiveField(null)}
+                                            className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'cc' ? "text-[#000000]" : "text-font-primary")}
+                                        />
+                                    </div>
+                                    {activeField === 'cc' && (
+                                        <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
+                                            <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
+                                                <BookUser className="w-5 h-5" strokeWidth={1.5} />
+                                            </Button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
-                        </div>
-                    )}
 
-                    {/* Bcc */}
-                    {showBcc && (
-                        <div
-                            className={cn(
-                                "flex items-center h-[48px] border-b transition-colors group",
-                                activeField === 'bcc' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
-                            )}
-                        >
-                            <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'bcc' ? "text-[#000000]" : "text-font-secondary")}>密送</div>
-                            <div className="flex-1 flex flex-col justify-center relative">
-                                <input
-                                    value={bcc}
-                                    onChange={(e) => setBcc(e.target.value)}
-                                    onFocus={() => setActiveField('bcc')}
-                                    onBlur={() => setActiveField(null)}
-                                    className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'bcc' ? "text-[#000000]" : "text-font-primary")}
-                                />
-                            </div>
-                            {activeField === 'bcc' && (
-                                <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
-                                    <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
-                                        <BookUser className="w-5 h-5" strokeWidth={1.5} />
-                                    </Button>
+                            {/* Bcc */}
+                            {showBcc && (
+                                <div
+                                    className={cn(
+                                        "flex items-center h-[48px] border-b transition-colors group",
+                                        activeField === 'bcc' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
+                                    )}
+                                >
+                                    <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'bcc' ? "text-[#000000]" : "text-font-secondary")}>密送</div>
+                                    <div className="flex-1 flex flex-col justify-center relative">
+                                        <input
+                                            value={bcc}
+                                            onChange={(e) => setBcc(e.target.value)}
+                                            onFocus={() => setActiveField('bcc')}
+                                            onBlur={() => setActiveField(null)}
+                                            className={cn("w-full outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary", activeField === 'bcc' ? "text-[#000000]" : "text-font-primary")}
+                                        />
+                                    </div>
+                                    {activeField === 'bcc' && (
+                                        <div className="shrink-0 animate-in fade-in zoom-in-95 duration-200">
+                                            <Button variant="ghost" className="w-10 h-10 p-0 rounded-lg text-icon-primary hover:bg-[rgba(0,0,0,0.05)] transition-colors">
+                                                <BookUser className="w-5 h-5" strokeWidth={1.5} />
+                                            </Button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
-                        </div>
-                    )}
 
-                    {/* Subject */}
-                    <div
-                        className={cn(
-                            "flex items-center h-[48px] border-b transition-colors group",
-                            activeField === 'subject' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
-                        )}
-                    >
-                        <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'subject' ? "text-[#000000]" : "text-font-secondary")}>主题</div>
-                        <input
-                            value={subject}
-                            onChange={(e) => setSubject(e.target.value)}
-                            onFocus={() => setActiveField('subject')}
-                            onBlur={() => setActiveField(null)}
-                            placeholder="请输入主题"
-                            className={cn(
-                                "flex-1 outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary",
-                                activeField === 'subject' ? "text-[#000000]" : "text-font-primary"
-                            )}
-                        />
-                        <div className="shrink-0">
-                            <Button variant="ghost" className="h-8 px-2 text-[13px] text-font-tertiary hover:text-brand flex items-center gap-1 font-medium rounded-md">
-                                重要性 <ChevronDown className="w-3 h-3 text-icon-tertiary" strokeWidth={1.5} />
-                            </Button>
+                            {/* Subject */}
+                            <div
+                                className={cn(
+                                    "flex items-center h-[48px] border-b transition-colors group",
+                                    activeField === 'subject' ? "border-[#0A59F7] border-b-[0.5px]" : "border-comp-divider/50 hover:border-comp-divider"
+                                )}
+                            >
+                                <div className={cn("w-14 shrink-0 text-sm font-medium transition-colors", activeField === 'subject' ? "text-[#000000]" : "text-font-secondary")}>主题</div>
+                                <input
+                                    value={subject}
+                                    onChange={(e) => setSubject(e.target.value)}
+                                    onFocus={() => setActiveField('subject')}
+                                    onBlur={() => setActiveField(null)}
+                                    placeholder="请输入主题"
+                                    className={cn(
+                                        "flex-1 outline-none text-sm font-medium bg-transparent placeholder:text-font-tertiary",
+                                        activeField === 'subject' ? "text-[#000000]" : "text-font-primary"
+                                    )}
+                                />
+                                <div className="shrink-0">
+                                    <Button variant="ghost" className="h-8 px-2 text-[13px] text-font-tertiary hover:text-brand flex items-center gap-1 font-medium rounded-md">
+                                        重要性 <ChevronDown className="w-3 h-3 text-icon-tertiary" strokeWidth={1.5} />
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                    {/* Toolbar */}
+                    <div className="px-6 py-1 shrink-0">
+                        <EditorToolbar className="h-[48px] !h-[48px]" editor={editor} />
+                    </div>
+
+                    {/* Body */}
+                    <div className="flex-1 relative min-h-0 bg-background-primary cursor-text" onClick={() => editor?.commands.focus()}>
+                        <ScrollArea className="h-full w-full">
+                            <div className="px-6 py-4">
+                                <RichTextEditor
+                                    content={content}
+                                    onChange={setContent}
+                                    onEditorReady={setEditor}
+                                    placeholder="请输入正文内容..."
+                                />
+                            </div>
+                        </ScrollArea>
                     </div>
                 </div>
-            </div>
 
-            {/* Toolbar */}
-            <div className="px-6 py-1 shrink-0">
-                <EditorToolbar className="h-[48px] !h-[48px]" editor={editor} />
-            </div>
-
-            {/* Body */}
-            <div className="flex-1 relative min-h-0 bg-background-primary cursor-text" onClick={() => editor?.commands.focus()}>
-                <ScrollArea className="h-full w-full">
-                    <div className="px-6 py-4">
-                        <RichTextEditor
-                            content={content}
-                            onChange={setContent}
-                            onEditorReady={setEditor}
-                            placeholder="请输入正文内容..."
-                        />
-                    </div>
-                </ScrollArea>
+                {/* AI Assistant Sidebar */}
+                {isAISidebarOpen && (
+                    <ComposeAISidebar
+                        onClose={() => setIsAISidebarOpen(false)}
+                        editor={editor}
+                    />
+                )}
             </div>
         </div>
     )

@@ -77,7 +77,7 @@ export function SidebarCalendar({ isCollapsed }: SidebarCalendarProps) {
                 {!isCollapsed && (
                     <div className="mb-8 animate-in fade-in duration-300 pl-1 pr-1">
                         <div className="flex items-center justify-between mb-4 px-1">
-                            <span className="font-bold text-base text-slate-900">August 2024</span>
+                            <span className="font-bold text-base text-slate-900">2024年 8月</span>
                             <div className="flex gap-2">
                                 <button className="h-6 w-6 flex items-center justify-center hover:bg-slate-200/50 rounded-full text-slate-500 transition-colors">
                                     <span className="material-symbols-outlined text-[20px]">chevron_left</span>
@@ -90,7 +90,7 @@ export function SidebarCalendar({ isCollapsed }: SidebarCalendarProps) {
 
                         {/* Days Header */}
                         <div className="grid grid-cols-7 gap-y-2 text-center mb-2">
-                            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
+                            {['日', '一', '二', '三', '四', '五', '六'].map((d, i) => (
                                 <div key={i} className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">{d}</div>
                             ))}
                         </div>

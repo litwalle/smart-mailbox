@@ -68,10 +68,10 @@ export function StandardEmailCard({ card, isHovered, isSelected, onArchive }: St
             // Swap: Tag is now Subtitle (Under name), Time is right side
             subtitle={card.isImportant && (
                 <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-600 border border-amber-100 uppercase tracking-wide">
-                    Important
+                    重要
                 </span>
             )}
-            time={card.timeDisplay || "Today"}
+            time={card.timeDisplay || "今天"}
             onComplete={onArchive ? () => onArchive(card.id) : undefined}
 
             footer={<FocusCardActions actions={card.actions} />}

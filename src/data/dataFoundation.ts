@@ -114,11 +114,86 @@ const alexFolders: Folder[] = [
 // Re-creating the specific emails for Alex to ensure they are self-contained
 const alexEmails: Email[] = [
     {
+        id: "e-cn-1",
+        from: { id: "u-wang", name: "王总", email: "wang@company.com", avatar: "" },
+        to: [alexUser],
+        subject: "关于 Q4 季度目标的调整通知",
+        preview: "各位同事，经过管理层讨论，决定对 Q4 季度的核心目标进行如下调整...",
+        content: `
+            <div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;">
+                <p>各位同事，</p>
+                <p>经过管理层讨论，决定对 Q4 季度的核心目标进行如下调整：</p>
+                <h3>1. 营收目标</h3>
+                <p>原定增长 20% 调整为 <strong>25%</strong>，重点发力企业级客户。</p>
+                <h3>2. 产品发布</h3>
+                <p>V3.0 版本发布时间提前至 11 月 15 日。</p>
+                <p>请各部门根据新目标调整相应的执行计划。</p>
+                <p>祝好，<br>王总</p>
+            </div>
+        `,
+        isRead: false,
+        size: "1.2 MB",
+        cc: [],
+        bcc: [],
+        isStarred: true,
+        sentAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+        folderId: "inbox",
+        labels: ["工作", "紧急"],
+        priority: "high",
+        aiSummary: "Q4 营收目标上调至 25%，V3.0 发布提前至 11 月 15 日。",
+        aiTodos: [{
+            id: "t-cn-1",
+            content: "调整部门 Q4 执行计划",
+            isCompleted: false,
+            sourceEmailId: "e-cn-1",
+            priority: "high",
+            deadline: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(),
+            action: { label: "查看详情", url: "#okr-system", type: "primary" }
+        }],
+        actionCapsules: [
+            { id: "ac-cn-1", label: "收到", type: "primary" },
+            { id: "ac-cn-2", label: "查看 OKR", type: "secondary" }
+        ]
+    },
+    {
+        id: "e-cn-2",
+        from: { id: "hr-cn", name: "人力资源部", email: "hr@company.com", avatar: "" },
+        to: [alexUser],
+        subject: "中秋节放假安排及福利发放",
+        preview: "根据国家法定节假日安排，现将中秋节放假事宜通知如下...",
+        content: `
+            <div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;">
+                <p>全体员工：</p>
+                <p>根据国家法定节假日安排，现将中秋节放假事宜通知如下：</p>
+                <ul>
+                    <li>放假时间：9 月 15 日至 9 月 17 日，共 3 天。</li>
+                    <li>节日福利：请于本周五下午 14:00 到前台领取月饼礼盒。</li>
+                </ul>
+                <p>预祝大家节日快乐！</p>
+                <p>人力资源部</p>
+            </div>
+        `,
+        isRead: true,
+        size: "500 KB",
+        cc: [],
+        bcc: [],
+        isStarred: false,
+        sentAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+        folderId: "inbox",
+        labels: ["行政", "Notice"],
+        priority: "low",
+        aiSummary: "中秋放假 3 天，周五下午领取节日福利。",
+        aiTodos: [],
+        actionCapsules: [
+            { id: "ac-cn-3", label: "添加日程", type: "primary" }
+        ]
+    },
+    {
         id: "e1",
         from: { id: "u2", name: "Elon Musk", email: "elon@spacex.com", avatar: "https://i.pravatar.cc/150?u=u2" },
         to: [alexUser],
         subject: "Update on Starship Launch Flight 6",
-        deadline: "Today, 13:00 PM",
+        deadline: "今天 13:00",
         preview: "Launch was successful. We need the data telemetry for the booster catch mechanism immediately.",
         content: `
             <div style="font-family: 'Inter', sans-serif; color: #334155; line-height: 1.6;">
@@ -171,7 +246,7 @@ const alexEmails: Email[] = [
         isStarred: true,
         sentAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
         folderId: "inbox",
-        labels: ["Work", "Urgent"],
+        labels: ["工作", "紧急"],
         priority: "high",
         aiSummary: "The launch was successful, but the booster catch was aborted. Urgent analysis of telemetry data is required for Flight 7.",
         translatedSummary: "发射成功，但助推器回收取消。急需分析遥测数据以为第 7 次飞行做准备。",
@@ -280,7 +355,7 @@ const alexEmails: Email[] = [
         isStarred: false,
         sentAt: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
         folderId: "inbox",
-        labels: ["Meeting", "Design"],
+        labels: ["Meeting", "设计"],
         priority: "medium",
         aiSummary: "UX Review: V2 Component Library",
         translatedSummary: "UX 评审：V2 组件库",
@@ -325,7 +400,7 @@ const alexEmails: Email[] = [
         isStarred: true,
         sentAt: new Date(Date.now() - 1000 * 60 * 240).toISOString(),
         folderId: "inbox",
-        labels: ["Meeting", "External"],
+        labels: ["Meeting", "外部"],
         priority: "high",
         aiSummary: "Client requirements discussion for Q4.",
         translatedSummary: "Q4 客户需求讨论。",
@@ -374,8 +449,8 @@ const alexEmails: Email[] = [
         aiSummary: "Candidate accepted offer. Waiting for final signature.",
         translatedSummary: "候选人已接受 Offer，等待最终签字。",
         aiTodos: [{
-            id: "t_sarah_1", content: "Approve onboarding documents", isCompleted: false, sourceEmailId: "focus-sarah", priority: "high", deadline: "Today 12:00 PM",
-            action: { label: "Approve", url: "#approve", type: "primary" }
+            id: "t_sarah_1", content: "Approve onboarding documents", isCompleted: false, sourceEmailId: "focus-sarah", priority: "high", deadline: "今天 12:00",
+            action: { label: "批准", url: "#approve", type: "primary" }
         }],
         translatedTodos: [{
             id: "t_sarah_1-trans", content: "批准入职文件", isCompleted: false, sourceEmailId: "focus-sarah", priority: "high", deadline: "今天 12:00 PM",
@@ -454,7 +529,7 @@ const alexEmails: Email[] = [
         isRead: true,
         isStarred: false,
         folderId: 'inbox',
-        labels: ['Report'],
+        labels: ["简报"],
         priority: 'medium',
         aiSummary: "2026 Tech Trend: Vibe Coding is reshaping the development experience."
     },
@@ -934,7 +1009,7 @@ const alexBriefing: MorningBriefing = {
             guidanceText: "今天下午还有 <b>3 场会议</b> 需要您关注。",
             title: "今日会议日程",
             summary: "下午主要集中在设计评审和客户沟通。",
-            timeDisplay: "Today",
+            timeDisplay: "今天",
             meetingList: [
                 { id: 'm1', time: '14:00 - 15:00', title: 'Project Alpha 同步会', location: '会议室 B', attendees: ['Sarah', 'Mike'], tags: ['内部'], relatedEmailId: 'focus-meeting' },
                 { id: 'm2', time: '15:30 - 16:30', title: '产品设计评审 (UX)', location: 'Zoom', attendees: ['Design Team'], tags: ['评审'], relatedEmailId: 'focus-meeting-design' },
@@ -952,8 +1027,8 @@ const alexBriefing: MorningBriefing = {
             summary: "2026 技术趋势：Vibe Coding 正在重塑开发体验。",
             timeDisplay: "10:30 AM",
             insightData: {
-                source: "Gartner Research",
-                tag: "Technology Trends",
+                source: "Gartner 研究",
+                tag: "技术趋势",
                 imageUrl: "https://placehold.co/600x320/4f46e5/ffffff?text=Vibe+Coding+Trends"
             },
             relatedEmailId: 'e_insight',
@@ -1043,7 +1118,7 @@ const taylorEmails: Email[] = [
         isStarred: false,
         sentAt: new Date().toISOString(),
         folderId: "inbox",
-        labels: ["Bug", "High Priority"],
+        labels: ["缺陷", "高优先级"],
         priority: "high",
         aiSummary: "Fix latency in user module.",
         aiTodos: [{ id: "tt1", content: "Optimize SQL Query", isCompleted: false, sourceEmailId: "t_e1", priority: "high", deadline: "Today" }]
@@ -1051,9 +1126,9 @@ const taylorEmails: Email[] = [
 ];
 
 const taylorBriefing: MorningBriefing = {
-    dateDisplay: "WEDNESDAY, OCT 24",
-    headline: "Morning, Taylor.",
-    summary: "You have <b>1 critical bug</b> to fix today.",
+    dateDisplay: "10月24日 星期三",
+    headline: "早上好, Taylor.",
+    summary: "今天您有 <b>1 个关键 Bug</b> 需要修复。",
     cards: [
         {
             id: "focus-taylor-1",
@@ -1061,13 +1136,13 @@ const taylorBriefing: MorningBriefing = {
             priority: 100,
             isImportant: true,
             guidanceIcon: "bug_report",
-            guidanceText: "<b>Alex</b> reported a critical API latency issue.",
-            title: "API Performance Issue",
-            summary: "User module latency > 500ms. Needs immediate investigation.",
-            timeDisplay: "Urgent",
+            guidanceText: "<b>Alex</b> 报告了一个关键的 API 延迟问题。",
+            title: "API 性能问题",
+            summary: "用户模块延迟 > 500ms。需要立即调查。",
+            timeDisplay: "紧急",
             relatedEmailId: "t_e1",
             relatedEmail: taylorEmails[0],
-            actions: [{ label: "View Logs", actionType: "open", isPrimary: true }]
+            actions: [{ label: "查看日志", actionType: "open", isPrimary: true }]
         }
     ]
 };
@@ -1093,15 +1168,15 @@ const jordanEmails: Email[] = [
         isStarred: false,
         sentAt: new Date().toISOString(),
         folderId: "inbox",
-        labels: ["Contract", "Won"],
+        labels: ["合同", "已赢单"],
         priority: "high"
     }
 ];
 
 const jordanBriefing: MorningBriefing = {
-    dateDisplay: "WEDNESDAY, OCT 24",
-    headline: "Great start, Jordan.",
-    summary: "<b>Client A</b> just signed the contract!",
+    dateDisplay: "10月24日 星期三",
+    headline: "开局不错, Jordan.",
+    summary: "<b>客户 A</b> 刚刚签署了合同！",
     cards: [
         {
             id: "focus-jordan-1",
@@ -1109,13 +1184,13 @@ const jordanBriefing: MorningBriefing = {
             priority: 100,
             isImportant: true,
             guidanceIcon: "verified",
-            guidanceText: "<b>Client A</b> sent the signed contract.",
-            title: "Connect Signed: Client A",
-            summary: "Q4 Renewal contract signed and attached.",
-            timeDisplay: "Just now",
+            guidanceText: "<b>客户 A</b> 发送了签署的合同。",
+            title: "合同签署：客户 A",
+            summary: "Q4 续约合同已签署并附上。",
+            timeDisplay: "刚刚",
             relatedEmailId: "j_e1",
             relatedEmail: jordanEmails[0],
-            actions: [{ label: "View Contract", actionType: "open", isPrimary: true }]
+            actions: [{ label: "查看合同", actionType: "open", isPrimary: true }]
         }
     ]
 };

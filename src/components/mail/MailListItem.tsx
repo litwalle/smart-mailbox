@@ -14,6 +14,7 @@ import {
 interface MailListItemProps {
     email: Email
     isSelected: boolean
+    highlightKeyword?: string
 }
 
 // 标签样式配置 - Harmony Semantic Colors
@@ -25,7 +26,7 @@ const TAG_STYLES: Record<string, string> = {
     default: "bg-background-secondary text-font-secondary border-comp-divider"
 }
 
-export function MailListItem({ email, isSelected }: MailListItemProps) {
+export function MailListItem({ email, isSelected, highlightKeyword }: MailListItemProps) {
     const {
         selectEmail,
         toggleStar,
@@ -104,6 +105,26 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
 
         return tags.slice(0, 3)
     }, [email])
+
+
+
+    // Highlight Helper
+    const highlightText = (text: string, keyword?: string) => {
+        if (!keyword || !text) return text
+
+        const parts = text.split(new RegExp(`(${keyword})`, 'gi'))
+        return (
+            <>
+                {parts.map((part, i) =>
+                    part.toLowerCase() === keyword.toLowerCase() ? (
+                        <span key={i} className="bg-yellow-100 text-slate-900 rounded-[1px]">{part}</span>
+                    ) : (
+                        part
+                    )
+                )}
+            </>
+        )
+    }
 
     return (
         <div
@@ -211,7 +232,11 @@ export function MailListItem({ email, isSelected }: MailListItemProps) {
                         {isMeeting && (
                             <Calendar className="w-3.5 h-3.5 text-icon-tertiary inline-block mr-1 align-text-bottom" />
                         )}
-                        {email.aiSummary || email.preview}
+                        {highlightText(email.subject, highlightKeyword)}
+                        <span className="mx-1 text-slate-300">-</span>
+                        <span className="text-font-secondary font-normal">
+                            {highlightText(email.aiSummary || email.preview, highlightKeyword)}
+                        </span>
                     </div>
 
                     {/* Tags */}

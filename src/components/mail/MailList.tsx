@@ -1,7 +1,8 @@
 import * as React from "react"
 import { useMailStore } from "@/store/mailStore"
 import { MailListItem } from "./MailListItem"
-import { Input } from "@/components/ui/Input"
+import { SearchInput } from "@/components/mail/search/SearchInput"
+import { SearchResultsList } from "@/components/mail/search/SearchResultsList"
 import { cn } from "@/lib/utils"
 import { EmptyState } from "@/components/ui/EmptyState"
 import { FocusView } from "@/components/mail/FocusView"
@@ -29,9 +30,16 @@ export function MailList() {
         setSearchQuery,
         getFilteredEmails,
         selectedEmailIds,
-        selectAll,
-        clearSelection
+        clearSelection,
+        isSearchActive,
+        setSearchActive,
+        selectAll
     } = useMailStore()
+
+
+    if (isSearchActive) {
+        return <SearchResultsList />
+    }
 
     // *** CRITICAL: Focus View Rendering ***
     if (isFocusMode) {
@@ -45,6 +53,8 @@ export function MailList() {
     if (selectedFolderId === 'todo') {
         return <TodoListView />
     }
+
+
 
     const emails = getFilteredEmails()
     const isMultiSelectMode = selectedEmailIds.length > 0
@@ -92,27 +102,34 @@ export function MailList() {
                 ) : (
                     /* Standard Header */
                     <div className="flex flex-col gap-4 animate-in fade-in duration-200">
+                        <SearchInput
+                            value={searchQuery}
+                            onChange={(value) => setSearchQuery(value)}
+                            onSearch={() => setSearchActive(true)}
+                            onClear={() => {
+                                setSearchQuery('')
+                                setSearchActive(false)
+                            }}
+                            className="w-full"
+                        />
+
                         <div className="flex justify-between items-end">
                             <h2 className="text-xl font-bold capitalize text-slate-900 tracking-tight">
-                                {selectedFolderId === 'inbox' ? 'Inbox' : selectedFolderId.replace('-', ' ')}
+                                {selectedFolderId === 'inbox' ? '收件箱' :
+                                    selectedFolderId === 'sent' ? '已发送' :
+                                        selectedFolderId === 'archive' ? '归档' :
+                                            selectedFolderId === 'trash' ? '已删除' :
+                                                selectedFolderId.replace('-', ' ')}
                             </h2>
                             <span className="text-xs text-slate-400 font-medium mb-1">
-                                {emails.length} messages
+                                {emails.length} 封邮件
                             </span>
                         </div>
 
-                        <Input
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search..."
-                            leftIcon={<span className="material-symbols-outlined text-[18px]">search</span>}
-                            className="bg-slate-100 border-transparent focus:bg-white transition-all shadow-none focus:shadow-sm"
-                        />
-
                         <div className="flex gap-4 border-b border-slate-100 mt-1">
-                            <TabBtn type="all" label="All" />
-                            <TabBtn type="unread" label="Unread" />
-                            <TabBtn type="flagged" label="Flagged" />
+                            <TabBtn type="all" label="全部" />
+                            <TabBtn type="unread" label="未读" />
+                            <TabBtn type="flagged" label="红旗" />
                         </div>
                     </div>
                 )}
@@ -126,13 +143,13 @@ export function MailList() {
                     ) : (
                         <EmptyState
                             icon={searchQuery ? "search_off" : "inbox"}
-                            title={searchQuery ? "No matches found" : "All caught up"}
+                            title={searchQuery ? "未找到匹配项" : "没有更多邮件"}
                             description={
                                 searchQuery
-                                    ? `We couldn't find any emails matching "${searchQuery}"`
-                                    : "You have no emails in this folder."
+                                    ? `未找到与 "${searchQuery}" 匹配的邮件`
+                                    : "此文件夹为空。"
                             }
-                            actionLabel={filterType !== 'all' ? "Clear filters" : undefined}
+                            actionLabel={filterType !== 'all' ? "清除筛选" : undefined}
                             onAction={filterType !== 'all' ? () => setFilterType('all') : undefined}
                             className="mt-12"
                         />

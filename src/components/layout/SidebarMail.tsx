@@ -7,9 +7,14 @@ interface SidebarMailProps {
     isCollapsed?: boolean
 }
 
+import { SmartViewSetupModal } from "@/components/mail/SmartViewSetupModal"
+
+// ... (other imports)
+
 export function SidebarMail({ isCollapsed }: SidebarMailProps) {
     const { folders, selectedFolderId, selectFolder, toggleCompose, currentUser } = useMailStore()
     const [isUserFoldersOpen, setIsUserFoldersOpen] = React.useState(true)
+    const [isSmartViewModalOpen, setIsSmartViewModalOpen] = React.useState(false)
 
     // Filter Groups
     const groupFocus = folders.filter(f => ['focus', 'todo'].includes(f.id));
@@ -33,7 +38,7 @@ export function SidebarMail({ isCollapsed }: SidebarMailProps) {
                     )}
                     title="写信"
                 >
-                    <span className={cn("material-symbols-outlined text-brand", isCollapsed ? "text-[22px]" : "text-[20px]")}>edit_square</span>
+                    <span className="material-symbols-outlined text-brand text-[20px]">edit_square</span>
                     {!isCollapsed && <span className="font-semibold">写信</span>}
                 </Button>
             </div>
@@ -58,26 +63,45 @@ export function SidebarMail({ isCollapsed }: SidebarMailProps) {
                 </div>
 
                 {/* Group 2: Smart Folders */}
-                {groupSmart.length > 0 && (
-                    <div className="space-y-0.5">
-                        {!isCollapsed && <SectionHeader label="智能视图" />}
-                        {isCollapsed && <div className="h-4"></div>} {/* Spacer for collapsed */}
-                        {groupSmart.map(folder => (
-                            <NavButton
-                                key={folder.id}
-                                folder={folder}
-                                isActive={selectedFolderId === folder.id}
-                                onClick={() => selectFolder(folder.id)}
-                                labelOverride={
-                                    folder.id === 'vip' ? '重要联系人' :
-                                        folder.id === 'meetings' ? '会议纪要' :
-                                            folder.id === 'approvals' ? '审批' : undefined
-                                }
-                                isCollapsed={isCollapsed}
-                            />
-                        ))}
-                    </div>
-                )}
+                <div className="space-y-0.5">
+                    {!isCollapsed && <SectionHeader label="智能视图" />}
+                    {isCollapsed && <div className="h-4"></div>} {/* Spacer for collapsed */}
+
+                    {groupSmart.map(folder => (
+                        <NavButton
+                            key={folder.id}
+                            folder={folder}
+                            isActive={selectedFolderId === folder.id}
+                            onClick={() => selectFolder(folder.id)}
+                            labelOverride={
+                                folder.id === 'vip' ? '重要联系人' :
+                                    folder.id === 'meetings' ? '会议纪要' :
+                                        folder.id === 'approvals' ? '审批' : undefined
+                            }
+                            isCollapsed={isCollapsed}
+                        />
+                    ))}
+
+                    {/* Add View Button */}
+                    <button
+                        onClick={() => setIsSmartViewModalOpen(true)}
+                        className={cn(
+                            "flex items-center transition-colors ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20",
+                            isCollapsed
+                                ? "w-10 h-10 justify-center rounded-xl mx-auto"
+                                : "w-full gap-3 px-3 py-1.5 rounded-md text-sm font-medium text-font-secondary hover:bg-background-secondary hover:text-font-primary"
+                        )}
+                        title="新建视图"
+                    >
+                        <div className="flex items-center justify-center">
+                            <span className={cn(
+                                "material-symbols-outlined text-icon-tertiary",
+                                isCollapsed ? "text-[22px]" : "text-[18px]"
+                            )}>add</span>
+                        </div>
+                        {!isCollapsed && <span className="flex-1 text-left truncate">新建视图</span>}
+                    </button>
+                </div>
 
                 {/* Group 3: Account & Mailbox & User Folders */}
                 <div className="space-y-0.5">
@@ -126,11 +150,17 @@ export function SidebarMail({ isCollapsed }: SidebarMailProps) {
                         </div>
                     )}
                 </div>
-
             </div>
+
+            <SmartViewSetupModal
+                open={isSmartViewModalOpen}
+                onOpenChange={setIsSmartViewModalOpen}
+            />
         </div>
     )
 }
+
+// ... (Helper Components NavButton and SectionHeader remain same)
 
 // --- Helper Components ---
 

@@ -87,7 +87,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
             <div className="mb-4 bg-background-primary border border-comp-divider rounded-lg p-4 min-h-[72px] flex items-center justify-between transition-all duration-300">
                 {status === 'pending' ? (
                     <>
-                        <div className="font-medium text-font-primary text-sm">Confirm your attendance</div>
+                        <div className="font-medium text-font-primary text-sm">确认此时程安排</div>
                         <div className="flex items-center gap-3">
                             <Button
                                 variant="primary"
@@ -95,7 +95,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 className="min-w-[90px] border-0"
                                 onClick={() => setStatus('accepted')}
                             >
-                                Accept
+                                接受
                             </Button>
                             <Button
                                 variant="secondary"
@@ -103,7 +103,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 className="min-w-[90px]"
                                 onClick={() => setStatus('tentative')}
                             >
-                                Maybe
+                                待定
                             </Button>
                             <Button
                                 variant="ghost"
@@ -111,7 +111,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 className="min-w-[80px]"
                                 onClick={() => setStatus('declined')}
                             >
-                                Decline
+                                拒绝
                             </Button>
                         </div>
                     </>
@@ -135,14 +135,14 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                     status === 'declined' && "text-font-secondary",
                                     status === 'tentative' && "text-palette-10"
                                 )}>
-                                    {status === 'accepted' && "Going"}
-                                    {status === 'declined' && "Declined"}
-                                    {status === 'tentative' && "Maybe"}
+                                    {status === 'accepted' && "已接受"}
+                                    {status === 'declined' && "已拒绝"}
+                                    {status === 'tentative' && "待定"}
                                 </span>
                                 <span className="text-xs text-font-tertiary">
-                                    {status === 'accepted' && "You accepted this meeting invitation."}
-                                    {status === 'declined' && "You declined this meeting invitation."}
-                                    {status === 'tentative' && "You tentatively accepted this meeting."}
+                                    {status === 'accepted' && "你已接受此会议邀请。"}
+                                    {status === 'declined' && "你已拒绝此会议邀请。"}
+                                    {status === 'tentative' && "你已将此会议标记为待定。"}
                                 </span>
                             </div>
                         </div>
@@ -152,7 +152,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                             className="text-font-tertiary hover:text-font-secondary"
                             onClick={() => setStatus('pending')}
                         >
-                            Change Response
+                            更改回复
                         </Button>
                     </div>
                 )}
@@ -173,7 +173,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                         status === 'declined' ? "bg-font-secondary text-font-on-primary" :
                                             "bg-brand text-font-on-primary"
                                 )}>
-                                    {status === 'pending' ? 'Invitation' : status}
+                                    {status === 'pending' ? '会议邀请' : status}
                                 </span>
                             </div>
 
@@ -252,16 +252,16 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                     {/* Agenda Table */}
                     {meeting.agendaItems && meeting.agendaItems.length > 0 && (
                         <div>
-                            <SectionTitle>Agenda</SectionTitle>
+                            <SectionTitle>会议议程</SectionTitle>
                             <div className="border border-comp-divider rounded-lg overflow-hidden ml-2.5">
                                 <table className="w-full text-sm">
                                     <thead className="bg-background-secondary/80 text-font-secondary text-xs font-medium border-b border-comp-divider">
                                         <tr>
                                             <th className="px-3 py-2 w-10 text-center">#</th>
-                                            <th className="px-3 py-2 text-left">Topic</th>
-                                            <th className="px-3 py-2 w-24 text-left">Type</th>
-                                            <th className="px-3 py-2 w-24 text-left">Time</th>
-                                            <th className="px-3 py-2 w-16 text-right">Duration</th>
+                                            <th className="px-3 py-2 text-left">主题</th>
+                                            <th className="px-3 py-2 w-24 text-left">类型</th>
+                                            <th className="px-3 py-2 w-24 text-left">时间</th>
+                                            <th className="px-3 py-2 w-16 text-right">时长</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-comp-divider/50">
@@ -286,16 +286,16 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
 
                     {/* Resources */}
                     <div>
-                        <SectionTitle>Resources</SectionTitle>
+                        <SectionTitle>会议资料</SectionTitle>
                         <div className="flex items-center gap-2 ml-2.5">
                             <Button variant="secondary" size="sm" className="gap-1.5 text-font-secondary text-xs h-8">
                                 <FileText className="w-3.5 h-3.5" />
-                                View Detailed Agenda
+                                查看详细议程
                             </Button>
                             {meeting.materials && meeting.materials.length > 0 && (
                                 <Button variant="secondary" size="sm" className="gap-1.5 text-font-secondary text-xs h-8">
                                     <ExternalLink className="w-3.5 h-3.5" />
-                                    View Materials ({meeting.materials.length})
+                                    查看参考资料 ({meeting.materials.length})
                                 </Button>
                             )}
                         </div>
@@ -304,7 +304,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                     {/* Attendees */}
                     <div>
                         <SectionTitle>
-                            Attendees <span className="text-font-tertiary font-normal">({meeting.attendees.length})</span>
+                            参会人员 <span className="text-font-tertiary font-normal">({meeting.attendees.length})</span>
                         </SectionTitle>
 
                         <div className="ml-2.5 space-y-4">
@@ -312,7 +312,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <div>
                                     <h4 className="text-[10px] font-semibold text-confirm mb-2 uppercase tracking-wide flex items-center gap-1">
                                         <span className="w-1 h-1 bg-confirm rounded-full" />
-                                        Internal
+                                        内部人员
                                     </h4>
                                     <div className="flex flex-wrap">
                                         {internalAttendees.map((a, i) => <AttendeeBlock key={i} attendee={a} />)}
@@ -324,7 +324,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                                 <div>
                                     <h4 className="text-[10px] font-semibold text-palette-6 mb-2 uppercase tracking-wide flex items-center gap-1">
                                         <span className="w-1 h-1 bg-palette-6 rounded-full" />
-                                        External
+                                        外部人员
                                     </h4>
                                     <div className="flex flex-wrap">
                                         {externalAttendees.map((a, i) => <AttendeeBlock key={i} attendee={a} />)}
@@ -339,7 +339,7 @@ export function MeetingDetail({ email, translationMode = 'original' }: MeetingDe
                         <div>
                             <SectionTitle>
                                 <TriangleAlert className="w-3 h-3 text-palette-10" />
-                                Important Notices
+                                重要提示
                             </SectionTitle>
                             <ul className="ml-2.5 space-y-1.5">
                                 {displayNotices?.map((notice, i) => (

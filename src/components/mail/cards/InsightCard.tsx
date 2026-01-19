@@ -33,7 +33,7 @@ export function InsightCard({ card, isSelected, onAction }: InsightCardProps) {
                 </div>
             }
             title={card.title}
-            time={card.timeDisplay || "Today"}
+            time={card.timeDisplay || "今天"}
             onComplete={() => onAction?.(card.id, 'archive')}
             footer={<FocusCardActions actions={card.actions} />}
         >
@@ -62,7 +62,7 @@ export function InsightCard({ card, isSelected, onAction }: InsightCardProps) {
 
                 <div className="mt-2 text-xs font-medium text-slate-400 flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-[14px]">auto_awesome</span>
-                    Recommended by {card.insightData.source}
+                    由 {card.insightData.source} 推荐
                 </div>
             </div>
         </BaseCard>

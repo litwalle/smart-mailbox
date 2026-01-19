@@ -7,6 +7,8 @@ import { AISummaryCard } from "./AISummaryCard"
 import { MailRecipientDetails } from "./MailRecipientDetails"
 import { Tag, TagVariant } from "@/components/ui/Tag"
 
+import { useMailStore } from "@/store/mailStore"
+
 interface MailDetailHeaderProps {
     email: Email
     onToggleStar: (id: string) => void
@@ -14,34 +16,35 @@ interface MailDetailHeaderProps {
 
 export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps) {
     const [isDetailsOpen, setIsDetailsOpen] = React.useState(false)
+    const currentAccountId = useMailStore(state => state.currentAccountId)
 
     // Generate Recipient Summary
     const recipientSummary = React.useMemo(() => {
-        // Mock checking "me" (u1)
-        const meId = 'u1';
+        // Checking "me" dynamically
+        const meId = currentAccountId;
         const otherRecipients = email.to.filter(u => u.id !== meId);
         const hasMe = email.to.some(u => u.id === meId);
 
-        let text = hasMe ? "me" : "";
+        let text = hasMe ? "我" : "";
 
         if (otherRecipients.length > 0) {
-            if (text) text += ", ";
+            if (text) text += "、";
             text += otherRecipients[0].name.split(' ')[0]; // First name only for brevity
 
             const remainingCount = otherRecipients.length - 1 + (email.cc?.length || 0);
             if (remainingCount > 0) {
-                text += ` and ${remainingCount} others`;
+                text += ` 等 ${remainingCount} 人`;
             } else if (email.cc && email.cc.length > 0) {
-                text += ` and ${email.cc.length} others`;
+                text += ` 等 ${email.cc.length} 人`;
             }
         } else {
             // Just me
             if (email.cc && email.cc.length > 0) {
-                text += ` and ${email.cc.length} others`;
+                text += ` 等 ${email.cc.length} 人`;
             }
         }
 
-        return text || "Recipients";
+        return text || "收件人";
     }, [email.to, email.cc]);
 
     // Generate Display Tags (Consistent Logic)
@@ -50,13 +53,13 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
 
         // 1. Action Required (Priority 1) -> RED
         if (email.priority === 'high') {
-            tags.push({ label: 'Urgent', variant: 'urgent' })
+            tags.push({ label: '紧急', variant: 'urgent' })
         }
 
         // 2. Time Pressure Tags (Priority 1)
         if (email.deadline) {
             tags.push({
-                label: email.deadline.includes('Tomorrow') ? 'Tomorrow' : 'Today',
+                label: email.deadline.includes('Tomorrow') ? '明天' : '今天',
                 variant: 'today'
             })
         }
@@ -69,7 +72,7 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
 
         // 4. Sender/General
         if (email.labels?.includes('Work')) {
-            tags.push({ label: 'Work', variant: 'work' })
+            tags.push({ label: '工作', variant: 'work' })
         }
 
         return tags.slice(0, 3)
@@ -119,7 +122,7 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
                     <div className="flex items-start justify-between">
                         <div className="font-semibold text-font-primary">{email.from.name}</div>
                         <div className="text-sm text-font-secondary font-medium whitespace-nowrap ml-4">
-                            {format(new Date(email.sentAt), "MMM d, yyyy, h:mm a")}
+                            {format(new Date(email.sentAt), "yyyy/MM/dd HH:mm")}
                         </div>
                     </div>
 
@@ -129,7 +132,7 @@ export function MailDetailHeader({ email, onToggleStar }: MailDetailHeaderProps)
                         onClick={() => setIsDetailsOpen(!isDetailsOpen)}
                     >
                         <span className="truncate">
-                            &lt;{email.from.email}&gt; to {recipientSummary}
+                            &lt;{email.from.email}&gt; 发送给 {recipientSummary}
                         </span>
                         <div className={cn(
                             "p-0.5 rounded-sm transition-all duration-200",

@@ -49,6 +49,7 @@ interface ColorPickerProps {
     showRecentColors?: boolean
     className?: string
     children?: React.ReactNode
+    inline?: boolean
 }
 
 export function ColorPicker({
@@ -61,6 +62,7 @@ export function ColorPicker({
     showRecentColors = true,
     className,
     children,
+    inline = false,
 }: ColorPickerProps) {
     const [color, setColor] = React.useState(value)
     const [isOpen, setIsOpen] = React.useState(false)
@@ -185,6 +187,185 @@ export function ColorPicker({
         return activeSelection?.section === section && activeSelection?.index === index
     }
 
+    const renderContent = () => (
+        <div className={cn(!inline && "p-0")}>
+            {view === "grid" ? (
+                <div className="p-4 space-y-4">
+                    <div>
+                        <div className="mb-2 text-[16px] font-medium text-foreground">基础色</div>
+                        <div className="grid grid-cols-7 gap-3">
+                            {presets.map((c, i) => (
+                                <div key={i} className="relative flex items-center justify-center h-7 w-7">
+                                    {i === 28 ? (
+                                        /* 无色图标 - 白色底+斜线 */
+                                        <button
+                                            className={cn(
+                                                "h-7 w-7 rounded-full border transition-all hover:scale-110",
+                                                "focus:outline-none",
+                                                isSelected('basic', i)
+                                                    ? "ring-4 ring-[#0A59F7] ring-offset-2 border-background"
+                                                    : "border-slate-200"
+                                            )}
+                                            style={{ backgroundColor: '#FFFFFF' }}
+                                            onClick={() => handleColorChange(c, 'basic', i)}
+                                        >
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <div className="w-[1px] h-4 bg-slate-300 rotate-45" />
+                                            </div>
+                                        </button>
+                                    ) : (
+                                        <ColorButton
+                                            color={c}
+                                            isActive={isSelected('basic', i)}
+                                            onClick={() => handleColorChange(c, 'basic', i)}
+                                            className={cn("border-slate-200")}
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {showThemeColors && (
+                        <div>
+                            <div className="mb-2 text-[16px] font-medium text-foreground">主题色</div>
+                            <div className="grid grid-cols-7 gap-3">
+                                {PRESETS_THEME_DARK.map((c, i) => (
+                                    <ColorButton
+                                        key={`dark-${i}`}
+                                        color={c}
+                                        isTheme
+                                        textColor="white"
+                                        isActive={isSelected('theme-dark', i)}
+                                        onClick={() => handleColorChange(c, 'theme-dark', i)}
+                                    />
+                                ))}
+                                {PRESETS_THEME_LIGHT.map((c, i) => (
+                                    <ColorButton
+                                        key={`light-${i}`}
+                                        color={c}
+                                        isTheme
+                                        textColor={PRESETS_THEME_DARK[i]}
+                                        isActive={isSelected('theme-light', i)}
+                                        onClick={() => handleColorChange(c, 'theme-light', i)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {showRecentColors && recentColors.length > 0 && (
+                        <div>
+                            <div className="mb-2 text-[16px] font-medium text-foreground">已使用颜色</div>
+                            <div className="grid grid-cols-7 gap-3">
+                                {recentColors.slice(0, 7).map((c, i) => (
+                                    <ColorButton
+                                        key={c}
+                                        color={c}
+                                        isActive={isSelected('recent', i)}
+                                        onClick={() => handleColorChange(c, 'recent', i)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="text-[16px] font-medium text-foreground">自定义颜色</div>
+                            <div className="flex items-center gap-2">
+                                <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-background-secondary" onClick={openEyeDropper} title="Pick color">
+                                    <Pipette className="h-5 w-5 text-foreground" />
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-6 w-6 p-0 rounded-full hover:scale-105 transition-transform overflow-hidden"
+                                    onClick={() => setView("advanced")}
+                                    title="Advanced"
+                                >
+                                    <svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none">
+                                        <defs>
+                                            <linearGradient id="paint_custom_gradient_0">
+                                                <stop stopColor="rgb(255,30,30)" offset="0" stopOpacity="1" />
+                                                <stop stopColor="rgb(255,0,13)" offset="0.0486894697" stopOpacity="1" />
+                                            </linearGradient>
+                                            <mask id="outline_mask_0">
+                                                <path d="M16.4991 1.47531C11.2387 -1.56175 4.51237 0.240578 1.47531 5.50092C-1.56175 10.7613 0.240578 17.4876 5.50092 20.5247C10.7613 23.5618 17.4876 21.7594 20.5247 16.4991C23.5618 11.2387 21.7594 4.51237 16.4991 1.47531Z" fill="rgb(255,255,255)" fillRule="evenodd" />
+                                            </mask>
+                                            <radialGradient id="paint_radial_0" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(7.36784,-0.780466,0.780466,7.36784,11,11)">
+                                                <stop stopColor="rgb(255,255,255)" offset="0" stopOpacity="1" />
+                                                <stop stopColor="rgb(255,255,255)" offset="1" stopOpacity="0" />
+                                            </radialGradient>
+                                        </defs>
+                                        <path id="path_1" d="M16.4991 1.47531C11.2387 -1.56175 4.51237 0.240578 1.47531 5.50092C-1.56175 10.7613 0.240578 17.4876 5.50092 20.5247C10.7613 23.5618 17.4876 21.7594 20.5247 16.4991C23.5618 11.2387 21.7594 4.51237 16.4991 1.47531Z" fill="rgb(0,0,0)" fillOpacity="0" fillRule="evenodd" />
+                                        <g id="custom_gradient_0" mask="url(#outline_mask_0)">
+                                            <g>
+                                                <foreignObject width="22" height="22" x="0" y="0">
+                                                    <div style={{
+                                                        background: "conic-gradient(from 90deg, rgba(255,30,30,1) 0%, rgba(255,0,13,1) 4.86895%, rgba(255,0,176,1) 9.263%, rgba(255,0,247,1) 14.4231%, rgba(249,0,255,1) 18.344%, rgba(192,0,255,1) 24.7445%, rgba(125,0,243,1) 29.5979%, rgba(23,0,224,1) 34.6134%, rgba(4,72,255,1) 40.8014%, rgba(67,177,245,1) 45.9485%, rgba(0,235,255,1) 50.57%, rgba(70,244,209,1) 57.2398%, rgba(54,248,118,1) 62.9519%, rgba(95,252,32,1) 68.7577%, rgba(180,255,17,1) 74.9235%, rgba(247,255,0,1) 81.7546%, rgba(255,218,0,1) 86.442%, rgba(255,154,0,1) 91.5565%, rgba(255,0,0,1) 100%, rgba(255,30,30,1) 100%)",
+                                                        width: "100%",
+                                                        height: "100%"
+                                                    }} />
+                                                </foreignObject>
+                                            </g>
+                                        </g>
+                                        <path id="path_2" d="M16.4991 1.47531C11.2387 -1.56175 4.51237 0.240578 1.47531 5.50092C-1.56175 10.7613 0.240578 17.4876 5.50092 20.5247C10.7613 23.5618 17.4876 21.7594 20.5247 16.4991C23.5618 11.2387 21.7594 4.51237 16.4991 1.47531Z" fill="url(#paint_radial_0)" fillRule="evenodd" />
+                                    </svg>
+                                </Button>
+                            </div>
+                        </div>
+
+                        {renderCustomColors()}
+                    </div>
+
+                </div>
+            ) : (
+                <div className="p-0">
+                    <div className="flex items-center justify-between p-3 border-b bg-muted/10">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                                addToCustom(color)
+                                setView("grid");
+                            }}
+                            className="h-7 px-2"
+                        >
+                            <ChevronDown className="mr-1 h-3 w-3 rotate-90" /> Back
+                        </Button>
+                        <div className="text-xs font-medium">高级设置</div>
+                    </div>
+
+                    <div className="p-4 space-y-4">
+                        <HexColorPicker color={color} onChange={(c) => {
+                            setColor(c)
+                            onChange?.(c)
+                            setActiveSelection(null)
+                        }} className="!w-full !h-[180px]" />
+
+                        <div className="flex items-center gap-2">
+                            <div className="text-xs w-10 text-muted-foreground">Hex</div>
+                            <Input
+                                value={color}
+                                onChange={(e) => {
+                                    setColor(e.target.value)
+                                    onChange?.(e.target.value)
+                                    setActiveSelection(null)
+                                }}
+                                className="h-8 text-xs font-mono"
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    )
+
+    if (inline) {
+        return <div className={cn("w-[320px]", className)}>{renderContent()}</div>
+    }
+
     return (
         <Popover open={isOpen} onOpenChange={setIsOpen} modal={true}>
             <PopoverTrigger asChild disabled={disabled}>
@@ -213,176 +394,7 @@ export function ColorPicker({
                     setIsOpen(false)
                 }}
             >
-                {view === "grid" ? (
-                    <div className="p-4 space-y-4">
-                        <div>
-                            <div className="mb-2 text-[16px] font-medium text-foreground">基础色</div>
-                            <div className="grid grid-cols-7 gap-3">
-                                {presets.map((c, i) => (
-                                    <div key={i} className="relative flex items-center justify-center h-7 w-7">
-                                        {i === 28 ? (
-                                            /* 无色图标 - 白色底+斜线 */
-                                            <button
-                                                className={cn(
-                                                    "h-7 w-7 rounded-full border transition-all hover:scale-110",
-                                                    "focus:outline-none",
-                                                    isSelected('basic', i)
-                                                        ? "ring-4 ring-[#0A59F7] ring-offset-2 border-background"
-                                                        : "border-slate-200"
-                                                )}
-                                                style={{ backgroundColor: '#FFFFFF' }}
-                                                onClick={() => handleColorChange(c, 'basic', i)}
-                                            >
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <div className="w-[1px] h-4 bg-slate-300 rotate-45" />
-                                                </div>
-                                            </button>
-                                        ) : (
-                                            <ColorButton
-                                                color={c}
-                                                isActive={isSelected('basic', i)}
-                                                onClick={() => handleColorChange(c, 'basic', i)}
-                                                className={cn(c.toUpperCase() === "#FFFFFF" && "border-slate-200")}
-                                            />
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {showThemeColors && (
-                            <div>
-                                <div className="mb-2 text-[16px] font-medium text-foreground">主题色</div>
-                                <div className="grid grid-cols-7 gap-3">
-                                    {PRESETS_THEME_DARK.map((c, i) => (
-                                        <ColorButton
-                                            key={`dark-${i}`}
-                                            color={c}
-                                            isTheme
-                                            textColor="white"
-                                            isActive={isSelected('theme-dark', i)}
-                                            onClick={() => handleColorChange(c, 'theme-dark', i)}
-                                        />
-                                    ))}
-                                    {PRESETS_THEME_LIGHT.map((c, i) => (
-                                        <ColorButton
-                                            key={`light-${i}`}
-                                            color={c}
-                                            isTheme
-                                            textColor={PRESETS_THEME_DARK[i]}
-                                            isActive={isSelected('theme-light', i)}
-                                            onClick={() => handleColorChange(c, 'theme-light', i)}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {showRecentColors && recentColors.length > 0 && (
-                            <div>
-                                <div className="mb-2 text-[16px] font-medium text-foreground">已使用颜色</div>
-                                <div className="grid grid-cols-7 gap-3">
-                                    {recentColors.slice(0, 7).map((c, i) => (
-                                        <ColorButton
-                                            key={c}
-                                            color={c}
-                                            isActive={isSelected('recent', i)}
-                                            onClick={() => handleColorChange(c, 'recent', i)}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        <div>
-                            <div className="flex items-center justify-between mb-2">
-                                <div className="text-[16px] font-medium text-foreground">自定义颜色</div>
-                                <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="icon" className="h-6 w-6 p-0 hover:bg-background-secondary" onClick={openEyeDropper} title="Pick color">
-                                        <Pipette className="h-5 w-5 text-foreground" />
-                                    </Button>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="h-6 w-6 p-0 rounded-full hover:scale-105 transition-transform overflow-hidden"
-                                        onClick={() => setView("advanced")}
-                                        title="Advanced"
-                                    >
-                                        <svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none">
-                                            <defs>
-                                                <linearGradient id="paint_custom_gradient_0">
-                                                    <stop stopColor="rgb(255,30,30)" offset="0" stopOpacity="1" />
-                                                    <stop stopColor="rgb(255,0,13)" offset="0.0486894697" stopOpacity="1" />
-                                                </linearGradient>
-                                                <mask id="outline_mask_0">
-                                                    <path d="M16.4991 1.47531C11.2387 -1.56175 4.51237 0.240578 1.47531 5.50092C-1.56175 10.7613 0.240578 17.4876 5.50092 20.5247C10.7613 23.5618 17.4876 21.7594 20.5247 16.4991C23.5618 11.2387 21.7594 4.51237 16.4991 1.47531Z" fill="rgb(255,255,255)" fillRule="evenodd" />
-                                                </mask>
-                                                <radialGradient id="paint_radial_0" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(7.36784,-0.780466,0.780466,7.36784,11,11)">
-                                                    <stop stopColor="rgb(255,255,255)" offset="0" stopOpacity="1" />
-                                                    <stop stopColor="rgb(255,255,255)" offset="1" stopOpacity="0" />
-                                                </radialGradient>
-                                            </defs>
-                                            <path id="path_1" d="M16.4991 1.47531C11.2387 -1.56175 4.51237 0.240578 1.47531 5.50092C-1.56175 10.7613 0.240578 17.4876 5.50092 20.5247C10.7613 23.5618 17.4876 21.7594 20.5247 16.4991C23.5618 11.2387 21.7594 4.51237 16.4991 1.47531Z" fill="rgb(0,0,0)" fillOpacity="0" fillRule="evenodd" />
-                                            <g id="custom_gradient_0" mask="url(#outline_mask_0)">
-                                                <g>
-                                                    <foreignObject width="22" height="22" x="0" y="0">
-                                                        <div style={{
-                                                            background: "conic-gradient(from 90deg, rgba(255,30,30,1) 0%, rgba(255,0,13,1) 4.86895%, rgba(255,0,176,1) 9.263%, rgba(255,0,247,1) 14.4231%, rgba(249,0,255,1) 18.344%, rgba(192,0,255,1) 24.7445%, rgba(125,0,243,1) 29.5979%, rgba(23,0,224,1) 34.6134%, rgba(4,72,255,1) 40.8014%, rgba(67,177,245,1) 45.9485%, rgba(0,235,255,1) 50.57%, rgba(70,244,209,1) 57.2398%, rgba(54,248,118,1) 62.9519%, rgba(95,252,32,1) 68.7577%, rgba(180,255,17,1) 74.9235%, rgba(247,255,0,1) 81.7546%, rgba(255,218,0,1) 86.442%, rgba(255,154,0,1) 91.5565%, rgba(255,0,0,1) 100%, rgba(255,30,30,1) 100%)",
-                                                            width: "100%",
-                                                            height: "100%"
-                                                        }} />
-                                                    </foreignObject>
-                                                </g>
-                                            </g>
-                                            <path id="path_2" d="M16.4991 1.47531C11.2387 -1.56175 4.51237 0.240578 1.47531 5.50092C-1.56175 10.7613 0.240578 17.4876 5.50092 20.5247C10.7613 23.5618 17.4876 21.7594 20.5247 16.4991C23.5618 11.2387 21.7594 4.51237 16.4991 1.47531Z" fill="url(#paint_radial_0)" fillRule="evenodd" />
-                                        </svg>
-                                    </Button>
-                                </div>
-                            </div>
-
-                            {renderCustomColors()}
-                        </div>
-
-                    </div>
-                ) : (
-                    <div className="p-0">
-                        <div className="flex items-center justify-between p-3 border-b bg-muted/10">
-                            <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => {
-                                    addToCustom(color)
-                                    setView("grid");
-                                }}
-                                className="h-7 px-2"
-                            >
-                                <ChevronDown className="mr-1 h-3 w-3 rotate-90" /> Back
-                            </Button>
-                            <div className="text-xs font-medium">高级设置</div>
-                        </div>
-
-                        <div className="p-4 space-y-4">
-                            <HexColorPicker color={color} onChange={(c) => {
-                                setColor(c)
-                                onChange?.(c)
-                                setActiveSelection(null)
-                            }} className="!w-full !h-[180px]" />
-
-                            <div className="flex items-center gap-2">
-                                <div className="text-xs w-10 text-muted-foreground">Hex</div>
-                                <Input
-                                    value={color}
-                                    onChange={(e) => {
-                                        setColor(e.target.value)
-                                        onChange?.(e.target.value)
-                                        setActiveSelection(null)
-                                    }}
-                                    className="h-8 text-xs font-mono"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                )}
+                {renderContent()}
             </PopoverContent>
         </Popover>
     )
@@ -417,6 +429,7 @@ function ColorButton({
                 "group relative rounded-full border transition-all hover:scale-110",
                 "focus:outline-none focus:ring-2 focus:ring-[#0A59F7] focus:ring-offset-2",
                 ringClass,
+                !isActive && "border-slate-200", // Ensure visible border when not active
                 isTheme && "flex items-center justify-center font-normal text-[20px]", // text size 20px
                 className
             )}

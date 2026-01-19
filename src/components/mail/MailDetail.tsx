@@ -30,16 +30,25 @@ export function MailDetail() {
     const email = emails.find(e => e.id === selectedEmailId)
     const isMultiSelect = selectedEmailIds.length > 1
 
+    // Lifted state for translation - Moved to top to avoid Hook error
+    const [translationMode, setTranslationMode] = React.useState<'original' | 'translation' | 'split'>('original')
+
+    // Reset translation mode when email changes
+    React.useEffect(() => {
+        if (email?.id) {
+            setTranslationMode('original')
+        }
+    }, [email?.id])
+
     // Safety check - if nothing selected (should imply no detail view or empty state, but let's handle grace)
     if (!email && !isMultiSelect) {
         return (
             <div className="flex items-center justify-center h-full text-slate-400">
-                Select an email to view
+                请选择一封邮件查看
             </div>
         )
     }
 
-    // --- STACKED VIEW MODE ---
     // --- STACKED VIEW MODE ---
     if (isMultiSelect) {
         const selectedCount = selectedEmailIds.length
@@ -117,7 +126,7 @@ export function MailDetail() {
 
                     {/* Fallback if somehow no cards */}
                     {selectedCards.length === 0 && (
-                        <div className="text-slate-400">No content</div>
+                        <div className="text-slate-400">无内容</div>
                     )}
                 </div>
 
@@ -163,6 +172,8 @@ export function MailDetail() {
         <div className="flex flex-col h-full bg-background-primary">
             <MailDetailToolbar
                 email={email}
+                translationMode={translationMode}
+                setTranslationMode={setTranslationMode}
                 onReply={() => console.log("Reply", email.id)}
                 onReplyAll={() => console.log("Reply All", email.id)}
                 onForward={() => console.log("Forward", email.id)}
@@ -177,44 +188,29 @@ export function MailDetail() {
                 Normal emails: MailDetailContent (which includes SplitMailView with header inside)
             */}
             {(email.meetingRequest || email.labels.includes('Meeting')) ? (
-                <MeetingEmailContent email={email} onToggleStar={toggleStar} />
+                <MeetingEmailContent
+                    email={email}
+                    onToggleStar={toggleStar}
+                    translationMode={translationMode}
+                />
             ) : (
-                <MailDetailContent email={email} />
+                <MailDetailContent
+                    email={email}
+                    translationMode={translationMode}
+                />
             )}
         </div>
     )
 }
 
-function MailDetailContent({ email }: { email: import("@/types/mail").Email }) {
-    const [translationMode, setTranslationMode] = React.useState<'original' | 'translation' | 'split'>('original')
+interface MailDetailContentProps {
+    email: import("@/types/mail").Email
+    translationMode: 'original' | 'translation' | 'split'
+}
 
-    // Reset on email change
-    React.useEffect(() => {
-        setTranslationMode('original')
-    }, [email.id])
-
+function MailDetailContent({ email, translationMode }: MailDetailContentProps) {
     return (
         <>
-            {/* Translation Toolbar - Sticky/Fixed at top of content area */}
-            {email.translatedContent && (
-                <div className="px-8 py-2 bg-background-primary border-b-[0.5px] border-comp-divider flex items-center justify-between shrink-0 z-20">
-                    <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-icon-primary text-[18px]">translate</span>
-                        <span className="text-sm font-semibold text-font-secondary">AI Translation</span>
-                    </div>
-                    <SegmentedControl
-                        value={translationMode}
-                        onChange={(val) => setTranslationMode(val as any)}
-                        options={[
-                            { value: 'original', label: 'Original' },
-                            { value: 'translation', label: 'Translation' },
-                            { value: 'split', label: 'Contrast' }
-                        ]}
-                        size="sm"
-                    />
-                </div>
-            )}
-
             {/* Split View (Handles Scrolling internally) */}
             <SplitMailView
                 email={email}
@@ -224,40 +220,15 @@ function MailDetailContent({ email }: { email: import("@/types/mail").Email }) {
     )
 }
 
-function MeetingEmailContent({ email, onToggleStar }: { email: import("@/types/mail").Email, onToggleStar: (id: string) => void }) {
-    const [translationMode, setTranslationMode] = React.useState<'original' | 'translation' | 'split'>('original')
-    const meeting = email.meetingRequest
+interface MeetingEmailContentProps {
+    email: import("@/types/mail").Email
+    onToggleStar: (id: string) => void
+    translationMode: 'original' | 'translation' | 'split'
+}
 
-    // Check if translation is available
-    const hasTranslation = meeting?.translatedTitle || email.translatedContent
-
-    // Reset on email change
-    React.useEffect(() => {
-        setTranslationMode('original')
-    }, [email.id])
-
+function MeetingEmailContent({ email, onToggleStar, translationMode }: MeetingEmailContentProps) {
     return (
         <>
-            {/* Translation Toolbar - Same as regular emails */}
-            {hasTranslation && (
-                <div className="px-8 py-2 bg-background-primary border-b-[0.5px] border-comp-divider flex items-center justify-between shrink-0 z-20">
-                    <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-icon-primary text-[18px]">translate</span>
-                        <span className="text-sm font-semibold text-font-secondary">AI Translation</span>
-                    </div>
-                    <SegmentedControl
-                        value={translationMode}
-                        onChange={(val) => setTranslationMode(val as any)}
-                        options={[
-                            { value: 'original', label: 'Original' },
-                            { value: 'translation', label: 'Translation' },
-                            { value: 'split', label: 'Contrast' }
-                        ]}
-                        size="sm"
-                    />
-                </div>
-            )}
-
             {/* Use SplitMailView for unified translation/contrast handling */}
             <SplitMailView
                 email={email}

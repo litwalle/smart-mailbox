@@ -161,9 +161,68 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* Dot pattern background for preview panels */
+  .bg-dot-pattern {
+    background-color: #F8FAFC;
+    background-image: radial-gradient(circle, #00000008 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  /* AI Review Highlight */
+  .ai-review-highlight {
+    background-image: linear-gradient(to right, #ff9a9e, #fad0c4, #fad0c4, #a18cd1, #fbc2eb);
+    background-position: 0 100%;
+    background-size: 100% 2px;
+    background-repeat: no-repeat;
+    padding-bottom: 2px;
+    display: inline;
+    text-decoration: none !important;
+    border-bottom: none !important;
+  }
+
+  /* AI Cursor Wrapper */
+  .ai-stream-cursor-wrapper {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    z-index: 50;
+    margin-left: 2px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
 }
 
 /* Base Styles */
 body {
   @apply bg-slate-50 text-slate-900 font-sans;
+}
+
+/* Smart Proofreading TipTap Styles */
+.proofreading-underline {
+  text-decoration: none;
+  border-bottom-width: 2px;
+  border-bottom-style: wavy;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.proofreading-spelling {
+  border-bottom-color: #EA4335;
+  /* Red */
+  background-color: rgba(234, 67, 53, 0.05);
+}
+
+.proofreading-spelling:hover {
+  background-color: rgba(234, 67, 53, 0.1);
+}
+
+.proofreading-grammar {
+  border-bottom-color: #0A59F7;
+  /* Blue */
+  background-color: rgba(10, 89, 247, 0.05);
+}
+
+.proofreading-grammar:hover {
+  background-color: rgba(10, 89, 247, 0.1);
 }

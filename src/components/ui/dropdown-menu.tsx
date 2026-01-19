@@ -61,9 +61,10 @@ const DropdownMenuContent = React.forwardRef<
     React.ElementRef<typeof DropdownMenuPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> & {
         maxHeight?: string | number
+        portalled?: boolean
     }
->(({ className, sideOffset = 4, maxHeight = "60vh", style, ...props }, ref) => (
-    <DropdownMenuPrimitive.Portal>
+>(({ className, sideOffset = 4, maxHeight = "60vh", style, portalled = true, ...props }, ref) => {
+    const content = (
         <DropdownMenuPrimitive.Content
             ref={ref}
             sideOffset={sideOffset}
@@ -78,8 +79,13 @@ const DropdownMenuContent = React.forwardRef<
             )}
             {...props}
         />
-    </DropdownMenuPrimitive.Portal>
-))
+    )
+
+    if (portalled) {
+        return <DropdownMenuPrimitive.Portal>{content}</DropdownMenuPrimitive.Portal>
+    }
+    return content
+})
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName
 
 const DropdownMenuItem = React.forwardRef<

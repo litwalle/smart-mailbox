@@ -28,7 +28,7 @@ export function ReplySuggestionList({ email }: ReplySuggestionListProps) {
         <div className="mt-8 max-w-4xl mx-auto px-8 pb-8">
             <div className="flex items-center gap-2 mb-4">
                 <span className="material-symbols-outlined text-indigo-500 text-[18px]">assistant</span>
-                <h3 className="text-sm font-semibold text-slate-700">AI Reply Suggestions</h3>
+                <h3 className="text-sm font-semibold text-slate-700">AI 回复建议</h3>
             </div>
 
             <div className="grid grid-cols-2 gap-4 pb-4">

@@ -95,7 +95,7 @@ export function TodoItem({ todo, onToggle, onDismiss, onClick, className, animat
                         "text-[11px] font-medium mt-0.5",
                         todo.isUrgent !== false ? "text-warning" : "text-font-tertiary"
                     )}>
-                        Deadline: {todo.deadline}
+                        截止: {todo.deadline}
                     </span>
                 )}
             </div>

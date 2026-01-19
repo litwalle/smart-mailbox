@@ -197,7 +197,7 @@ export function SplitMailView({ email, translationMode }: SplitMailViewProps) {
         } as Email;
 
         return (
-            <div className="flex-1 flex overflow-hidden bg-background-primary border-t border-comp-divider group/split">
+            <div className="flex-1 flex overflow-hidden bg-background-primary border-comp-divider group/split">
                 {/* Left: Original */}
                 <div
                     ref={originalRef}
@@ -245,7 +245,7 @@ export function SplitMailView({ email, translationMode }: SplitMailViewProps) {
 
     // --- SINGLE MODE (Original or Translated) ---
     return (
-        <div className="flex-1 overflow-y-auto bg-background-primary border-t border-comp-divider">
+        <div className="flex-1 overflow-y-auto bg-background-primary">
             {renderContent(translatedEmail, translationMode)}
         </div>
     );

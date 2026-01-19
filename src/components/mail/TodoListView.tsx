@@ -1,7 +1,7 @@
 import * as React from "react"
 import { AnimatePresence } from "framer-motion"
 import { useMailStore } from "@/store/mailStore"
-import { Input } from "@/components/ui/Input"
+import { SearchInput } from "@/components/mail/search/SearchInput"
 import { cn } from "@/lib/utils"
 import { TodoItem, TodoItemData } from "@/components/ui/TodoItem"
 import { getTodosForAccount } from "@/data/dataFoundation"
@@ -100,22 +100,23 @@ export function TodoListView() {
         <div className="flex flex-col h-full bg-background-primary">
             {/* Header Area */}
             <div className="flex flex-col gap-4 p-4 border-b border-border-color bg-white/80 backdrop-blur-sm sticky top-0 z-20 transition-all duration-300 ease-in-out">
+                <SearchInput
+                    value={searchQuery}
+                    onChange={(value) => setSearchQuery(value)}
+                    onSearch={() => { /* Todo: Implement Global Search Trigger if needed */ }}
+                    onClear={() => setSearchQuery('')}
+                    placeholder="搜索待办..."
+                    className="w-full"
+                />
+
                 <div className="flex justify-between items-end">
                     <h2 className="text-xl font-bold capitalize text-slate-900 tracking-tight">
-                        Todo
+                        待办事项
                     </h2>
                     <span className="text-xs text-slate-400 font-medium mb-1">
-                        {totalCount} items
+                        {totalCount} 个任务
                     </span>
                 </div>
-
-                <Input
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search todos..."
-                    leftIcon={<span className="material-symbols-outlined text-[18px]">search</span>}
-                    className="bg-slate-100 border-transparent focus:bg-white transition-all shadow-none"
-                />
             </div>
 
             {/* List Area */}
@@ -124,7 +125,7 @@ export function TodoListView() {
                     {/* Today */}
                     {todoGroups.today.length > 0 && (
                         <div className="space-y-4">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider pl-1">Today Due</h3>
+                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider pl-1">今天截止</h3>
                             <div className="space-y-3">
                                 <AnimatePresence mode="popLayout">
                                     {todoGroups.today.map(item => (
@@ -145,7 +146,7 @@ export function TodoListView() {
                     {/* Tomorrow */}
                     {todoGroups.tomorrow.length > 0 && (
                         <div className="space-y-4">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider pl-1">Tomorrow Due</h3>
+                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider pl-1">明天截止</h3>
                             <div className="space-y-3">
                                 <AnimatePresence mode="popLayout">
                                     {todoGroups.tomorrow.map(item => (
@@ -166,7 +167,7 @@ export function TodoListView() {
                     {/* Later */}
                     {todoGroups.later.length > 0 && (
                         <div className="space-y-4">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider pl-1">Upcoming</h3>
+                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider pl-1">即将到来</h3>
                             <div className="space-y-3">
                                 <AnimatePresence mode="popLayout">
                                     {todoGroups.later.map(item => (
