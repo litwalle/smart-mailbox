@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import "./fonts/material-symbols.css";
 
-const inter = Inter({
+const inter = localFont({
+  src: "./fonts/Inter-Variable.woff2",
   variable: "--font-inter",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +22,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       </head>
       <body
         className={`${inter.variable} font-sans antialiased bg-slate-50 text-slate-900`}
