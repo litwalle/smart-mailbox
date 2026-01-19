@@ -55,6 +55,7 @@ import { AIAssistantDialog } from "./AIAssistantDialog"
 import { ColorPicker } from "@/components/ui/color-picker"
 import { cn } from "@/lib/utils"
 import { streamTextToEditor } from "./utils/ai-streaming"
+import { WritingImprovementSubmenu } from "./WritingImprovementSubmenu"
 
 interface EditorBubbleMenuProps {
     editor: Editor | null
@@ -347,91 +348,15 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
                     onCloseAutoFocus={(e) => e.preventDefault()}
                     onMouseDown={(e) => e.stopPropagation()}
                 >
-                    <DropdownMenuLabel className="text-xs text-slate-400 font-medium px-2 py-1.5">
-                        基础优化
-                    </DropdownMenuLabel>
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem onClick={() => {
-                            streamTextToEditor(editor, "[AI 润色] 这是润色后的内容...")
-                            handleQuickAIAction('improve')
-                        }} className="gap-2">
-                            <Wand2 className="w-4 h-4 text-purple-500" />
-                            <span>润色文章</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                            streamTextToEditor(editor, "[AI 纠错] 已修复拼写和语法错误。")
-                            handleQuickAIAction('fix')
-                        }} className="gap-2">
-                            <Check className="w-4 h-4 text-green-500" />
-                            <span>纠正拼写与语法</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuLabel className="text-xs text-slate-400 font-medium px-2 py-1.5">
-                        长度调整
-                    </DropdownMenuLabel>
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem onClick={() => {
-                            streamTextToEditor(editor, "[AI 缩短]精简版内容...")
-                            handleQuickAIAction('shorter')
-                        }} className="gap-2">
-                            <Minimize2 className="w-4 h-4 text-blue-500" />
-                            <span>缩短篇幅</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                            streamTextToEditor(editor, "[AI 加长]这是扩展后的详细内容...")
-                            handleQuickAIAction('longer')
-                        }} className="gap-2">
-                            <Maximize2 className="w-4 h-4 text-blue-500" />
-                            <span>扩充篇幅</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuLabel className="text-xs text-slate-400 font-medium px-2 py-1.5">
-                        内容创作
-                    </DropdownMenuLabel>
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem onClick={() => {
-                            streamTextToEditor(editor, "[AI 扩展] 更详细的展开...")
-                            handleQuickAIAction('expand')
-                        }} className="gap-2">
-                            <Edit3 className="w-4 h-4 text-indigo-500" />
-                            <span>继续写作</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                            streamTextToEditor(editor, "[AI 总结] 以下是核心要点...")
-                            handleQuickAIAction('summarize')
-                        }} className="gap-2">
-                            <List className="w-4 h-4 text-emerald-500" />
-                            <span>总结要点</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                            streamTextToEditor(editor, "[AI 重写] 换一种说法...")
-                            handleQuickAIAction('rewrite')
-                        }} className="gap-2">
-                            <RefreshCw className="w-4 h-4 text-red-500" />
-                            <span>重写</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem
-                        className="gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 cursor-pointer"
-                        onSelect={(e) => {
-                            e.preventDefault()
+                    <WritingImprovementSubmenu
+                        editor={editor}
+                        onAction={handleQuickAIAction}
+                        onOpenMore={() => {
                             setIsOptimizationOpen(false)
                             isOptimizationOpenRef.current = false
                             window.dispatchEvent(new CustomEvent('open-writing-assistant'))
                         }}
-                    >
-                        <MoreHorizontal className="w-4 h-4 text-blue-600" />
-                        <span className="font-medium text-blue-900">更多工具...</span>
-                    </DropdownMenuItem>
+                    />
                 </DropdownMenuContent>
             </DropdownMenu>
 

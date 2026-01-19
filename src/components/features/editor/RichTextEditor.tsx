@@ -24,6 +24,7 @@ import { ProofreadingError, mockProofreadingErrors } from "@/data/smart-compose-
 import { AIStreamExtension } from "./extensions/AIStreamExtension"
 import { AIReviewMark } from "./extensions/AIReviewMark"
 import { AIReviewToolbar } from "./AIReviewToolbar"
+import { InlineAICapsule } from "./InlineAICapsule"
 
 export interface RichTextEditorProps {
     content?: string
@@ -209,6 +210,7 @@ export function RichTextEditor({
             <EditorContent editor={editor} />
             <EditorBubbleMenu editor={editor} />
             <AIReviewToolbar editor={editor} />
+            <InlineAICapsule editor={editor} />
 
             {/* Smart Proofreading Card Overlay */}
             {activeError && cardPosition && (
